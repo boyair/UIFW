@@ -23,6 +23,7 @@ public:
 
 
 	void SetText(const wchar_t* Text);
+	void addimage(const wchar_t* name);
 	 virtual void Move(int DX, int DY);
 	 virtual void resize(int width, int height);
 	 virtual void AddBorder();

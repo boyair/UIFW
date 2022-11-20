@@ -1,5 +1,6 @@
 #include "ChildWindow.h"
 
+HBITMAP image;
 ChildWindow::ChildWindow() :style(WS_VISIBLE | WS_CHILD), textlength(10),x(0),y(0),width(0),height(0),parent(NULL),Box(NULL),text(NULL)
 {
 }
@@ -23,6 +24,16 @@ void ChildWindow::SetText(const wchar_t* Text)
 
 
 	SetWindowTextW(Box,text);
+}
+
+void ChildWindow::addimage(const wchar_t* name)
+{
+	std::wstring fullname = std::wstring(name) + std::wstring(L".bmp");
+	 image = (HBITMAP)LoadImageW(NULL,L"dees.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	style = style | SS_BITMAP;
+	DestroyWindow(Box);
+	place();
+	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)image);
 }
 
 void ChildWindow::Move(int DX, int DY)

@@ -133,7 +133,7 @@ void TextBox::AddHorizontalScrolling()
 void TextBox::AddBorder()
 {
 	
-	
+	if (style == (style | WS_BORDER)) return;
 	UpdateText();
 	DestroyWindow(Box);
 	style = style | WS_BORDER;
@@ -145,6 +145,7 @@ void TextBox::AddVerticalScrolling()
 {
 	
 	if (!edit) return;
+	if (style == (style | ES_AUTOVSCROLL | ES_MULTILINE)) return;
 	GetWindowText(Box, text, textlength);
 	DestroyWindow(Box);
 	style = style| ES_AUTOVSCROLL| ES_MULTILINE;

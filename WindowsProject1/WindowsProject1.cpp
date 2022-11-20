@@ -5,9 +5,10 @@
 HWND Hwindow;
 LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 void addmenu(HWND&);
- TextBox edit(true);
+ TextBox edit(false);
  Button move(1);
 void addcontrols(HWND& hwnd);
+
 std::pair<int, int> getsize(HWND& hwnd);
 HWND Hedit;
 
@@ -21,16 +22,12 @@ int WINAPI WinMain(HINSTANCE Hinst, HINSTANCE hprevinst, LPSTR args, int ncmdsho
 	window.lpszClassName = L"my window class";
 	window.lpfnWndProc = winproc;
 	RegisterClassW(&window);
-	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW, 2000, 10, 500, 500, NULL, NULL, NULL,NULL);
+	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 500, 500, NULL, NULL, NULL,NULL);
 	//adding things needed at start
 	  edit.set(L"12345678901234567890", 190, 70, 70, 70, &Hwindow);
 	  move.set(L"Move", 70, 70, 100, 30,3, &Hwindow);
-	  edit.AddHorizontalScrolling();
-	  edit.AddVerticalScrolling();
-	  
-
-	addcontrols(Hwindow);
-	addmenu(Hwindow);
+	  addcontrols(Hwindow);
+	  addmenu(Hwindow);
 
 
 
@@ -49,6 +46,7 @@ int WINAPI WinMain(HINSTANCE Hinst, HINSTANCE hprevinst, LPSTR args, int ncmdsho
 LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	std::wstring arr;
+	const wchar_t* Save;
 	switch (msg)
 	{
 	case WM_COMMAND:
@@ -62,16 +60,15 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			 MessageBox(hwnd,L" you sure???",L"L",MB_YESNO);
 			break;
 		case 3:
-			
-			edit.AddBorder();
-			edit.SetText(L"Hello world momomoi");
+			move.addimage(L"dees");
 
 			break;
 		case 4:
-			 arr =
-				edit.GetText();
+			 arr =edit.GetText();
+			Save = arr.c_str();
 			SetWindowTextW(hwnd, arr.c_str());
 			break;
+
 		case 5:
 
 
@@ -85,6 +82,7 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			move.AddBorder();
 			
 			break;
+		
 		}
 
 		break;
@@ -113,8 +111,8 @@ void addmenu(HWND& parent)
 void addcontrols(HWND& hwnd)
 {
 
-	//CreateWindowW(L"static", L"text brinded", WS_VISIBLE | WS_CHILD|WS_BORDER|SS_CENTER, 70, 70, 100, 30, hwnd, NULL, NULL, NULL);
-	//CreateWindowW(L"button", L"move", WS_VISIBLE | WS_CHILD | WS_BORDER | SS_CENTER, 70, 70, 100, 30, hwnd, (HMENU) 5, NULL, NULL);
+	edit.set(L"12345678901234567890", 190, 70, 70, 70, &hwnd);
+	move.set(L"Move", 70, 70, 100, 30, 3, &hwnd);
 
 }
 
