@@ -11,8 +11,10 @@ ChildWindow::ChildWindow(const wchar_t* Text, int x, int y, int width, int heigh
 
 void ChildWindow::SetText(const wchar_t* Text)
 {
-	if (!Box || !parent) return;
 	
+	if (!Box || !parent) return;	//if the window handler or parent window does not exist return.
+
+	// if the text length is longer then allocated reallocated text member veriable in a larger block of memory.
 	const unsigned int newsize = wcsnlen_s(Text,0xFFFFFF);
 	if (newsize > textlength)
 	{
@@ -20,25 +22,21 @@ void ChildWindow::SetText(const wchar_t* Text)
 		text = new wchar_t[newsize + 1];
 		delete[] save;
 	}
+
+	// copy text content to member veriable and set the window text.
 	wcscpy_s(text, newsize + 1,Text );
-
-
 	SetWindowTextW(Box,text);
 }
 
-void ChildWindow::addimage(const wchar_t* name)
-{
-	std::wstring fullname = std::wstring(name) + std::wstring(L".bmp");
-	 image = (HBITMAP)LoadImageW(NULL,L"dees.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	style = style | SS_BITMAP;
-	DestroyWindow(Box);
-	place();
-	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)image);
-}
+
 
 void ChildWindow::Move(int DX, int DY)
 {
+	DestroyWindow(Box);
+
 	x += DX; y += DY;
+	place();
+
 }
 
 void ChildWindow::resize(int width, int height)
@@ -69,4 +67,16 @@ void ChildWindow::RemoveBorder()
 	DestroyWindow(Box);
 	style = style & ~ES_AUTOHSCROLL;
 	place();
+}
+
+void ChildWindow::Reposition(int x, int y)
+{
+	
+	DestroyWindow(Box);
+
+	this->x = x;
+	this->y = y;
+	place();
+
+
 }

@@ -2,11 +2,12 @@
 #include "Menu.h"
 #include "TextBox.h"
 #include "Button.h"
-HWND Hwindow;
+HWND Hwindow,imagetest;
 LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 void addmenu(HWND&);
- TextBox edit(false);
+ TextBox edit(true);
  Button move(1);
+ HBITMAP imaget;
 void addcontrols(HWND& hwnd);
 
 std::pair<int, int> getsize(HWND& hwnd);
@@ -16,7 +17,7 @@ int WINAPI WinMain(HINSTANCE Hinst, HINSTANCE hprevinst, LPSTR args, int ncmdsho
 {
 	//creating empty window
 	WNDCLASSW window = { 0 };
-	window.hbrBackground = (HBRUSH)2;
+	window.hbrBackground = (HBRUSH)COLOR_DESKTOP;
 	window.hCursor = LoadCursor(NULL, IDC_ARROW);
 	window.hInstance = Hinst;
 	window.lpszClassName = L"my window class";
@@ -24,8 +25,7 @@ int WINAPI WinMain(HINSTANCE Hinst, HINSTANCE hprevinst, LPSTR args, int ncmdsho
 	RegisterClassW(&window);
 	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 500, 500, NULL, NULL, NULL,NULL);
 	//adding things needed at start
-	  edit.set(L"12345678901234567890", 190, 70, 70, 70, &Hwindow);
-	  move.set(L"Move", 70, 70, 100, 30,3, &Hwindow);
+	 
 	  addcontrols(Hwindow);
 	  addmenu(Hwindow);
 
@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE Hinst, HINSTANCE hprevinst, LPSTR args, int ncmdsho
 
 	//massage loop
 	MSG msg;
-	while (GetMessage(&msg,NULL,NULL,NULL)>0)
+	while (GetMessage(&msg,Hwindow,NULL,NULL)>0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessageW(&msg);
@@ -61,7 +61,8 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			break;
 		case 3:
 			move.addimage(L"dees");
-
+			//move.Box = CreateWindowW(L"button", L"", SS_BITMAP | WS_BORDER | WS_VISIBLE | WS_CHILD, 80, 80, 80, 80, hwnd, (HMENU)7, NULL, NULL);
+			
 			break;
 		case 4:
 			 arr =edit.GetText();
@@ -77,9 +78,9 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			std::wstringstream ss;
 			ss << edit.GetText();
 			ss >> x >> y;
-			if (size.first > x&& size.first > 0-x && size.second > y && size.second > 0 - y)
-			edit.Move(x, y);
-			move.AddBorder();
+			//if (size.first > x&& size.first > 0-x && size.second > y && size.second > 0 - y)
+			move.Move(x, y);
+			//move.AddBorder();
 			
 			break;
 		
@@ -92,6 +93,7 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	default:
 		return DefWindowProcW(hwnd, msg, wp, lp);
 	}
+	return DefWindowProcW(hwnd, msg, wp, lp);
 
 }
 void addmenu(HWND& parent)
@@ -110,10 +112,12 @@ void addmenu(HWND& parent)
 
 void addcontrols(HWND& hwnd)
 {
-
-	edit.set(L"12345678901234567890", 190, 70, 70, 70, &hwnd);
-	move.set(L"Move", 70, 70, 100, 30, 3, &hwnd);
-
+	
+	edit.set(L"12345678901234567890", 190, 90, 70, 70, &hwnd);
+	move.set(L"Move", 70, 70, 100, 30, 5, &hwnd);
+	imaget = (HBITMAP)LoadImageW(NULL, L"tank.bmp", IMAGE_BITMAP, 70, 70, LR_LOADFROMFILE);
+	imagetest = CreateWindowW(L"static", L" ", WS_CHILD | WS_VISIBLE|SS_BITMAP, 0, 0, 70, 70, hwnd, NULL, NULL, NULL);
+	SendMessageW(imagetest, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)imaget);
 }
 
 

@@ -19,7 +19,9 @@ public:
 	//basic functionallity
 	std::wstring GetText();
 	void Move(int DX, int DY);
+	void Reposition(int x, int y);
 	void ChangeMaxCharacters(unsigned int NewMax);
+	void addimage(const wchar_t* name);
 	//style change
 
 	void AddVerticalScrolling();

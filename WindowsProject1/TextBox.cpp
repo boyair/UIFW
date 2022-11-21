@@ -24,10 +24,10 @@ void TextBox::UpdateText()
 		wchar_t* save = text;
 		text = new wchar_t[newsize + 1];
 		delete[] save;
+		textlength = newsize;
 	}
 	GetWindowTextW(Box,text,newsize+1);
 	text[newsize] = '\0';
-	textlength = newsize;
 
 
 }
@@ -97,10 +97,15 @@ std::wstring TextBox::GetText()
 
 void TextBox::Move(int DX, int DY)
 {
-	GetWindowText(Box, text, textlength);
-	DestroyWindow(Box);
+	if (edit) UpdateText();
 	ChildWindow::Move(DX, DY);
-	place();
+	
+}
+
+void TextBox::Reposition(int x, int y)
+{
+	if (edit) UpdateText();
+	ChildWindow::Reposition(x, y);
 }
 
 void TextBox::ChangeMaxCharacters(unsigned int NewMax)
@@ -115,6 +120,18 @@ void TextBox::ChangeMaxCharacters(unsigned int NewMax)
 	delete[] save;
 	SetWindowText(Box, text);
 	textlength = NewMax;
+
+}
+
+void TextBox::addimage(const wchar_t* name)
+{
+	if (!parent) return;
+	std::wstring fullname = std::wstring(name) + std::wstring(L".bmp");
+	HBITMAP image = (HBITMAP)LoadImageW(NULL, fullname.c_str(), IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	DestroyWindow(Box);
+	style = style | SS_BITMAP;
+	Box = CreateWindowW(L"static", text, style, x, y, width, height, parent, NULL, NULL, NULL);
+	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)image);
 
 }
 
