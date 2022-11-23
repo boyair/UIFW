@@ -1,11 +1,12 @@
 #include <sstream>
 #include "Menu.h"
-#include "TextBox.h"
+#include "EW.h"
 #include "Button.h"
 HWND Hwindow,imagetest;
 LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 void addmenu(HWND&);
- TextBox edit(true);
+ EW edit;
+ ChildWindow tester;
  Button move(1);
  HBITMAP imaget;
 void addcontrols(HWND& hwnd);
@@ -23,7 +24,7 @@ int WINAPI WinMain(HINSTANCE Hinst, HINSTANCE hprevinst, LPSTR args, int ncmdsho
 	window.lpszClassName = L"my window class";
 	window.lpfnWndProc = winproc;
 	RegisterClassW(&window);
-	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 500, 500, NULL, NULL, NULL,NULL);
+	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 700, 700, NULL, NULL, NULL,NULL);
 	//adding things needed at start
 	 
 	  addcontrols(Hwindow);
@@ -112,9 +113,9 @@ void addmenu(HWND& parent)
 
 void addcontrols(HWND& hwnd)
 {
-	
 	edit.set(L"12345678901234567890", 190, 90, 70, 70, &hwnd);
 	move.set(L"Move", 70, 70, 100, 30, 5, &hwnd);
+	tester.set(L"Hello", 300, 300, 80, 80, &hwnd);
 	imaget = (HBITMAP)LoadImageW(NULL, L"tank.bmp", IMAGE_BITMAP, 70, 70, LR_LOADFROMFILE);
 	imagetest = CreateWindowW(L"static", L" ", WS_CHILD | WS_VISIBLE|SS_BITMAP, 0, 0, 70, 70, hwnd, NULL, NULL, NULL);
 	SendMessageW(imagetest, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)imaget);
@@ -133,3 +134,20 @@ std::pair<int, int> getsize(HWND& hwnd)
 
 }
 
+//tasks:
+
+//add static string for each class to know its type and prevent recreation of the same function like place() where this word is the only difference
+
+//seperate static and edit constrol to different classes
+ 
+//make a main window class
+
+//make style picking available when making the window.
+
+// consider wstring as text member veriable instead of wchar_t*
+
+// add more comments in functions.
+
+//optimizations
+
+//debug only safe guards

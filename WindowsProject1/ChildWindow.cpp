@@ -3,10 +3,18 @@
 HBITMAP image;
 ChildWindow::ChildWindow() :style(WS_VISIBLE | WS_CHILD), textlength(10),x(0),y(0),width(0),height(0),parent(NULL),Box(NULL),text(NULL)
 {
+	text = new wchar_t[textlength + 1];
 }
 
 ChildWindow::ChildWindow(const wchar_t* Text, int x, int y, int width, int height,  HWND* parent): parent(*parent), x(x), y(y), width(width), height(height), style(WS_VISIBLE | WS_CHILD), textlength(10), Box(NULL), text(NULL)
 {
+	text = new wchar_t[textlength + 1];
+}
+
+void ChildWindow::place()
+{
+	if (parent)
+		Box = CreateWindowW(L"static", text, style, x, y, width, height, parent, NULL, NULL, NULL);
 }
 
 void ChildWindow::SetText(const wchar_t* Text)
@@ -26,6 +34,17 @@ void ChildWindow::SetText(const wchar_t* Text)
 	// copy text content to member veriable and set the window text.
 	wcscpy_s(text, newsize + 1,Text );
 	SetWindowTextW(Box,text);
+}
+
+void ChildWindow::addimage(const wchar_t* name)
+{
+	if (!parent) return;
+	std::wstring fullname = std::wstring(name) + std::wstring(L".bmp");
+	HBITMAP image = (HBITMAP)LoadImageW(NULL, fullname.c_str(), IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	DestroyWindow(Box);
+	style = style | SS_BITMAP;
+	Box = CreateWindowW(L"static", text, style, x, y, width, height, parent, NULL, NULL, NULL);
+	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)image);
 }
 
 
@@ -79,4 +98,29 @@ void ChildWindow::Reposition(int x, int y)
 	place();
 
 
+}
+
+void ChildWindow::set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent)
+{
+	if (!parent) return;
+	this->parent = *parent;
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+
+	const unsigned int newsize = wcsnlen_s(Text, 0xFFFFFF);
+	if (newsize > textlength)
+	{
+		wchar_t* save = text;
+		text = new wchar_t[newsize + 1];
+		delete[] save;
+		textlength = newsize;
+	}
+	wcscpy_s(text, textlength + 1, Text);
+
+
+
+
+	Box = CreateWindowW(L"static", Text, style, x, y, width, height, *parent, NULL, NULL, NULL);
 }

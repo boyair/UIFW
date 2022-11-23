@@ -1,21 +1,12 @@
-#include "TextBox.h"
+#include "EW.h"
 
-void TextBox::place()
+void EW::place()
 {
-	if (!parent) return;
-
-
-
-
-	if (edit)
-	{
-		Box = CreateWindowW(L"edit", text, style, x, y, width, height, parent, NULL, NULL, NULL);
-		return;
-	}
-	Box = CreateWindowW(L"static", text, style, x, y, width, height, parent, NULL, NULL, NULL);
+	if (parent) 
+	Box = CreateWindowW(L"edit", text, style, x, y, width, height, parent, NULL, NULL, NULL);
 }
 
-void TextBox::UpdateText()
+void EW::UpdateText()
 {
 	
 	const unsigned int newsize = GetWindowTextLengthW(Box);
@@ -34,13 +25,13 @@ void TextBox::UpdateText()
 
 
 
-TextBox::TextBox(bool edit):ChildWindow(),edit(edit)
+EW::EW():ChildWindow()
 {
 	text = new wchar_t[textlength + 1];
 }
 
-TextBox::TextBox(const wchar_t* Text, int x, int y, int width, int height, bool edit,HWND* parent)
-		:ChildWindow( Text,  x,  y,  width,  height,  parent),edit(edit)
+EW::EW(const wchar_t* Text, int x, int y, int width, int height,HWND* parent)
+		:ChildWindow( Text,  x,  y,  width,  height,  parent)
 {
 	if (!parent) return;
 	text = new wchar_t[textlength + 1];
@@ -48,15 +39,12 @@ TextBox::TextBox(const wchar_t* Text, int x, int y, int width, int height, bool 
 	
 	
 
-	if (edit)
-	{
+	
 		Box = CreateWindowW(L"edit", Text, style  , x, y, width, height, *parent, NULL, NULL, NULL);
-		return;
-	}
-	Box = CreateWindowW(L"static", Text, style, x, y, width, height, *parent, NULL, NULL, NULL);
+	
 }
 
-void TextBox::set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent)
+void EW::set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent)
 {
 	if (!parent) return;
 	this->parent = *parent;
@@ -77,38 +65,35 @@ void TextBox::set(const wchar_t* Text, int x, int y, int width, int height, HWND
 
 	
 
-	if (edit)
-	{
+	
 		Box = CreateWindowW(L"edit", Text, style, x, y, width, height, *parent, NULL, NULL, NULL);
-		return;
-	}
-	Box = CreateWindowW(L"static", Text, style, x, y, width, height, *parent, NULL, NULL, NULL);
+	
 
 
 
 }
 
-std::wstring TextBox::GetText()
+std::wstring EW::GetText()
 {
 	
 	   GetWindowText(Box, text, textlength);
 	   return (std::wstring)text;
 }
 
-void TextBox::Move(int DX, int DY)
+void EW::Move(int DX, int DY)
 {
-	if (edit) UpdateText();
+	 UpdateText();
 	ChildWindow::Move(DX, DY);
 	
 }
 
-void TextBox::Reposition(int x, int y)
+void EW::Reposition(int x, int y)
 {
-	if (edit) UpdateText();
+	 UpdateText();
 	ChildWindow::Reposition(x, y);
 }
 
-void TextBox::ChangeMaxCharacters(unsigned int NewMax)
+void EW::ChangeMaxCharacters(unsigned int NewMax)
 {
 
 	GetWindowText(Box, text, textlength);
@@ -123,23 +108,18 @@ void TextBox::ChangeMaxCharacters(unsigned int NewMax)
 
 }
 
-void TextBox::addimage(const wchar_t* name)
+void EW::addimage(const wchar_t* name)
 {
-	if (!parent) return;
-	std::wstring fullname = std::wstring(name) + std::wstring(L".bmp");
-	HBITMAP image = (HBITMAP)LoadImageW(NULL, fullname.c_str(), IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
-	DestroyWindow(Box);
-	style = style | SS_BITMAP;
-	Box = CreateWindowW(L"static", text, style, x, y, width, height, parent, NULL, NULL, NULL);
-	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)image);
+	//might add a debug break
 
 }
 
 
 
-void TextBox::AddHorizontalScrolling()
+
+void EW::AddHorizontalScrolling()
 { 
-	if (!edit) return;
+	
 	GetWindowText(Box, text, textlength);
 	DestroyWindow(Box);
 
@@ -147,7 +127,7 @@ void TextBox::AddHorizontalScrolling()
 	place();
 }
 
-void TextBox::AddBorder()
+void EW::AddBorder()
 {
 	
 	if (style == (style | WS_BORDER)) return;
@@ -158,10 +138,10 @@ void TextBox::AddBorder()
 }
 
 
-void TextBox::AddVerticalScrolling()
+void EW::AddVerticalScrolling()
 {
 	
-	if (!edit) return;
+	
 	if (style == (style | ES_AUTOVSCROLL | ES_MULTILINE)) return;
 	GetWindowText(Box, text, textlength);
 	DestroyWindow(Box);
@@ -170,9 +150,9 @@ void TextBox::AddVerticalScrolling()
 
 }
 
-void TextBox::RemoveVerticalScrolling()
+void EW::RemoveVerticalScrolling()
 {
-	if (!edit) return;
+	
 	if (style ==( style & ~ES_AUTOVSCROLL & ~ES_MULTILINE)) return;
 	GetWindowText(Box, text, width / 8 + 1);
 	DestroyWindow(Box);
@@ -180,9 +160,9 @@ void TextBox::RemoveVerticalScrolling()
 	place();
 }
 
-void TextBox::RemoveHorizontalScrolling()
+void EW::RemoveHorizontalScrolling()
 {
-	if (!edit) return;
+	
 	if (style == (style & ~ES_AUTOHSCROLL)) return;
 	GetWindowText(Box, text, width / 8 + 1);
 	DestroyWindow(Box);
@@ -190,7 +170,7 @@ void TextBox::RemoveHorizontalScrolling()
 	place();
 }
 
-void TextBox::RemoveBorder()
+void EW::RemoveBorder()
 {
 	if (style == (style & ~ES_AUTOHSCROLL)) return;
 	GetWindowText(Box, text, width / 8 + 1);
@@ -201,7 +181,7 @@ void TextBox::RemoveBorder()
 
 
 
-TextBox::~TextBox()
+EW::~EW()
 {
 	delete[] text;
 	DestroyWindow(Box);

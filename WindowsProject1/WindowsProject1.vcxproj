@@ -133,14 +133,14 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TextBox.h" />
+    <ClInclude Include="EW.h" />
     <ClInclude Include="WindowsProject1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChildWindow.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="EW.cpp" />
     <ClCompile Include="WindowsProject1.cpp" />
   </ItemGroup>
   <ItemGroup>

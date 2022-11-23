@@ -1,18 +1,17 @@
 #pragma once
 #include "ChildWindow.h"
 #include<math.h>
-class TextBox:public ChildWindow
+class EW:public ChildWindow
 {
-	const bool edit;
-
+	// basic functions used in a lot of style change functions.
 	void place();
 	void UpdateText();
 
 public:
 
 	//creators
-	TextBox(bool edit);
-	TextBox(const wchar_t* Text,int x,int y,int width,int height,bool edit, HWND* parent);
+	EW();
+	EW(const wchar_t* Text,int x,int y,int width,int height, HWND* parent);
 	void set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent);
 
 
@@ -32,5 +31,5 @@ public:
 	void RemoveBorder();
 
 
-	~TextBox();
+	~EW();
 };
