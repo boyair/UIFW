@@ -23,55 +23,15 @@ void EW::UpdateText()
 
 }
 
-
-
 EW::EW():ChildWindow()
 {
 	text = new wchar_t[textlength + 1];
 }
 
 EW::EW(const wchar_t* Text, int x, int y, int width, int height,HWND* parent)
-		:ChildWindow( Text,  x,  y,  width,  height,  parent)
-{
-	if (!parent) return;
-	text = new wchar_t[textlength + 1];
-	wcscpy_s(text,textlength,Text);
-	
-	
-
-	
-		Box = CreateWindowW(L"edit", Text, style  , x, y, width, height, *parent, NULL, NULL, NULL);
-	
-}
-
-void EW::set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent)
-{
-	if (!parent) return;
-	this->parent = *parent;
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
-	
-	const unsigned int newsize = wcsnlen_s(Text, 0xFFFFFF);
-	if (newsize > textlength)
-	{
-		wchar_t* save = text;
-		text = new wchar_t[newsize + 1];
-		delete[] save;
-		textlength = newsize;
-	}
-	wcscpy_s(text,textlength+1,  Text);
-
-	
-
-	
-		Box = CreateWindowW(L"edit", Text, style, x, y, width, height, *parent, NULL, NULL, NULL);
-	
+		:ChildWindow( Text,  x,  y,  width,  height,  parent){	}
 
 
-
-}
 
 std::wstring EW::GetText()
 {
@@ -100,7 +60,7 @@ void EW::ChangeMaxCharacters(unsigned int NewMax)
 	int lower = min(textlength, NewMax);
 	wchar_t* save = text;
 	text = new wchar_t[NewMax + 1];
-	memcpy(text, save, min(NewMax, textlength) * sizeof(wchar_t)+1);
+	memcpy(text, save, (min(NewMax, textlength)+1) * sizeof(wchar_t));
 	text[NewMax] = '\0';
 	delete[] save;
 	SetWindowText(Box, text);
@@ -130,10 +90,10 @@ void EW::AddHorizontalScrolling()
 void EW::AddBorder()
 {
 	
-	if (style == (style | WS_BORDER)) return;
+	if (style == (style | Border)) return;
 	UpdateText();
 	DestroyWindow(Box);
-	style = style | WS_BORDER;
+	style = style | Border;
 	place();
 }
 
@@ -142,10 +102,10 @@ void EW::AddVerticalScrolling()
 {
 	
 	
-	if (style == (style | ES_AUTOVSCROLL | ES_MULTILINE)) return;
+	if (style == (style | Vscroll)) return;
 	GetWindowText(Box, text, textlength);
 	DestroyWindow(Box);
-	style = style| ES_AUTOVSCROLL| ES_MULTILINE;
+	style = style| Vscroll;
 	place();
 
 }
@@ -153,29 +113,29 @@ void EW::AddVerticalScrolling()
 void EW::RemoveVerticalScrolling()
 {
 	
-	if (style ==( style & ~ES_AUTOVSCROLL & ~ES_MULTILINE)) return;
+	if (style ==( style & ~Vscroll)) return;
 	GetWindowText(Box, text, width / 8 + 1);
 	DestroyWindow(Box);
-	style = style & ~ES_AUTOVSCROLL & ~ES_MULTILINE;
+	style = style & ~Vscroll;
 	place();
 }
 
 void EW::RemoveHorizontalScrolling()
 {
 	
-	if (style == (style & ~ES_AUTOHSCROLL)) return;
+	if (style == (style & ~Hscroll)) return;
 	GetWindowText(Box, text, width / 8 + 1);
 	DestroyWindow(Box);
-	style = style & ~ES_AUTOHSCROLL;
+	style = style & ~Hscroll;
 	place();
 }
 
 void EW::RemoveBorder()
 {
-	if (style == (style & ~ES_AUTOHSCROLL)) return;
+	if (style == (style & ~Border)) return;
 	GetWindowText(Box, text, width / 8 + 1);
 	DestroyWindow(Box);
-	style = style & ~ES_AUTOHSCROLL;
+	style = style & ~Border;
 	place();
 }
 

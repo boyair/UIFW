@@ -7,20 +7,20 @@ LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 void addmenu(HWND&);
  EW edit;
  ChildWindow tester;
- Button move(1);
+ Button move(5);
  HBITMAP imaget;
 void addcontrols(HWND& hwnd);
 
 std::pair<int, int> getsize(HWND& hwnd);
 HWND Hedit;
 
-int WINAPI WinMain(HINSTANCE Hinst, HINSTANCE hprevinst, LPSTR args, int ncmdshow)
+int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPSTR lpCmdLine,_In_ int nShowCmd)
 {
 	//creating empty window
 	WNDCLASSW window = { 0 };
 	window.hbrBackground = (HBRUSH)COLOR_DESKTOP;
 	window.hCursor = LoadCursor(NULL, IDC_ARROW);
-	window.hInstance = Hinst;
+	window.hInstance = hInstance;
 	window.lpszClassName = L"my window class";
 	window.lpfnWndProc = winproc;
 	RegisterClassW(&window);
@@ -61,8 +61,7 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			 MessageBox(hwnd,L" you sure???",L"L",MB_YESNO);
 			break;
 		case 3:
-			move.addimage(L"dees");
-			//move.Box = CreateWindowW(L"button", L"", SS_BITMAP | WS_BORDER | WS_VISIBLE | WS_CHILD, 80, 80, 80, 80, hwnd, (HMENU)7, NULL, NULL);
+			move.addimage(L"tank");
 			
 			break;
 		case 4:
@@ -77,10 +76,10 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			int x, y;
 			std::pair<int, int> size = getsize(hwnd);
 			std::wstringstream ss;
-			ss << edit.GetText();
-			ss >> x >> y;
+			ss << sizeof(long long);
+			//ss >> x >> y;
 			//if (size.first > x&& size.first > 0-x && size.second > y && size.second > 0 - y)
-			move.Move(x, y);
+			move.SetText(ss.str().c_str());
 			//move.AddBorder();
 			
 			break;
@@ -114,7 +113,7 @@ void addmenu(HWND& parent)
 void addcontrols(HWND& hwnd)
 {
 	edit.set(L"12345678901234567890", 190, 90, 70, 70, &hwnd);
-	move.set(L"Move", 70, 70, 100, 30, 5, &hwnd);
+	move.set(L"Move", 70, 70, 100, 30, &hwnd);
 	tester.set(L"Hello", 300, 300, 80, 80, &hwnd);
 	imaget = (HBITMAP)LoadImageW(NULL, L"tank.bmp", IMAGE_BITMAP, 70, 70, LR_LOADFROMFILE);
 	imagetest = CreateWindowW(L"static", L" ", WS_CHILD | WS_VISIBLE|SS_BITMAP, 0, 0, 70, 70, hwnd, NULL, NULL, NULL);
@@ -138,7 +137,7 @@ std::pair<int, int> getsize(HWND& hwnd)
 
 //add static string for each class to know its type and prevent recreation of the same function like place() where this word is the only difference
 
-//seperate static and edit constrol to different classes
+//seperate static and edit constrol to different classes (partially done)
  
 //make a main window class
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "ChildWindow.h"
 #include<math.h>
+#define Hscroll 0x0080L
+#define Vscroll 0x0044L
 class EW:public ChildWindow
 {
 	// basic functions used in a lot of style change functions.
@@ -12,7 +14,6 @@ public:
 	//creators
 	EW();
 	EW(const wchar_t* Text,int x,int y,int width,int height, HWND* parent);
-	void set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent);
 
 
 	//basic functionallity

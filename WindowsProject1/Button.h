@@ -2,15 +2,14 @@
 #include "ChildWindow.h"
 class Button: public ChildWindow
 {
-	int id;
+	long long id;
 	void place();
 
 
 
 public:
-	Button(int id);
-	Button(const wchar_t* Text, int x, int y, int width, int height,int id, HWND* parent);
-	void set(const wchar_t* Text, int x, int y, int width, int height, int id, HWND*parent);
+	Button(long long id);
+	Button(const wchar_t* Text, int x, int y, int width, int height, long long id, HWND* parent);
 	void addimage(const wchar_t* name);
 	~Button();
 

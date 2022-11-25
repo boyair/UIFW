@@ -1,6 +1,7 @@
 #pragma once
 #include<Windows.h>
 #include<string>
+#define Border 0x00800000L
 
 class ChildWindow
 {
@@ -28,7 +29,7 @@ public:
 	 virtual void AddBorder();
 	 virtual void RemoveBorder();
 	 virtual void Reposition(int x,int y);
-	 virtual void set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent);
+	 void set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent);
 	 
 	 void Remove();
 

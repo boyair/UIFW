@@ -6,9 +6,18 @@ ChildWindow::ChildWindow() :style(WS_VISIBLE | WS_CHILD), textlength(10),x(0),y(
 	text = new wchar_t[textlength + 1];
 }
 
-ChildWindow::ChildWindow(const wchar_t* Text, int x, int y, int width, int height,  HWND* parent): parent(*parent), x(x), y(y), width(width), height(height), style(WS_VISIBLE | WS_CHILD), textlength(10), Box(NULL), text(NULL)
+ChildWindow::ChildWindow(const wchar_t* Text, int x, int y, int width, int height, HWND* parent) : parent(*parent), x(x), y(y), width(width), height(height), style(WS_VISIBLE | WS_CHILD), textlength(10), Box(NULL), text(NULL)
 {
-	text = new wchar_t[textlength + 1];
+
+	
+
+		if (!parent) return;
+	text = new wchar_t[max(textlength, wcsnlen_s(Text, 0xFFFFFF)) + 1];
+	textlength = max(textlength, wcsnlen_s(Text, 0xFFFFFF));
+
+		wcscpy_s(text, textlength, Text);
+
+		place();
 }
 
 void ChildWindow::place()
@@ -60,19 +69,22 @@ void ChildWindow::Move(int DX, int DY)
 
 void ChildWindow::resize(int width, int height)
 {
+	DestroyWindow(Box);
 	this->width = width;
 	this->height = height;
+	place();
 }
 
 void ChildWindow::Remove()
 {
 	DestroyWindow(Box);
+
+	
 }
 
 void ChildWindow::AddBorder()
 {
-
-	GetWindowText(Box, text, textlength);
+	if (style == (style | WS_BORDER)) return;
 	DestroyWindow(Box);
 	style = style | WS_BORDER;
 	place();
@@ -81,7 +93,7 @@ void ChildWindow::AddBorder()
 
 void ChildWindow::RemoveBorder()
 {
-	if (style == (style & ~ES_AUTOHSCROLL)) return;
+	if (style == (style & ~WS_BORDER)) return;
 	GetWindowText(Box, text, width / 8 + 1);
 	DestroyWindow(Box);
 	style = style & ~ES_AUTOHSCROLL;
@@ -109,7 +121,7 @@ void ChildWindow::set(const wchar_t* Text, int x, int y, int width, int height, 
 	this->width = width;
 	this->height = height;
 
-	const unsigned int newsize = wcsnlen_s(Text, 0xFFFFFF);
+	const unsigned int newsize = wcsnlen_s(Text, 0xFFFFF);
 	if (newsize > textlength)
 	{
 		wchar_t* save = text;
@@ -122,5 +134,5 @@ void ChildWindow::set(const wchar_t* Text, int x, int y, int width, int height, 
 
 
 
-	Box = CreateWindowW(L"static", Text, style, x, y, width, height, *parent, NULL, NULL, NULL);
+	place();
 }
