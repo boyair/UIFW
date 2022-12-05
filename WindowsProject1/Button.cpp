@@ -3,17 +3,20 @@
 void Button::place()
 {
 	if (!parent) return;
-	Box = CreateWindowW(L"button", text, style, x, y, width, height, parent, HMENU(id), NULL, NULL);
+	Box = CreateWindowW(L"button", text.c_str(), style, x, y, width, height, parent, HMENU(id), NULL, NULL);
 
 }
 
 Button::Button(long long id):ChildWindow(),id(id)
 {
-	text = new wchar_t[textlength+1];
 
 }
 
-Button::Button(const wchar_t* Text, int x, int y, int width, int height, long long id, HWND* parent):ChildWindow(Text, x, y, width, height, parent),id(id){	}
+Button::Button(const wstring& Text, int x, int y, int width, int height, long long id, HWND* parent):ChildWindow(Text, x, y, width, height, parent),id(id){	}
+
+Button::Button(wstring&& Text, int x, int y, int width, int height, long long id, HWND* parent) :ChildWindow((wstring&&) Text, x, y, width, height, parent), id(id)
+{
+}
 
 
 
@@ -30,7 +33,5 @@ void Button::addimage(const wchar_t* name)
 
 Button::~Button()
 {
-	delete[] text;
-
 	DestroyWindow(Box);
 }

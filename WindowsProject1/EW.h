@@ -13,15 +13,15 @@ public:
 
 	//creators
 	EW();
-	EW(const wchar_t* Text,int x,int y,int width,int height, HWND* parent);
+	EW(const wstring& Text,int x,int y,int width,int height, HWND* parent);
+	EW(wstring&& Text, int x, int y, int width, int height, HWND* parent);
 
 
 	//basic functionallity
-	std::wstring GetText();
+	wstring GetText();
 	void Move(int DX, int DY);
 	void Reposition(int x, int y);
-	void ChangeMaxCharacters(unsigned int NewMax);
-	void addimage(const wchar_t* name);
+	void addimage(const wstring& name);
 	//style change
 
 	void AddVerticalScrolling();

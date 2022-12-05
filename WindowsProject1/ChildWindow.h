@@ -1,6 +1,6 @@
 #pragma once
 #include<Windows.h>
-#include<string>
+#include "wstring.h"
 #define Border 0x00800000L
 
 class ChildWindow
@@ -9,8 +9,7 @@ protected:
 	HWND parent;
 	HWND Box;
 
-	wchar_t* text;
-	unsigned int textlength;
+	wstring text;
 
 	
 	int x, y, width, height;
@@ -19,19 +18,26 @@ protected:
 
 public:
 	ChildWindow(); 
-	ChildWindow(const wchar_t* Text, int x, int y, int width, int height, HWND* parent);
 
 
-	void SetText(const wchar_t* Text);
-	virtual void addimage(const wchar_t* name) ;
-	 virtual void Move(int DX, int DY);
-	 virtual void resize(int width, int height);
-	 virtual void AddBorder();
-	 virtual void RemoveBorder();
-	 virtual void Reposition(int x,int y);
-	 void set(const wchar_t* Text, int x, int y, int width, int height, HWND* parent);
+	ChildWindow(const wstring& Text, int x, int y, int width, int height, HWND* parent);
+	ChildWindow( wstring&& Text, int x, int y, int width, int height, HWND* parent);
+
+	void SetText(const wstring& Text);
+	void SetText(wstring&& Text);
+
 	 
-	 void Remove();
+	virtual void addimage(const wstring& name) ;
+	virtual void AddBorder();
+	virtual void RemoveBorder();
+	virtual void resize(int width, int height);
+	virtual void Move(int DX, int DY);
+	virtual void Reposition(int x,int y);
+
+	void set(const wstring& Text, int x, int y, int width, int height, HWND* parent);
+	void set(wstring&& Text, int x, int y, int width, int height, HWND* parent);
+	 
+	void Remove();
 
 
 

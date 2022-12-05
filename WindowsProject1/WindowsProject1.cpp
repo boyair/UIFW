@@ -46,7 +46,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 
 LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-	std::wstring arr;
+	wstring arr;
 	const wchar_t* Save;
 	switch (msg)
 	{
@@ -79,7 +79,7 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			ss << sizeof(long long);
 			//ss >> x >> y;
 			//if (size.first > x&& size.first > 0-x && size.second > y && size.second > 0 - y)
-			move.SetText(ss.str().c_str());
+			move.AddBorder();
 			//move.AddBorder();
 			
 			break;
