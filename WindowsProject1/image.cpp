@@ -1,13 +1,18 @@
 #include "image.h"
 
-image::image():BM(NULL),name(NULL), width(0), height(0)
+image::image():BM(NULL), width(0), height(0)
 {
 }
 
-bool image::LoadFromFile(std::wstring name)
+bool image::ConatainsImage()
+{
+	return BM;
+}
+
+bool image::LoadFromFile(wstring&& name)
 {
 	this->name = name;
-	name += L".bmp";
+	name += (wstring)L".bmp";
 	 BM = (HBITMAP)LoadImageW(NULL, name.c_str(), IMAGE_BITMAP, 0,0 , LR_LOADFROMFILE);
 	 if (!BM)return false;
 	 BITMAP temp;

@@ -214,6 +214,17 @@ void wstring::resize(unsigned int newsize)
 
 }
 
+void wstring::operator+=(const wstring& other)
+{
+	unsigned int newsize = getlength() + other.getlength() + 1;
+	resize(newsize);
+	wchar_t* cont = str + getlength();
+	cont[4] = 0;
+	wcscpy_s(cont, newsize,other.c_str());
+	
+
+}
+
 size_t wstring::getlength() const
 {
 	return wcslen(str);

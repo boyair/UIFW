@@ -44,10 +44,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	return 0;
 }
 
+wstring arr;
 LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-	wstring arr;
-	const wchar_t* Save;
+	
 	switch (msg)
 	{
 	case WM_COMMAND:
@@ -65,21 +65,18 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			
 			break;
 		case 4:
-			 arr =edit.GetText();
-			Save = arr.c_str();
-			SetWindowTextW(hwnd, arr.c_str());
 			break;
 
 		case 5:
+			wstring str = L"1234567890123456789";
+			str.resize(22);
+			//arr = edit.GetText();
+			
 
-
-			int x, y;
-			std::pair<int, int> size = getsize(hwnd);
-			std::wstringstream ss;
-			ss << sizeof(long long);
+			
 			//ss >> x >> y;
 			//if (size.first > x&& size.first > 0-x && size.second > y && size.second > 0 - y)
-			move.AddBorder();
+			//move.AddBorder();
 			//move.AddBorder();
 			
 			break;

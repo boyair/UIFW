@@ -1,10 +1,10 @@
 #pragma once
 #include <Windows.h>
-#include<string>
+#include "wstring.h" 
 class image
 {
 	HBITMAP BM;
-	std::wstring name;
+	wstring name;
 	int width, height;
 
 public:
@@ -12,7 +12,7 @@ public:
 	image();
 
 	bool ConatainsImage();
-	bool LoadFromFile(std::wstring name);
+	bool LoadFromFile(wstring&& name);
 
 
 };

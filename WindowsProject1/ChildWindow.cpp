@@ -84,18 +84,18 @@ void ChildWindow::Remove()
 
 void ChildWindow::AddBorder()
 {
-	if (style == (style | WS_BORDER)) return;
-	DestroyWindow(Box);
 	style = style | WS_BORDER;
+	if (!Box) return;
+	DestroyWindow(Box);
 	place();
 }
 
 
 void ChildWindow::RemoveBorder()
 {
-	if (style == (style & ~WS_BORDER)) return;
-	DestroyWindow(Box);
 	style = style & ~ES_AUTOHSCROLL;
+	if (!Box) return;
+	DestroyWindow(Box);
 	place();
 }
 

@@ -36,6 +36,8 @@ public:
 	size_t getlength()const;
 	unsigned int getsize()const;
 	void resize(unsigned int newsize);
+	void operator +=(const wstring& other);
+
 
 	~wstring();
 
