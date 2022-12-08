@@ -14,7 +14,12 @@ wstring::wstring(const wchar_t* str) : str(SmallBuffer), SmallBuffer{ 0 }
 	wcscpy_s(this->str, strlen + 1, str);
 }
 
-wchar_t* wstring::c_str() const
+const wchar_t* wstring::c_str() const
+{
+	return str;
+}
+
+wchar_t* wstring::c_str()
 {
 	return str;
 }
@@ -183,11 +188,11 @@ wchar_t& wstring::operator[](size_t index)
 	return str[index];
 }
 
-void wstring::resize(unsigned int newsize)
+void wstring::resize(size_t newsize)
 {
-
+	
 	wchar_t* save = str;
-
+	if (newsize < getsize())save[newsize - 1] = 0;
 	//handeling resize in SmallBuffer
 
 	if (newsize < BufferSize)
@@ -201,10 +206,9 @@ void wstring::resize(unsigned int newsize)
 		delete[] save;
 		return;
 	}
-
-
+	
 	str = new wchar_t[newsize];
-	save[newsize - 1] = 0;
+	if (newsize < getsize())save[newsize - 1] = 0;
 	wcscpy_s(str, newsize, save);
 	size = newsize;
 	//deletes str if wasnt in smallbuffer
@@ -216,7 +220,7 @@ void wstring::resize(unsigned int newsize)
 
 void wstring::operator+=(const wstring& other)
 {
-	unsigned int newsize = getlength() + other.getlength() + 1;
+	size_t newsize = getlength() + other.getlength() + 1;
 	resize(newsize);
 	wchar_t* cont = str + getlength();
 	cont[4] = 0;
@@ -230,7 +234,7 @@ size_t wstring::getlength() const
 	return wcslen(str);
 }
 
-unsigned int wstring::getsize() const
+size_t wstring::getsize() const
 {
 	if (str == SmallBuffer)
 		return BufferSize;

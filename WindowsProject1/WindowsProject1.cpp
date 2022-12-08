@@ -2,8 +2,10 @@
 #include "Menu.h"
 #include "EW.h"
 #include "Button.h"
+#include "image.h"
 HWND Hwindow,imagetest;
 LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
+			image img;
 void addmenu(HWND&);
  EW edit;
  ChildWindow tester;
@@ -61,23 +63,17 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			 MessageBox(hwnd,L" you sure???",L"L",MB_YESNO);
 			break;
 		case 3:
-			move.addimage(L"tank");
 			
 			break;
 		case 4:
 			break;
 
 		case 5:
-			wstring str = L"1234567890123456789";
-			str.resize(22);
-			//arr = edit.GetText();
-			
+			if(img.LoadFromFile(L"tank"))
+			move.addimage(img);
 
 			
-			//ss >> x >> y;
-			//if (size.first > x&& size.first > 0-x && size.second > y && size.second > 0 - y)
-			//move.AddBorder();
-			//move.AddBorder();
+			
 			
 			break;
 		
@@ -131,16 +127,8 @@ std::pair<int, int> getsize(HWND& hwnd)
 }
 
 //tasks:
-
-//add static string for each class to know its type and prevent recreation of the same function like place() where this word is the only difference
-
-//seperate static and edit constrol to different classes (partially done)
  
 //make a main window class
-
-//make style picking available when making the window.
-
-// consider wstring as text member veriable instead of wchar_t*
 
 // add more comments in functions.
 

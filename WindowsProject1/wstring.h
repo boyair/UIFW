@@ -1,8 +1,7 @@
 #pragma once
-#define BufferSize 16
 #include<string>
 
-
+#define BufferSize 16
 class wstring
 {
 	union
@@ -30,12 +29,12 @@ public:
 	wchar_t& operator[](size_t index);
 	//access char*
 
-	wchar_t* c_str()const;
-
+	const wchar_t* c_str()const;
+	wchar_t* c_str();
 
 	size_t getlength()const;
-	unsigned int getsize()const;
-	void resize(unsigned int newsize);
+	size_t getsize()const;
+	void resize(size_t newsize);
 	void operator +=(const wstring& other);
 
 

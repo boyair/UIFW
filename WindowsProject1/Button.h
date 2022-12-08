@@ -11,7 +11,7 @@ public:
 	Button(long long id);
 	Button(const wstring& Text, int x, int y, int width, int height, long long id, HWND* parent);
 	Button( wstring&& Text, int x, int y, int width, int height, long long id, HWND* parent);
-	void addimage(const wchar_t* name);
+	void addimage(const image& img);
 	~Button();
 
 

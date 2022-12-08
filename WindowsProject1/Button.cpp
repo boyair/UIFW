@@ -18,18 +18,20 @@ Button::Button(wstring&& Text, int x, int y, int width, int height, long long id
 {
 }
 
-
-
-void Button::addimage(const wchar_t* name)
+void Button::addimage(const image& img)
 {
-	std::wstring fullname = std::wstring(name) + std::wstring(L".bmp");
-	HBITMAP image = (HBITMAP)LoadImageW(NULL, fullname.c_str(), IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
-	if (!image) return;
-	DestroyWindow(Box);
+	if (!parent) return;
+
 	style = style | BS_BITMAP;
+	DestroyWindow(Box);
 	place();
-	SendMessageW(Box, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)image);
+	SendMessageW(Box, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
+
 }
+
+
+
+
 
 Button::~Button()
 {

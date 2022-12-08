@@ -1,6 +1,5 @@
 #include "ChildWindow.h"
 
-HBITMAP image;
 ChildWindow::ChildWindow() :style(WS_VISIBLE | WS_CHILD),x(0),y(0),width(0),height(0),parent(NULL),Box(NULL)
 {
 	
@@ -43,15 +42,14 @@ void ChildWindow::SetText(wstring&& Text)
 }
 
 
-void ChildWindow::addimage(const wstring& name)
+void ChildWindow::addimage(const image& img)
 {
 	if (!parent) return;
-	std::wstring fullname = std::wstring(name.c_str()) + std::wstring(L".bmp");
-	HBITMAP image = (HBITMAP)LoadImageW(NULL, fullname.c_str(), IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
-	DestroyWindow(Box);
+	
 	style = style | SS_BITMAP;
-	Box = CreateWindowW(L"static", text.c_str(), style, x, y, width, height, parent, NULL, NULL, NULL);
-	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)image);
+	DestroyWindow(Box);
+	place();
+	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
 }
 
 
