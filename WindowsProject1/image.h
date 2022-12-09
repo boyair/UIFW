@@ -13,6 +13,7 @@ class image
 	int width, height;
 
 public:
+	bool LoadFromFile(wstring&& name,int width,int height);
 	bool LoadFromFile(wstring&& name);
 	image();
 	bool ConatainsImage();

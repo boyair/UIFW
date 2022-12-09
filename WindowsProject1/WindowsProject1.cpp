@@ -3,14 +3,13 @@
 #include "EW.h"
 #include "Button.h"
 #include "image.h"
-HWND Hwindow,imagetest;
+HWND Hwindow;
 LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 			image img;
 void addmenu(HWND&);
  EW edit;
  ChildWindow tester;
  Button move(5);
- HBITMAP imaget;
 void addcontrols(HWND& hwnd);
 
 std::pair<int, int> getsize(HWND& hwnd);
@@ -26,7 +25,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	window.lpszClassName = L"my window class";
 	window.lpfnWndProc = winproc;
 	RegisterClassW(&window);
-	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 700, 700, NULL, NULL, NULL,NULL);
+	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 1000, 1000, NULL, NULL, NULL,NULL);
 	//adding things needed at start
 	 
 	  addcontrols(Hwindow);
@@ -69,9 +68,10 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			break;
 
 		case 5:
-			if(img.LoadFromFile(L"tank"))
+			if(img.LoadFromFile(L"tank.bmp"))
 			move.addimage(img);
 
+			
 			
 			
 			
@@ -93,12 +93,13 @@ void addmenu(HWND& parent)
 {
 
 
-	Menu file(&parent, "file", 1,true);
-	Menu quit(&parent, "quit", 2, false);
-	file.AddSubMenu("new",2);
-	quit.AddSubMenu("yes", 3);
-	quit.AddSubMenu("no", 0);
-	file.AddSubMenu("change title", 4);
+	Menu file(&parent, L"file", 1,true);
+	Menu quit(&parent, L"quit", 2, false);
+	file.destroy();
+	file.AddSubMenu(L"new",2);
+	quit.AddSubMenu(L"yes", 3);
+	quit.AddSubMenu(L"no", 0);
+	file.AddSubMenu(L"change title", 4);
 
 
 }
@@ -108,9 +109,11 @@ void addcontrols(HWND& hwnd)
 	edit.set(L"12345678901234567890", 190, 90, 70, 70, &hwnd);
 	move.set(L"Move", 70, 70, 100, 30, &hwnd);
 	tester.set(L"Hello", 300, 300, 80, 80, &hwnd);
-	imaget = (HBITMAP)LoadImageW(NULL, L"tank.bmp", IMAGE_BITMAP, 70, 70, LR_LOADFROMFILE);
-	imagetest = CreateWindowW(L"static", L" ", WS_CHILD | WS_VISIBLE|SS_BITMAP, 0, 0, 70, 70, hwnd, NULL, NULL, NULL);
-	SendMessageW(imagetest, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)imaget);
+	image img;
+	img.LoadFromFile(L"tank.bmp",70,70);
+	ChildWindow stat(0, 500, 500, 70, 70, &hwnd);
+	stat.AddBorder();
+	stat.addimage(img);
 }
 
 
@@ -135,3 +138,7 @@ std::pair<int, int> getsize(HWND& hwnd)
 //optimizations
 
 //debug only safe guards
+
+//manage messageboxas
+
+//try add sound

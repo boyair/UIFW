@@ -1,29 +1,27 @@
 #include "Menu.h"
 
 HMENU Menu::hmenu = CreateMenu();
-Menu::Menu(HWND* parentWindow, const std::string& name,long id,bool parent):parentWindow(*parentWindow),name(name),id(id), parent(parent)
+Menu::Menu(HWND* parentWindow, const wstring& name, long id, bool parent) :parentWindow(*parentWindow), name(name), id(id), parent(parent), child(0)
 {
 	
-	std::wstring widestr = std::wstring(name.begin(), name.end());
-	const wchar_t* widecstr = widestr.c_str();
+
 	if (parent)
 	{
 		child = CreateMenu();
-		AppendMenu(hmenu, MF_POPUP, (UINT_PTR)child, widecstr);
+		AppendMenu(hmenu, MF_POPUP, (UINT_PTR)child, name.c_str());
 	}
 	else
-	AppendMenu(hmenu, MF_STRING, id, widecstr);
+	AppendMenu(hmenu, MF_STRING, id, name.c_str());
 
 	if (parentWindow != NULL)
 	SetMenu(*parentWindow, hmenu);
 
 }
-bool Menu::AddSubMenu(const std::string& name, long id)
+bool Menu::AddSubMenu(const wstring& name, long id)
 {
 	if (!parent) return false;
-	std::wstring widestr = std::wstring(name.begin(), name.end());
-	const wchar_t* widecstr = widestr.c_str();
-	AppendMenu(child, MF_STRING , id, widecstr);
+	
+	AppendMenu(child, MF_STRING , id, name.c_str());
 	return true;
 
 }

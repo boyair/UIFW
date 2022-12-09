@@ -1,5 +1,17 @@
 #include "image.h"
 
+bool image::LoadFromFile(wstring&& name, int width, int height)
+{
+	this->name = std::move(name);
+	if (name[name.getlength() - 4] != L'.')
+		name += (wstring)L".bmp";
+	BM = (HBITMAP)LoadImageW(NULL, name.c_str(), IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	if (!BM)return false;
+	this->width = width;
+	this->height = height;
+	return true;
+}
+
 image::image():BM(NULL), width(0), height(0)
 {
 }
@@ -11,7 +23,8 @@ bool image::ConatainsImage()
 
 bool image::LoadFromFile(wstring&& name)
 {
-	this->name = name;
+	this->name = std::move(name);
+	if(this->name[this->name.getlength()-4]!=L'.')
 	name += (wstring)L".bmp";
 	 BM = (HBITMAP)LoadImageW(NULL, name.c_str(), IMAGE_BITMAP, 0,0 , LR_LOADFROMFILE);
 	 if (!BM)return false;

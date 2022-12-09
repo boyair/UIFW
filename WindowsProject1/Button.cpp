@@ -20,7 +20,7 @@ Button::Button(wstring&& Text, int x, int y, int width, int height, long long id
 
 void Button::addimage(const image& img)
 {
-	if (!parent) return;
+	if (!parent || style == (style | BS_BITMAP)) return;
 
 	style = style | BS_BITMAP;
 	DestroyWindow(Box);

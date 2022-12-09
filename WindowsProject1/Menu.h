@@ -1,18 +1,18 @@
 #pragma once
 #include <Windows.h>
 #include <vector>
-#include <string>
+#include "wstring.h"
 class Menu
 {
 	HWND& parentWindow;
-	 std::string name;
+	wstring name;
 	const bool parent;
 	HMENU child;
 	static HMENU hmenu;
 	 const long id;
 public:
-	Menu(HWND* parentWindow, const std::string& name, long id, bool parent);
-	bool AddSubMenu(const std::string& name, long id);
+	Menu(HWND* parentWindow, const wstring& name, long id, bool parent);
+	bool AddSubMenu(const wstring& name, long id);
 	static void destroy();
 
 

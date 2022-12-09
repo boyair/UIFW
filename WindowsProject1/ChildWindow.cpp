@@ -44,9 +44,10 @@ void ChildWindow::SetText(wstring&& Text)
 
 void ChildWindow::addimage(const image& img)
 {
-	if (!parent) return;
+	if (!parent|| style == (style|SS_BITMAP)) return;
 	
 	style = style | SS_BITMAP;
+
 	DestroyWindow(Box);
 	place();
 	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);

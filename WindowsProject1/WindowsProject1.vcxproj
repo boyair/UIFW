@@ -135,6 +135,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="EW.h" />
+    <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsProject1.h" />
     <ClInclude Include="wstring.h" />
   </ItemGroup>
@@ -144,6 +145,7 @@
     <ClCompile Include="image.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="EW.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowsProject1.cpp" />
     <ClCompile Include="wstring.cpp" />
   </ItemGroup>

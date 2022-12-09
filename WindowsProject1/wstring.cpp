@@ -4,6 +4,7 @@ wstring::wstring() :str(SmallBuffer), SmallBuffer{ 0 } {}
 
 wstring::wstring(const wchar_t* str) : str(SmallBuffer), SmallBuffer{ 0 }
 {
+	if (!str) return;
 	size_t strlen = wcslen(str);
 	if (!(strlen < BufferSize))
 	{
