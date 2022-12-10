@@ -4,7 +4,7 @@ class Button: public ChildWindow
 {
 	long long id;
 	void place();
-
+	static long BTBKCLR, BTTXCLR;
 
 
 public:

@@ -1,5 +1,7 @@
 #include "ChildWindow.h"
 
+
+
 ChildWindow::ChildWindow() :style(WS_VISIBLE | WS_CHILD),x(0),y(0),width(0),height(0),parent(NULL),Box(NULL)
 {
 	
@@ -90,6 +92,8 @@ void ChildWindow::AddBorder()
 }
 
 
+
+
 void ChildWindow::RemoveBorder()
 {
 	style = style & ~ES_AUTOHSCROLL;
@@ -109,6 +113,7 @@ void ChildWindow::Reposition(int x, int y)
 
 
 }
+
 
 void ChildWindow::set(const wstring& Text, int x, int y, int width, int height, HWND* parent)
 {

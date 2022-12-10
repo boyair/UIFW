@@ -8,6 +8,7 @@ class EW:public ChildWindow
 	// basic functions used in a lot of style change functions.
 	void place();
 	void UpdateText();
+	static long EWBKCLR, EWTXCLR;
 
 public:
 

@@ -4,6 +4,8 @@
 #include "Button.h"
 #include "image.h"
 HWND Hwindow;
+
+
 LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 			image img;
 void addmenu(HWND&);
@@ -18,8 +20,8 @@ HWND Hedit;
 int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPSTR lpCmdLine,_In_ int nShowCmd)
 {
 	//creating empty window
-	WNDCLASSW window = { 0 };
-	window.hbrBackground = (HBRUSH)COLOR_DESKTOP;
+	WNDCLASSW window{ 0};
+	window.hbrBackground = CreateSolidBrush(RGB(90,90,9));
 	window.hCursor = LoadCursor(NULL, IDC_ARROW);
 	window.hInstance = hInstance;
 	window.lpszClassName = L"my window class";
@@ -27,7 +29,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	RegisterClassW(&window);
 	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 1000, 1000, NULL, NULL, NULL,NULL);
 	//adding things needed at start
-	 
+	
 	  addcontrols(Hwindow);
 	  addmenu(Hwindow);
 
@@ -44,13 +46,26 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 
 	return 0;
 }
+long color = RGB(0, 0, 0);
 
+DWORD CtrlID;
 wstring arr;
 LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-	
+
 	switch (msg)
 	{
+	case WM_CTLCOLORSTATIC:
+	{
+
+		HDC hdcStatic = (HDC)wp;
+		SetTextColor(hdcStatic, color);
+		SetBkColor(hdcStatic, RGB(250, 250, 0));
+		return (INT_PTR)CreateSolidBrush(RGB(250, 250, 0));
+	}
+
+
+
 	case WM_COMMAND:
 
 		switch (wp)
@@ -68,8 +83,7 @@ LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			break;
 
 		case 5:
-			if(img.LoadFromFile(L"tank.bmp"))
-			move.addimage(img);
+			color = RGB(255,255,255);
 
 			
 			
@@ -142,3 +156,7 @@ std::pair<int, int> getsize(HWND& hwnd)
 //manage messageboxas
 
 //try add sound
+
+//figure how to destroy a menu or make it more logical that they are indestructable.
+
+//at the end: add namespace to cover all the framework
