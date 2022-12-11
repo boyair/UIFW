@@ -5,14 +5,14 @@
 class Window
 {
 	protected:
-	wstring name;
+	wstring text;
 	int x, y, width, height;
 	HWND Hwnd;
 	unsigned long style;
 
-	virtual void place() = 0;
 public:
-	virtual void addimage(const image& name) = 0;
-
+	Window(const wstring& Text, int x, int y, int width, int height);
+	Window(wstring&& Text, int x, int y, int width, int height);
+	Window();
 };
 

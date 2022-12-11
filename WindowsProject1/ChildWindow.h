@@ -2,25 +2,23 @@
 #include<Windows.h>
 #include "image.h"
 #include "wstring.h"
-
+#include "Window.h"
 
 #define Border 0x00800000L
 
-class ChildWindow
+class ChildWindow:public Window
 {
 
 protected:
 	HWND parent;
 
-	wstring text;
 	
-	int x, y, width, height;
-	unsigned long style;
+	
 	virtual void place();
 
 public:
 	
-	HWND Box;
+	
 	ChildWindow(); 
 	
 	ChildWindow(const wstring& Text, int x, int y, int width, int height, HWND* parent);

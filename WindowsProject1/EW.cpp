@@ -3,16 +3,16 @@
 void EW::place()
 {
 	if (parent) 
-	Box = CreateWindowW(L"edit", text.c_str(), style, x, y, width, height, parent, NULL, NULL, NULL);
+	Hwnd = CreateWindowW(L"edit", text.c_str(), style, x, y, width, height, parent, NULL, NULL, NULL);
 }
 
 void EW::UpdateText()
 {
 	
-	text.resize(GetWindowTextLengthW(Box)+1);
+	text.resize(GetWindowTextLengthW(Hwnd)+1);
 
 	
-	GetWindowTextW(Box,text.c_str(), (int)text.getsize());
+	GetWindowTextW(Hwnd,text.c_str(), (int)text.getsize());
 	
 
 
@@ -68,9 +68,9 @@ void EW::AddHorizontalScrolling()
 	
 	
 	style = style | ES_AUTOHSCROLL;
-	if (!Box) return;
+	if (!Hwnd) return;
 	UpdateText();
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 	place();
 }
 
@@ -78,9 +78,9 @@ void EW::AddBorder()
 {
 	
 	style = style | Border;
-	if (!Box) return;
+	if (!Hwnd) return;
 	UpdateText();
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 	place();
 }
 
@@ -90,9 +90,9 @@ void EW::AddVerticalScrolling()
 	
 	
 	style = style| Vscroll;
-	if (!Box) return;
+	if (!Hwnd) return;
 	UpdateText();
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 	place();
 
 }
@@ -101,9 +101,9 @@ void EW::RemoveVerticalScrolling()
 {
 	
 	style = style & ~Vscroll;
-	if (!Box) return;
+	if (!Hwnd) return;
 	UpdateText();
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 	place();
 }
 
@@ -111,24 +111,24 @@ void EW::RemoveHorizontalScrolling()
 {
 	
 	style = style & ~Hscroll;
-	if (!Box) return;
+	if (!Hwnd) return;
 	UpdateText();
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 	place();
 }
 
 void EW::RemoveBorder()
 {
 	style = style & ~Border;
-	if (!Box) return;	UpdateText();
-	DestroyWindow(Box);
+	if (!Hwnd) return;	UpdateText();
+	DestroyWindow(Hwnd);
 	place();
 }
 
 
 
 EW::~EW()
-{	DestroyWindow(Box);
+{	DestroyWindow(Hwnd);
 
 }
 

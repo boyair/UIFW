@@ -3,10 +3,11 @@
 #include "EW.h"
 #include "Button.h"
 #include "image.h"
+#include "MainWindow.h"
 HWND Hwindow;
 
 
-LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
+//LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 			image img;
 void addmenu(HWND&);
  EW edit;
@@ -17,92 +18,102 @@ void addcontrols(HWND& hwnd);
 std::pair<int, int> getsize(HWND& hwnd);
 HWND Hedit;
 
+//int main()
+//{
+//	MainWindow Main(R,G,B,x,y,width,height)
+//
+//
+//
+//}
+
+
 int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPSTR lpCmdLine,_In_ int nShowCmd)
 {
 	//creating empty window
-	WNDCLASSW window{ 0};
-	window.hbrBackground = CreateSolidBrush(RGB(90,90,9));
-	window.hCursor = LoadCursor(NULL, IDC_ARROW);
-	window.hInstance = hInstance;
-	window.lpszClassName = L"my window class";
-	window.lpfnWndProc = winproc;
-	RegisterClassW(&window);
-	 Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 1000, 1000, NULL, NULL, NULL,NULL);
-	//adding things needed at start
-	
-	  addcontrols(Hwindow);
-	  addmenu(Hwindow);
-
-
-
-
-	//massage loop
-	MSG msg;
-	while (GetMessage(&msg,Hwindow,NULL,NULL)>0)
-	{
-		TranslateMessage(&msg);
-		DispatchMessageW(&msg);
-	}
-
+	//WNDCLASSW window{ 0};
+	//window.hbrBackground = CreateSolidBrush(RGB(90,90,9));
+	//window.hCursor = LoadCursor(NULL, IDC_ARROW);
+	//window.hInstance = hInstance;
+	//window.lpszClassName = L"my window class";
+	//window.lpfnWndProc = winproc;
+	//RegisterClassW(&window);
+	// Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 1000, 1000, NULL, NULL, NULL,NULL);
+	  MainWindow win(L"W working window", 20, 20, 500, 500,255,0,0);
+	//
+	////adding things needed at start
+	//
+	//  addcontrols(Hwindow);
+	//  addmenu(Hwindow);
+	//
+	//
+	//
+	//
+	////massage loop
+	//MSG msg;
+	//while (GetMessage(&msg,Hwindow,NULL,NULL)>0)
+	//{
+	//	TranslateMessage(&msg);
+	//	DispatchMessageW(&msg);
+	//}
+	//
 	return 0;
 }
 long color = RGB(0, 0, 0);
 
 DWORD CtrlID;
 wstring arr;
-LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
-{
-
-	switch (msg)
-	{
-	case WM_CTLCOLORSTATIC:
-	{
-
-		HDC hdcStatic = (HDC)wp;
-		SetTextColor(hdcStatic, color);
-		SetBkColor(hdcStatic, RGB(250, 250, 0));
-		return (INT_PTR)CreateSolidBrush(RGB(250, 250, 0));
-	}
-
-
-
-	case WM_COMMAND:
-
-		switch (wp)
-		{
-		case 1:
-			MessageBeep(MB_OK);
-			break;
-		case 2:
-			 MessageBox(hwnd,L" you sure???",L"L",MB_YESNO);
-			break;
-		case 3:
-			
-			break;
-		case 4:
-			break;
-
-		case 5:
-			color = RGB(255,255,255);
-
-			
-			
-			
-			
-			break;
-		
-		}
-
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProcW(hwnd, msg, wp, lp);
-	}
-	return DefWindowProcW(hwnd, msg, wp, lp);
-
-}
+//LRESULT CALLBACK  winproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+//{
+//
+//	switch (msg)
+//	{
+//	case WM_CTLCOLORSTATIC:
+//	{
+//
+//		HDC hdcStatic = (HDC)wp;
+//		SetTextColor(hdcStatic, color);
+//		SetBkColor(hdcStatic, RGB(250, 250, 0));
+//		return (INT_PTR)CreateSolidBrush(RGB(250, 250, 0));
+//	}
+//
+//
+//
+//	case WM_COMMAND:
+//
+//		switch (wp)
+//		{
+//		case 1:
+//			MessageBeep(MB_OK);
+//			break;
+//		case 2:
+//			 MessageBox(hwnd,L" you sure???",L"L",MB_YESNO);
+//			break;
+//		case 3:
+//			
+//			break;
+//		case 4:
+//			break;
+//
+//		case 5:
+//
+//			
+//			
+//			
+//			
+//			break;
+//		
+//		}
+//
+//		break;
+//	case WM_DESTROY:
+//		PostQuitMessage(0);
+//		break;
+//	default:
+//		return DefWindowProcW(hwnd, msg, wp, lp);
+//	}
+//	return DefWindowProcW(hwnd, msg, wp, lp);
+//
+//}
 void addmenu(HWND& parent)
 {
 

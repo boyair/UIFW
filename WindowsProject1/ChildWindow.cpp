@@ -2,18 +2,21 @@
 
 
 
-ChildWindow::ChildWindow() :style(WS_VISIBLE | WS_CHILD),x(0),y(0),width(0),height(0),parent(NULL),Box(NULL)
+ChildWindow::ChildWindow() :Window(), parent(NULL)
 {
-	
+	style = (WS_VISIBLE | WS_CHILD);
 }
 
-ChildWindow::ChildWindow(const wstring& Text, int x, int y, int width, int height, HWND* parent) : parent(*parent), x(x), y(y), width(width), height(height), style(WS_VISIBLE | WS_CHILD), Box(NULL),text(Text)
+ChildWindow::ChildWindow(const wstring& Text, int x, int y, int width, int height, HWND* parent) :Window(Text,x,y,width,height) ,parent(*parent) 
 {
+	style = (WS_VISIBLE | WS_CHILD);
 		place();
 }
 
-ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, HWND* parent) : parent(*parent), x(x), y(y), width(width), height(height), style(WS_VISIBLE | WS_CHILD), Box(NULL), text((wstring&&)Text)
+ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, HWND* parent) :  Window(std::move(Text), x, y, width, height), parent(*parent)
 {
+	style = (WS_VISIBLE | WS_CHILD);
+
 	place();
 }
 
@@ -21,26 +24,26 @@ ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, HW
 void ChildWindow::place()
 {
 	if (parent)
-		Box = CreateWindowW(L"static", text.c_str(), style, x, y, width, height, parent, NULL, NULL, NULL);
+		Hwnd = CreateWindowW(L"static", text.c_str(), style, x, y, width, height, parent, NULL, NULL, NULL);
 }
 
 void ChildWindow::SetText(const wstring& Text)
 {
 	
-	if (!Box || !parent) return;	//if the window handler or parent window does not exist return.
+	if (!Hwnd || !parent) return;	//if the window handler or parent window does not exist return.
 	text = Text;
-	SetWindowTextW(Box,text.c_str());
+	SetWindowTextW(Hwnd,text.c_str());
 }
 
 void ChildWindow::SetText(wstring&& Text)
 {
 
 		//if the window handler or parent window does not exist return.
-		if (!Box || !parent) return;
+		if (!Hwnd || !parent) return;
 		
 
 		text = std::move(Text);
-		SetWindowTextW(Box, text.c_str());
+		SetWindowTextW(Hwnd, text.c_str());
 }
 
 
@@ -50,9 +53,9 @@ void ChildWindow::addimage(const image& img)
 	
 	style = style | SS_BITMAP;
 
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 	place();
-	SendMessageW(Box, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
+	SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
 }
 
 
@@ -61,7 +64,7 @@ void ChildWindow::addimage(const image& img)
 
 void ChildWindow::Move(int DX, int DY)
 {
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 
 	x += DX; y += DY;
 	place();
@@ -70,7 +73,7 @@ void ChildWindow::Move(int DX, int DY)
 
 void ChildWindow::resize(int width, int height)
 {
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 	this->width = width;
 	this->height = height;
 	place();
@@ -78,7 +81,7 @@ void ChildWindow::resize(int width, int height)
 
 void ChildWindow::Remove()
 {
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 
 	
 }
@@ -86,8 +89,8 @@ void ChildWindow::Remove()
 void ChildWindow::AddBorder()
 {
 	style = style | WS_BORDER;
-	if (!Box) return;
-	DestroyWindow(Box);
+	if (!Hwnd) return;
+	DestroyWindow(Hwnd);
 	place();
 }
 
@@ -97,15 +100,15 @@ void ChildWindow::AddBorder()
 void ChildWindow::RemoveBorder()
 {
 	style = style & ~ES_AUTOHSCROLL;
-	if (!Box) return;
-	DestroyWindow(Box);
+	if (!Hwnd) return;
+	DestroyWindow(Hwnd);
 	place();
 }
 
 void ChildWindow::Reposition(int x, int y)
 {
 	
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 
 	this->x = x;
 	this->y = y;

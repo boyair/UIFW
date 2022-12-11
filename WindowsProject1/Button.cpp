@@ -3,7 +3,7 @@
 void Button::place()
 {
 	if (!parent) return;
-	Box = CreateWindowW(L"button", text.c_str(), style, x, y, width, height, parent, HMENU(id), NULL, NULL);
+	Hwnd = CreateWindowW(L"button", text.c_str(), style, x, y, width, height, parent, HMENU(id), NULL, NULL);
 
 }
 
@@ -23,9 +23,9 @@ void Button::addimage(const image& img)
 	if (!parent || style == (style | BS_BITMAP)) return;
 
 	style = style | BS_BITMAP;
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 	place();
-	SendMessageW(Box, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
+	SendMessageW(Hwnd, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
 
 }
 
@@ -35,5 +35,5 @@ void Button::addimage(const image& img)
 
 Button::~Button()
 {
-	DestroyWindow(Box);
+	DestroyWindow(Hwnd);
 }
