@@ -56,6 +56,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	//	DispatchMessageW(&msg);
 	//}
 	//
+
+	  win.start(); 
 	return 0;
 }
 long color = RGB(0, 0, 0);
