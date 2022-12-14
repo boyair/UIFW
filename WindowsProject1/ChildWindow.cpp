@@ -7,13 +7,13 @@ ChildWindow::ChildWindow() :Window(), parent(NULL)
 	style = (WS_VISIBLE | WS_CHILD);
 }
 
-ChildWindow::ChildWindow(const wstring& Text, int x, int y, int width, int height, HWND* parent) :Window(Text,x,y,width,height) ,parent(*parent) 
+ChildWindow::ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent) :Window(Text,x,y,width,height) ,parent(parent)
 {
 	style = (WS_VISIBLE | WS_CHILD);
-		place();
+	place();
 }
 
-ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, HWND* parent) :  Window(std::move(Text), x, y, width, height), parent(*parent)
+ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent) :  Window(std::move(Text), x, y, width, height), parent(parent)
 {
 	style = (WS_VISIBLE | WS_CHILD);
 
@@ -24,13 +24,13 @@ ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, HW
 void ChildWindow::place()
 {
 	if (parent)
-		Hwnd = CreateWindowW(L"static", text.c_str(), style, x, y, width, height, parent, NULL, NULL, NULL);
+		Hwnd = CreateWindowW(L"static", text.c_str(), style, x, y, width, height, parent->Hwnd, NULL, NULL, NULL);
 }
 
 void ChildWindow::SetText(const wstring& Text)
 {
 	
-	if (!Hwnd || !parent) return;	//if the window handler or parent window does not exist return.
+	if (!Hwnd || !parent->Hwnd) return;	//if the window handler or parent window does not exist return.
 	text = Text;
 	SetWindowTextW(Hwnd,text.c_str());
 }
@@ -39,7 +39,7 @@ void ChildWindow::SetText(wstring&& Text)
 {
 
 		//if the window handler or parent window does not exist return.
-		if (!Hwnd || !parent) return;
+		if (!Hwnd || !parent->Hwnd) return;
 		
 
 		text = std::move(Text);
@@ -49,7 +49,7 @@ void ChildWindow::SetText(wstring&& Text)
 
 void ChildWindow::addimage(const image& img)
 {
-	if (!parent|| style == (style|SS_BITMAP)) return;
+	if (!parent->Hwnd || style == (style|SS_BITMAP)) return;
 	
 	style = style | SS_BITMAP;
 
@@ -117,11 +117,16 @@ void ChildWindow::Reposition(int x, int y)
 
 }
 
+const wstring& ChildWindow::GetText() const
+{
+	return text;
+}
 
-void ChildWindow::set(const wstring& Text, int x, int y, int width, int height, HWND* parent)
+
+void ChildWindow::set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
 {
 	if (!parent) return;
-	this->parent = *parent;
+	this->parent = parent;
 	this->x = x;
 	this->y = y;
 	this->width = width;
@@ -135,10 +140,10 @@ void ChildWindow::set(const wstring& Text, int x, int y, int width, int height, 
 	place();
 }
 
-void ChildWindow::set(wstring&& Text, int x, int y, int width, int height, HWND* parent)
+void ChildWindow::set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
 {
 	if (!parent) return;
-	this->parent = *parent;
+	this->parent = parent;
 	this->x = x;
 	this->y = y;
 	this->width = width;

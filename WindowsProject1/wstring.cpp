@@ -27,6 +27,8 @@ wchar_t* wstring::c_str()
 
 wstring::wstring(const wstring& other) :str(SmallBuffer), SmallBuffer{ 0 }
 {
+
+
 	if (other.str != other.SmallBuffer)
 	{
 		size = other.size;
@@ -58,7 +60,7 @@ wstring::wstring(wstring&& other) noexcept :str(SmallBuffer), SmallBuffer{ 0 }
 void wstring::operator =(const wstring& other)
 {
 	//if no other is Null reset values.
-	if (!&other || !other.str)
+	if (!&other || !other.str|| other.size>10000)
 	{
 		str = nullptr;
 		memset(SmallBuffer, 0, sizeof(SmallBuffer));
@@ -202,9 +204,12 @@ void wstring::resize(size_t newsize)
 			return;
 
 		str = SmallBuffer;
-		save[newsize] = 0;
-		wcscpy_s(str, BufferSize, save);
-		delete[] save;
+		if (save)
+		{
+			save[newsize] = 0;
+			wcscpy_s(str, BufferSize, save);
+			delete[] save;
+		}
 		return;
 	}
 	

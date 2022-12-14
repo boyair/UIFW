@@ -2,7 +2,7 @@
 #include<Windows.h>
 #include "image.h"
 #include "wstring.h"
-#include "Window.h"
+#include "MainWindow.h"
 
 #define Border 0x00800000L
 
@@ -10,7 +10,7 @@ class ChildWindow:public Window
 {
 
 protected:
-	HWND parent;
+	MainWindow* parent;
 
 	
 	
@@ -21,8 +21,8 @@ public:
 	
 	ChildWindow(); 
 	
-	ChildWindow(const wstring& Text, int x, int y, int width, int height, HWND* parent);
-	ChildWindow( wstring&& Text, int x, int y, int width, int height, HWND* parent);
+	ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+	ChildWindow( wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
 
 	void SetText(const wstring& Text);
 	void SetText(wstring&& Text);
@@ -36,8 +36,9 @@ public:
 	virtual void resize(int width, int height);
 	virtual void Move(int DX, int DY);
 	virtual void Reposition(int x,int y);
-	void set(const wstring& Text, int x, int y, int width, int height, HWND* parent);
-	void set(wstring&& Text, int x, int y, int width, int height, HWND* parent);
+	const wstring& GetText() const;
+	void set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+	void set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
 	 
 	void Remove();
 

@@ -9,11 +9,14 @@ HWND Hwindow;
 
 //LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 			image img;
-void addmenu(HWND&);
+//void addmenu(MainWindow&);
  EW edit;
+ Button nums[9] = {(1),(2),(3),(4),(5),(6),(7),(8),(9)};
  ChildWindow tester;
+ int i;
  Button move(5);
-void addcontrols(HWND& hwnd);
+ Button Typer(1);
+void addcontrols(MainWindow& hwnd);
 
 std::pair<int, int> getsize(HWND& hwnd);
 HWND Hedit;
@@ -27,6 +30,25 @@ HWND Hedit;
 //}
 
 
+void (*create_function())(void)
+{
+	
+	auto thefunc = []()
+	{
+		wchar_t num[8];
+			swprintf_s(num,8,L"%d",i);
+			wstring newtext = edit.GetText();
+			newtext += num;
+			edit.SetText(newtext);
+
+
+	};
+	return thefunc;
+
+}
+
+
+
 int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPSTR lpCmdLine,_In_ int nShowCmd)
 {
 	//creating empty window
@@ -38,7 +60,31 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	//window.lpfnWndProc = winproc;
 	//RegisterClassW(&window);
 	// Hwindow = CreateWindowW(L"my window class", L"title",  WS_OVERLAPPEDWINDOW| WS_VISIBLE, 2000, 10, 1000, 1000, NULL, NULL, NULL,NULL);
-	  MainWindow win(L"W working window", 20, 20, 500, 500,255,0,0);
+	
+	  //ChildWindow stat(L"Hello", 7, 7, 80, 80, &win);
+	MainWindow win(L"W working window", 2000, 20, 1000, 1000, 255, 0, 0);
+	//ChildWindow sta;
+	//sta.set(L"Hello", 7, 7, 80, 80, &win);
+	for (size_t i = 0; i < 9; i++)
+	{
+		std::wstringstream wss;
+		wss << i;
+		
+		nums[i].set(wss.str().c_str(), ((i + 1) % 3) * 60, i / 3 * 60 + 60, 30, 30, &win);
+		wss.clear();
+	}
+	i = 7;
+	 
+	edit.set(0, 400, 400, 100, 100, &win);
+	  Typer.set(L"asdasda", 190, 190, 90, 90, &win);
+	  wstring addo = Typer.GetText();
+
+	  for ( i = 1; i < 10; i++)
+	  {
+
+	  win.AddFunc(i, create_function());
+	  }
+	 // win.AddFunc(1, func, { &sta});
 	//
 	////adding things needed at start
 	//
@@ -116,24 +162,24 @@ wstring arr;
 //	return DefWindowProcW(hwnd, msg, wp, lp);
 //
 //}
-void addmenu(HWND& parent)
+//void addmenu(MainWindow& parent)
+//{
+//
+//
+//	Menu file(&parent, L"file", 1,true);
+//	Menu quit(&parent, L"quit", 2, false);
+//	file.destroy();
+//	file.AddSubMenu(L"new",2);
+//	quit.AddSubMenu(L"yes", 3);
+//	quit.AddSubMenu(L"no", 0);
+//	file.AddSubMenu(L"change title", 4);
+//
+//
+//}
+
+void addcontrols(MainWindow& hwnd)
 {
-
-
-	Menu file(&parent, L"file", 1,true);
-	Menu quit(&parent, L"quit", 2, false);
-	file.destroy();
-	file.AddSubMenu(L"new",2);
-	quit.AddSubMenu(L"yes", 3);
-	quit.AddSubMenu(L"no", 0);
-	file.AddSubMenu(L"change title", 4);
-
-
-}
-
-void addcontrols(HWND& hwnd)
-{
-	edit.set(L"12345678901234567890", 190, 90, 70, 70, &hwnd);
+	
 	move.set(L"Move", 70, 70, 100, 30, &hwnd);
 	tester.set(L"Hello", 300, 300, 80, 80, &hwnd);
 	image img;

@@ -3,7 +3,7 @@
 void EW::place()
 {
 	if (parent) 
-	Hwnd = CreateWindowW(L"edit", text.c_str(), style, x, y, width, height, parent, NULL, NULL, NULL);
+	Hwnd = CreateWindowW(L"edit", text.c_str(), style, x, y, width, height, parent->Hwnd, NULL, NULL, NULL);
 }
 
 void EW::UpdateText()
@@ -23,10 +23,10 @@ EW::EW():ChildWindow()
 	
 }
 
-EW::EW(const wstring& Text, int x, int y, int width, int height,HWND* parent)
+EW::EW(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
 		:ChildWindow( Text,  x,  y,  width,  height,  parent){	}
 
-EW::EW(wstring&& Text, int x, int y, int width, int height, HWND* parent)
+EW::EW(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
 	:ChildWindow((wstring&&) Text, x, y, width, height, parent)
 {
 }

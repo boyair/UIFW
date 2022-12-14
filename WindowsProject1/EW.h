@@ -6,7 +6,7 @@
 class EW:public ChildWindow
 {
 	// basic functions used in a lot of style change functions.
-	void place();
+	void place() override;
 	void UpdateText();
 	static long EWBKCLR, EWTXCLR;
 
@@ -14,8 +14,8 @@ public:
 
 	//creators
 	EW();
-	EW(const wstring& Text,int x,int y,int width,int height, HWND* parent);
-	EW(wstring&& Text, int x, int y, int width, int height, HWND* parent);
+	EW(const wstring& Text,int x,int y,int width,int height, MainWindow* parent);
+	EW(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
 
 
 	//basic functionallity

@@ -1,54 +1,28 @@
 #include "MainWindow.h"
 
+//should change this to unordered_map
 std::vector<std::pair<int, void(*)()>> functionallitys;
 
-
-LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-
 	switch (msg)
 	{
 	case WM_COMMAND:
 
 
-		
-		
-		for (auto&[num,func] : functionallitys)
+
+
+		for (int i = 0; i < functionallitys.size(); i++)
 		{
-			if (num == wp)
+			if (functionallitys[i].first == wp)
 			{
-				func();
+				functionallitys[i].second();
 				break;
 			}
-				
-			
+		
+		
 		}
 
-
-		//switch (wp)
-		//{
-		//case 1:
-		//	MessageBeep(MB_OK);
-		//	break;
-		//case 2:
-		//	MessageBox(hwnd, L" you sure???", L"L", MB_YESNO);
-		//	break;
-		//case 3:
-		//
-		//	break;
-		//case 4:
-		//	break;
-		//
-		//case 5:
-		//
-		//
-		//
-		//
-		//
-		//
-		//	break;
-		//
-		//}
 
 		break;
 	case WM_DESTROY:
@@ -61,8 +35,6 @@ LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
 }
 
-
-
 MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height):Window(Text, x, y, width, height)
 {
 	
@@ -70,7 +42,7 @@ MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height)
 	 CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 	 CLS.hInstance = GetModuleHandle(NULL);
 	 CLS.lpszClassName = L"WNDCLS";
-	 CLS.lpfnWndProc = Proc;
+	 CLS.lpfnWndProc = &Proc;
 	 functionallitys.reserve(4);
 	RegisterClassW(&CLS);
 	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
@@ -85,7 +57,7 @@ MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height,
 	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 	CLS.hInstance = GetModuleHandle(NULL);
 	CLS.lpszClassName = L"WNDCLS";
-	CLS.lpfnWndProc = Proc;
+	CLS.lpfnWndProc = &Proc;
 	functionallitys.reserve(4);
 	RegisterClassW(&CLS);
 	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
@@ -108,6 +80,7 @@ void MainWindow::start()
 
 bool MainWindow::AddFunc(int id, void(*func)())
 {
+
 	for (auto p : functionallitys)
 	{
 		if (p.first == id) return false;
