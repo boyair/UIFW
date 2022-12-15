@@ -7,9 +7,9 @@ class wstring
 	union
 	{
 		size_t size;
-		wchar_t SmallBuffer[BufferSize];
+		wchar_t SmallBuffer[BufferSize] = {0};
 	};
-	wchar_t* str;
+	wchar_t* str = SmallBuffer;
 public:
 
 	//constructors

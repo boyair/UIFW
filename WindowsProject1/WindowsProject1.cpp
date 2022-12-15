@@ -30,20 +30,22 @@ HWND Hedit;
 //}
 
 
-void (*create_function())(void)
+void create_function(void)
 {
 	
-	auto thefunc = []()
-	{
-		wchar_t num[8];
-			swprintf_s(num,8,L"%d",i);
-			wstring newtext = edit.GetText();
-			newtext += num;
+	
+	wchar_t arr[] = L"123456789";
+	wchar_t* cont = arr +wcslen(arr)-1;
+
+	int i = wcslen(cont);
+		
+		wstring newtext =edit.GetText();
+		newtext += L"1";
+		
 			edit.SetText(newtext);
 
 
-	};
-	return thefunc;
+	
 
 }
 
@@ -75,14 +77,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	}
 	i = 7;
 	 
-	edit.set(0, 400, 400, 100, 100, &win);
+	char* ptr = new char[17];
+	delete[] ptr;
+
+
+	edit.set(0, 400, 400, 400, 100, &win);
 	  Typer.set(L"asdasda", 190, 190, 90, 90, &win);
 	  wstring addo = Typer.GetText();
 
 	  for ( i = 1; i < 10; i++)
 	  {
 
-	  win.AddFunc(i, create_function());
+	  win.AddFunc(i, create_function);
 	  }
 	 // win.AddFunc(1, func, { &sta});
 	//

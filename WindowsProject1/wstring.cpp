@@ -1,8 +1,8 @@
 #include "wstring.h"
 
-wstring::wstring() :str(SmallBuffer), SmallBuffer{ 0 } {}
+wstring::wstring() {}
 
-wstring::wstring(const wchar_t* str) : str(SmallBuffer), SmallBuffer{ 0 }
+wstring::wstring(const wchar_t* str) 
 {
 	if (!str) return;
 	size_t strlen = wcslen(str);
@@ -25,7 +25,7 @@ wchar_t* wstring::c_str()
 	return str;
 }
 
-wstring::wstring(const wstring& other) :str(SmallBuffer), SmallBuffer{ 0 }
+wstring::wstring(const wstring& other) 
 {
 
 
@@ -38,7 +38,7 @@ wstring::wstring(const wstring& other) :str(SmallBuffer), SmallBuffer{ 0 }
 }
 
 
-wstring::wstring(wstring&& other) noexcept :str(SmallBuffer), SmallBuffer{ 0 }
+wstring::wstring(wstring&& other) noexcept 
 {
 
 	if (other.str == other.SmallBuffer)
@@ -50,8 +50,7 @@ wstring::wstring(wstring&& other) noexcept :str(SmallBuffer), SmallBuffer{ 0 }
 		size = other.size;
 		str = other.str;
 	}
-	other.size = 0;
-	other.str = nullptr;
+	other.str = other.SmallBuffer;
 	memset(other.SmallBuffer, 0, sizeof(other.SmallBuffer));
 
 }
@@ -60,7 +59,7 @@ wstring::wstring(wstring&& other) noexcept :str(SmallBuffer), SmallBuffer{ 0 }
 void wstring::operator =(const wstring& other)
 {
 	//if no other is Null reset values.
-	if (!&other || !other.str|| other.size>10000)
+	if (!&other || !other.str)
 	{
 		str = nullptr;
 		memset(SmallBuffer, 0, sizeof(SmallBuffer));
@@ -82,7 +81,7 @@ void wstring::operator =(const wstring& other)
 
 
 	//copy smaller string to already allocated buffer
-	if (other.size <= getsize())
+	if (other.size< getsize())
 	{
 		size = other.size;
 		wcscpy_s(str, size, other.str);
@@ -95,6 +94,7 @@ void wstring::operator =(const wstring& other)
 	size = other.size;
 	str = new wchar_t[size];
 	wcscpy_s(str, size, other.str);
+
 }
 
 
@@ -213,8 +213,9 @@ void wstring::resize(size_t newsize)
 		return;
 	}
 	
+	if (newsize < getsize())
+		save[newsize - 1] = 0;
 	str = new wchar_t[newsize];
-	if (newsize < getsize())save[newsize - 1] = 0;
 	wcscpy_s(str, newsize, save);
 	size = newsize;
 	//deletes str if wasnt in smallbuffer
@@ -229,8 +230,10 @@ void wstring::operator+=(const wstring& other)
 	size_t newsize = getlength() + other.getlength() + 1;
 	resize(newsize);
 	wchar_t* cont = str + getlength();
-	cont[4] = 0;
-	wcscpy_s(cont, newsize,other.c_str());
+	int i = wcslen(other.c_str()) * sizeof(wchar_t);
+	
+	memcpy(cont, other.c_str(), (wcslen(other.c_str())+1)*sizeof(wchar_t));
+	// str[newsize - 1] = 0;
 	
 
 }
