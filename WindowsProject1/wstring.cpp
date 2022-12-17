@@ -178,6 +178,17 @@ wstring& wstring::operator=(wstring&& other)noexcept
 
 }
 
+wstring wstring::operator+(const wstring& other) const
+{
+	wstring result = *this;
+	size_t newsize = getlength() + other.getlength() + 1;
+	result.resize(newsize);
+	wchar_t* cont = result.str + getlength();
+
+	memcpy(cont, other.c_str(), (wcslen(other.c_str()) + 1) * sizeof(wchar_t));
+	return result;
+}
+
 wchar_t& wstring::operator[](size_t index)
 {
 #ifdef _DEBUG 

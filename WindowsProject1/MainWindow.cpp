@@ -67,6 +67,26 @@ MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height,
 
 }
 
+void MainWindow::AddMenu(const wstring& name, long id, bool parent)
+{
+	if (parent)
+	{
+		ChildMenus.push_back(  CreateMenu());
+		AppendMenuW(menu, MF_POPUP, (UINT_PTR) ChildMenus.back(), name.c_str());
+	}
+	else
+		AppendMenuW(menu, MF_STRING, id, name.c_str());
+	SetMenu(Hwnd,  menu);
+	
+}
+
+bool MainWindow::AddSubMenu(const wstring& name, int menuindex, long id)
+{
+	if (ChildMenus.size()<menuindex) return false;
+	AppendMenu(ChildMenus[menuindex], MF_STRING, id, name.c_str());
+	return true;
+}
+
 void MainWindow::start()
 {
 	MSG msg;

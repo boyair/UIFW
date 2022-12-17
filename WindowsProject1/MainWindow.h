@@ -16,6 +16,13 @@ class MainWindow: public Window
 	 public:
 	 MainWindow(const wstring& Text, int x, int y, int width, int height);
 	 MainWindow(const wstring& Text, int x, int y, int width, int height,int R,int G,int B);
+	 HMENU menu = CreateMenu();
+	 std::vector<HMENU> ChildMenus;
+
+
+
+	 void AddMenu(const wstring& name, long id, bool parent);
+	 bool AddSubMenu(const wstring& name,int menuindex, long id);
 
 	 void start();
 	 bool AddFunc(int id, void(*func)());

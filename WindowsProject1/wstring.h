@@ -24,6 +24,7 @@ public:
 	void operator =(const wstring& other);
 	void operator = (const wchar_t* str);
 	wstring& operator = (wstring&& other)noexcept;
+	wstring operator+(const wstring& other) const;
 	//indexing
 
 	wchar_t& operator[](size_t index);

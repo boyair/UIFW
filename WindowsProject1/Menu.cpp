@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 HMENU Menu::hmenu = CreateMenu();
-Menu::Menu(HWND* parentWindow, const wstring& name, long id, bool parent) :parentWindow(*parentWindow), name(name), id(id), parent(parent), child(0)
+Menu::Menu(const wstring& name, long id, bool parent) : name(name), id(id), parent(parent), child(0)
 {
 	
 
@@ -13,8 +13,8 @@ Menu::Menu(HWND* parentWindow, const wstring& name, long id, bool parent) :paren
 	else
 	AppendMenu(hmenu, MF_STRING, id, name.c_str());
 
-	if (parentWindow != NULL)
-	SetMenu(*parentWindow, hmenu);
+	
+	
 
 }
 bool Menu::AddSubMenu(const wstring& name, long id)
@@ -28,5 +28,5 @@ bool Menu::AddSubMenu(const wstring& name, long id)
 
 void Menu::destroy()
 {
-	DestroyMenu(hmenu);
+	//SetMenu(parentWindow,NULL);
 }
