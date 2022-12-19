@@ -47,6 +47,11 @@ void ChildWindow::SetText(wstring&& Text)
 }
 
 
+void ChildWindow::SetColorText(int R, int G, int B)
+{
+
+}
+
 void ChildWindow::addimage(const image& img)
 {
 	if (!parent->Hwnd || style == (style|SS_BITMAP)) return;

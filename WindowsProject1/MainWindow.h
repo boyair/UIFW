@@ -2,27 +2,29 @@
 #include <functional>
 #include <vector>
 #include <utility>
-//#include <thread>
 #include "Window.h"
+//#include <thread>
 
 class MainWindow: public Window
 {
 	friend class ChildWindow;
 	friend class EW;
 	friend class Button;
-	
+	friend LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	 WNDCLASSW CLS = { 0 };
-	static LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
+	 LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
 	 public:
 	 MainWindow(const wstring& Text, int x, int y, int width, int height);
 	 MainWindow(const wstring& Text, int x, int y, int width, int height,int R,int G,int B);
 	 HMENU menu = CreateMenu();
 	 std::vector<HMENU> ChildMenus;
+	  std::vector<std::pair<int, void(*)()>> functionallitys;
 
 
 
 	 void AddMenu(const wstring& name, long id, bool parent);
 	 bool AddSubMenu(const wstring& name,int menuindex, long id);
+	 void RemoveMenuBar();
 
 	 void start();
 	 bool AddFunc(int id, void(*func)());

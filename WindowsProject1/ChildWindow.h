@@ -28,7 +28,7 @@ public:
 	void SetText(wstring&& Text);
 
 	
-	 static void SetTextColor(int R, int G, int B);
+	  void SetColorText(int R, int G, int B);
 
 	virtual void addimage(const image& name) ;
 	virtual void AddBorder();

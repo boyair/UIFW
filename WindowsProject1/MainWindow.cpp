@@ -1,12 +1,21 @@
 #include "MainWindow.h"
-
 //should change this to unordered_map
-std::vector<std::pair<int, void(*)()>> functionallitys;
 
+
+HDC hdcStatic;
 LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	switch (msg)
 	{
+
+	case WM_CTLCOLORSTATIC:
+		//if (ColoredStatic)
+		//{
+		//	hdcStatic = GetDlgItem(hwnd, 0);
+			SetTextColor(hdcStatic, RGB(255, 0, 0));
+			//SetBkColor(hdcStatic, RGB(0, 0, 0));
+			break;
+		//}
 	case WM_COMMAND:
 
 
@@ -28,12 +37,25 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
-	default:
-		return DefWindowProcW(hwnd, msg, wp, lp);
 	}
 	return DefWindowProcW(hwnd, msg, wp, lp);
 
 }
+LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	MainWindow* window = reinterpret_cast<MainWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+	if (window)
+	{
+		return window->Proc(hwnd, uMsg, wParam, lParam);
+	}
+	else
+	{
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
+}
+
+
+
 
 MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height):Window(Text, x, y, width, height)
 {
@@ -42,7 +64,8 @@ MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height)
 	 CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 	 CLS.hInstance = GetModuleHandle(NULL);
 	 CLS.lpszClassName = L"WNDCLS";
-	 CLS.lpfnWndProc = &Proc;
+	 CLS.lpfnWndProc = NonStaticWindowProc;
+	 
 	 functionallitys.reserve(4);
 	RegisterClassW(&CLS);
 	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
@@ -57,12 +80,13 @@ MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height,
 	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 	CLS.hInstance = GetModuleHandle(NULL);
 	CLS.lpszClassName = L"WNDCLS";
-	CLS.lpfnWndProc = &Proc;
+	CLS.lpfnWndProc = NonStaticWindowProc;
 	functionallitys.reserve(4);
 	RegisterClassW(&CLS);
 	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
 	Hwnd = CreateWindow(L"WNDCLS", Text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
-	
+	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
 
 
 }
@@ -87,10 +111,18 @@ bool MainWindow::AddSubMenu(const wstring& name, int menuindex, long id)
 	return true;
 }
 
+void MainWindow::RemoveMenuBar()
+{
+	SetMenu(Hwnd, NULL);
+
+}
+
+
 void MainWindow::start()
 {
-	MSG msg;
 
+	MSG msg;
+	
 	while (GetMessage(&msg, Hwnd, NULL, NULL) > 0)
 	{
 		TranslateMessage(&msg);
