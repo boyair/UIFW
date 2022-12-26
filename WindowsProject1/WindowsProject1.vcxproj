@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChildWindow.h" />
+    <ClInclude Include="ExtraWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="MainWindow.h" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChildWindow.cpp" />
+    <ClCompile Include="ExtraWindow.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Menu.cpp" />

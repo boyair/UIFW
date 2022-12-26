@@ -133,6 +133,11 @@ void wstring::operator = (const wchar_t* str)
 
 }
 
+bool wstring::operator==(const wstring& other) const
+{
+	return !wcscmp(str, other.str);
+}
+
 wstring& wstring::operator=(wstring&& other)noexcept
 {
 	//if no other is Null reset values.

@@ -43,7 +43,8 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 }
 LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	MainWindow* window = reinterpret_cast<MainWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+	LONG_PTR save = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	MainWindow* window = reinterpret_cast<MainWindow*>(save);
 	if (window)
 	{
 		return window->Proc(hwnd, uMsg, wParam, lParam);
@@ -60,33 +61,42 @@ LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height):Window(Text, x, y, width, height)
 {
 	
-	 CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
-	 CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
-	 CLS.hInstance = GetModuleHandle(NULL);
-	 CLS.lpszClassName = L"WNDCLS";
-	 CLS.lpfnWndProc = NonStaticWindowProc;
+	//// CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
+	// CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
+	// CLS.hInstance = GetModuleHandle(NULL);
+	// CLS.lpfnWndProc = NonStaticWindowProc;
+	// functionallitys.reserve(4);
+	//style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	// CLS.lpszClassName = L"WNDCLS";
 	 
-	 functionallitys.reserve(4);
-	RegisterClassW(&CLS);
-	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
-	Hwnd = CreateWindow(L"WNDCLS", Text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
-	
+	//RegisterClassW(&CLS);
+	//Hwnd = CreateWindow(L"WNDCLS", Text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+	//SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
 
 }
 
-MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B):Window(Text, x, y, width, height)
+
+
+MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B, wstring classname):MainWindow(Text, x, y, width, height)
 {
 	CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
 	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 	CLS.hInstance = GetModuleHandle(NULL);
-	CLS.lpszClassName = L"WNDCLS";
+	CLS.lpszClassName = classname.c_str();
+	//CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
+	CLS.hInstance = GetModuleHandle(NULL);
 	CLS.lpfnWndProc = NonStaticWindowProc;
 	functionallitys.reserve(4);
-	RegisterClassW(&CLS);
 	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
-	Hwnd = CreateWindow(L"WNDCLS", Text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+	//CLS.lpszClassName = classname.c_str();
+	//CLS.lpfnWndProc = NonStaticWindowProc;
+	//functionallitys.reserve(4);
+	RegisterClassW(&CLS);
+	//style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	Hwnd = CreateWindow(classname.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
+	save = GetWindowLongPtr(Hwnd, GWLP_USERDATA);
 
 
 }
@@ -121,7 +131,13 @@ void MainWindow::RemoveMenuBar()
 void MainWindow::start()
 {
 
-	MSG msg;
+	
+	
+
+	//SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+	//save = GetWindowLongPtr(Hwnd, GWLP_USERDATA);
+
+
 	
 	while (GetMessage(&msg, Hwnd, NULL, NULL) > 0)
 	{

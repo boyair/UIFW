@@ -2,7 +2,7 @@
 #include<Windows.h>
 #include "image.h"
 #include "wstring.h"
-#include "MainWindow.h"
+#include "ExtraWindow.h"
 
 #define Border 0x00800000L
 
@@ -15,6 +15,7 @@ protected:
 	
 	
 	virtual void place();
+	virtual void placeExtra();
 
 public:
 	
@@ -39,6 +40,8 @@ public:
 	const wstring& GetText() const;
 	void set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
 	void set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+	void set(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent);
+	void set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent);
 	 
 	void Remove();
 

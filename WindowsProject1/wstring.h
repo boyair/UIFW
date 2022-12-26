@@ -23,6 +23,7 @@ public:
 
 	void operator =(const wstring& other);
 	void operator = (const wchar_t* str);
+	bool operator == (const wstring& other) const;
 	wstring& operator = (wstring&& other)noexcept;
 	wstring operator+(const wstring& other) const;
 	//indexing

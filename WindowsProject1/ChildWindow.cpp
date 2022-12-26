@@ -27,6 +27,11 @@ void ChildWindow::place()
 		Hwnd = CreateWindowW(L"static", text.c_str(), style, x, y, width, height, parent->Hwnd, NULL, NULL, NULL);
 }
 
+void ChildWindow::placeExtra()
+{
+	MSG msg;
+}
+
 void ChildWindow::SetText(const wstring& Text)
 {
 	
@@ -160,4 +165,16 @@ void ChildWindow::set(wstring&& Text, int x, int y, int width, int height, MainW
 
 
 	place();
+}
+
+void ChildWindow::set(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent)
+{
+	if (!parent) return;
+	this->parent = parent;
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	text = Text;
+	placeExtra();
 }
