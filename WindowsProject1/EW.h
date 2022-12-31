@@ -22,7 +22,6 @@ public:
 	wstring GetText();
 	void Move(int DX, int DY);
 	void Reposition(int x, int y);
-	void addimage(const wstring& name);
 	//style change
 
 	void AddVerticalScrolling();

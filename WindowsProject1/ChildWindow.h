@@ -8,14 +8,18 @@
 
 class ChildWindow:public Window
 {
-
+	friend class ExtraWindow;
 protected:
 	MainWindow* parent;
-
+	image* img;
 	
 	
 	virtual void place();
 	virtual void placeExtra();
+	virtual void destroyExtra();
+	virtual void SendImageExtra();
+	virtual void SetTextExtra();
+
 
 public:
 	
@@ -29,19 +33,35 @@ public:
 	void SetText(wstring&& Text);
 
 	
-	  void SetColorText(int R, int G, int B);
 
-	virtual void addimage(const image& name) ;
+	virtual void addimage(image& name) ;
 	virtual void AddBorder();
 	virtual void RemoveBorder();
 	virtual void resize(int width, int height);
 	virtual void Move(int DX, int DY);
 	virtual void Reposition(int x,int y);
+	        void set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+			void set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+
+
+	virtual void E_addimage(image& img);
+	virtual void E_AddBorder();
+	virtual void E_RemoveBorder();
+	virtual void E_resize(int width, int height);
+	virtual void E_Move(int DX, int DY);
+	virtual void E_Reposition(int x, int y);
+			void E_set(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent);
+			void E_set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent);
+			void E_SetText(const wstring& Text);
+			void E_SetText(wstring&& Text);
+			void E_Destroy();
+
+
+	
+
 	const wstring& GetText() const;
-	void set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
-	void set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
-	void set(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent);
-	void set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent);
+	void setOnExtra(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent);
+	//void set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent);
 	 
 	void Remove();
 

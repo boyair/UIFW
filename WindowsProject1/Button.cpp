@@ -35,7 +35,7 @@ void Button::set(wstring&& Text, int x, int y, int width, int height, MainWindow
 	place();
 }
 
-void Button::addimage(const image& img)
+void Button::addimage( image& img)
 {
 	if (!parent || style == (style | BS_BITMAP)) return;
 

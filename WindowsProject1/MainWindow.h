@@ -13,7 +13,7 @@ class MainWindow: public Window
 	friend LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 protected:
 	 WNDCLASSW CLS = { 0 };
-	 LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
+	 virtual LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
 	  LONG_PTR save;
 	  MSG msg;
 	 public:

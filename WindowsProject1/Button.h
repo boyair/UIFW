@@ -14,7 +14,7 @@ public:
 	Button( wstring&& Text, int x, int y, int width, int height, long long id, MainWindow* parent) ;
 	
 	void set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
-	void addimage(const image& img);
+	void addimage( image& img) override;
 	~Button();
 
 

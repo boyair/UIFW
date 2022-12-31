@@ -53,16 +53,6 @@ void EW::Reposition(int x, int y)
 	ChildWindow::Reposition(x, y);
 }
 
-
-void EW::addimage(const wstring& name)
-{
-	//might add a debug break
-
-}
-
-
-
-
 void EW::AddHorizontalScrolling()
 { 
 	

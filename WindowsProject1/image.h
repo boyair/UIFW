@@ -1,13 +1,12 @@
 #pragma once
 #include <Windows.h>
 #include "wstring.h"
-class ChildWindow;
-class Button;
+
 class image
 {
 	friend class ChildWindow;
 	friend class Button;
-
+	friend class ExtraWindow;
 	HBITMAP BM;
 	wstring name;
 	int width, height;

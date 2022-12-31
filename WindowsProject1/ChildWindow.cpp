@@ -2,7 +2,7 @@
 
 
 
-ChildWindow::ChildWindow() :Window(), parent(NULL)
+ChildWindow::ChildWindow() :Window(), parent(NULL),img(NULL)
 {
 	style = (WS_VISIBLE | WS_CHILD);
 }
@@ -29,8 +29,40 @@ void ChildWindow::place()
 
 void ChildWindow::placeExtra()
 {
-	MSG msg;
+#if _DEBUG
+
+#endif
+	
+	PostMessage(parent->Hwnd, WM_USER+1, 1, (LPARAM)this);
+	//while (((ExtraWindow*)(parent))->ToHandle|| ((ExtraWindow*)(parent))->ChildFunc);
+	//((ExtraWindow*)(parent))->ToHandle = this;
+	//((ExtraWindow*)(parent))->ChildFunc = 1;
 }
+
+void ChildWindow::destroyExtra()
+{
+	PostMessage(parent->Hwnd, WM_USER + 1, 2, (LPARAM)this);
+	//while (((ExtraWindow*)(parent))->ToHandle || ((ExtraWindow*)(parent))->ChildFunc);
+	//((ExtraWindow*)(parent))->ToHandle = this;
+	//((ExtraWindow*)(parent))->ChildFunc = 2;
+}
+
+void ChildWindow::SendImageExtra()
+{
+	PostMessage(parent->Hwnd, WM_USER + 1, 4, (LPARAM)this);
+	//while (((ExtraWindow*)(parent))->ToHandle || ((ExtraWindow*)(parent))->ChildFunc);
+	//((ExtraWindow*)(parent))->ToHandle = this;
+	//((ExtraWindow*)(parent))->ChildFunc = 4;
+}
+
+void ChildWindow::SetTextExtra()
+{
+	PostMessage(parent->Hwnd, WM_USER + 1, 3, (LPARAM)this);
+	//while (((ExtraWindow*)(parent))->ToHandle);
+	//((ExtraWindow*)(parent))->ToHandle = this;
+	//((ExtraWindow*)(parent))->ChildFunc = 3;
+}
+
 
 void ChildWindow::SetText(const wstring& Text)
 {
@@ -52,17 +84,14 @@ void ChildWindow::SetText(wstring&& Text)
 }
 
 
-void ChildWindow::SetColorText(int R, int G, int B)
-{
 
-}
 
-void ChildWindow::addimage(const image& img)
+void ChildWindow::addimage(image& img)
 {
 	if (!parent->Hwnd || style == (style|SS_BITMAP)) return;
 	
 	style = style | SS_BITMAP;
-
+	this->img = &img;
 	DestroyWindow(Hwnd);
 	place();
 	SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
@@ -74,18 +103,80 @@ void ChildWindow::addimage(const image& img)
 
 void ChildWindow::Move(int DX, int DY)
 {
-	DestroyWindow(Hwnd);
 
 	x += DX; y += DY;
+	DestroyWindow(Hwnd);
 	place();
 
 }
 
-void ChildWindow::resize(int width, int height)
+void ChildWindow::E_Move(int DX, int DY)
 {
-	DestroyWindow(Hwnd);
+	x += DX; y += DY;
+	destroyExtra();
+	placeExtra();
+	
+}
+
+void ChildWindow::E_Reposition(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+	destroyExtra();
+	placeExtra();
+}
+
+void ChildWindow::E_set(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent)
+{
+	if (!parent) return;
+	this->parent = parent;
+	this->x = x;
+	this->y = y;
 	this->width = width;
 	this->height = height;
+
+	text = Text;
+
+	placeExtra();
+}
+
+void ChildWindow::E_set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent)
+{
+	if (!parent) return;
+	this->parent = parent;
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+
+	text = std::move(Text);
+
+	placeExtra();
+
+}
+
+void ChildWindow::E_SetText(const wstring& Text)
+{
+	text = Text;
+	SetTextExtra();
+}
+
+void ChildWindow::E_SetText(wstring&& Text)
+{
+	text = std::move(Text);
+	SetTextExtra();
+}
+
+void ChildWindow::E_Destroy()
+{
+	destroyExtra();
+}
+
+void ChildWindow::resize(int width, int height)
+{
+	this->width = width;
+	this->height = height;
+	DestroyWindow(Hwnd);
 	place();
 }
 
@@ -118,10 +209,10 @@ void ChildWindow::RemoveBorder()
 void ChildWindow::Reposition(int x, int y)
 {
 	
-	DestroyWindow(Hwnd);
 
 	this->x = x;
 	this->y = y;
+	DestroyWindow(Hwnd);
 	place();
 
 
@@ -167,7 +258,44 @@ void ChildWindow::set(wstring&& Text, int x, int y, int width, int height, MainW
 	place();
 }
 
-void ChildWindow::set(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent)
+void ChildWindow::E_addimage( image& img)
+{
+	//if (!parent->Hwnd || style == (style | SS_BITMAP)) return;
+	this->img = &img;
+	//style = style | SS_BITMAP;
+	SendImageExtra();
+	
+	//destroyExtra();
+	//placeExtra();
+	//SendImageExtra();
+//	SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
+}
+
+void ChildWindow::E_AddBorder()
+{
+	style = style | WS_BORDER;
+	if (!Hwnd) return;
+	destroyExtra();
+	placeExtra();
+}
+
+void ChildWindow::E_RemoveBorder()
+{
+	style = style & ~ES_AUTOHSCROLL;
+	if (!Hwnd) return;
+	destroyExtra();
+	placeExtra();
+}
+
+void ChildWindow::E_resize(int width, int height)
+{
+	this->width = width;
+	this->height = height;
+	destroyExtra();
+	placeExtra();
+}
+
+void ChildWindow::setOnExtra(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent)
 {
 	if (!parent) return;
 	this->parent = parent;

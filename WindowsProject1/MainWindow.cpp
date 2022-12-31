@@ -9,13 +9,22 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
 
 	case WM_CTLCOLORSTATIC:
-		//if (ColoredStatic)
-		//{
-		//	hdcStatic = GetDlgItem(hwnd, 0);
-			SetTextColor(hdcStatic, RGB(255, 0, 0));
-			//SetBkColor(hdcStatic, RGB(0, 0, 0));
+		
+			SetBkMode(HDC(wp), TRANSPARENT);
+			return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
+
 			break;
-		//}
+
+	 
+
+
+	case WM_CTLCOLOREDIT:
+
+		SetBkMode(HDC(wp), TRANSPARENT);
+		return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
+
+		break;
+		
 	case WM_COMMAND:
 
 
