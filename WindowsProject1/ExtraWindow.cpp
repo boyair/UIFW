@@ -38,6 +38,8 @@ void HandleOnThread(ExtraWindow& window)
 		TranslateMessage(&msg);
 		DispatchMessageW(&msg);
 	}
+
+
 }
 
 
@@ -62,68 +64,32 @@ LRESULT CALLBACK NonStaticWindowProcThread(HWND hwnd, UINT uMsg, WPARAM wParam, 
 
 
 
-void ExtraWindow::ReciveWindowAndHandle()
-{
-	if ( ToHandle&&ChildFunc)
-	{
-		switch (ChildFunc)
-		{
-		case 1:
-			ToHandle->place();
-			ToHandle = nullptr;
-			ChildFunc = 0;
-			break;
-		case 2:
-			DestroyWindow(ToHandle->Hwnd);
-			ToHandle = 0;
-			ChildFunc = 0;
-			break;
-		case 3:
 
-			ToHandle->SetText(ToHandle->text);
-			ToHandle = nullptr;
-			ChildFunc = 0;
-			break;
-		case 4:
-			SendMessageW(ToHandle->Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)ToHandle->img->BM);
-			ToHandle = nullptr;
-			ChildFunc = 0;
-
-			break;
-
-
-		}
-	}
-
-}
 
 LRESULT ExtraWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	switch (msg)
 	{
+
+
 	case WM_USER +1:
 
-		
+		//handles manipulation of ChildWindows on thread
 		switch (wp)
 		{
 		case 1:
 			((ChildWindow*)lp)->place();
-			//((ChildWindow*)lp) = nullptr;
-			
 			break;
 		case 2:
 			DestroyWindow(((ChildWindow*)lp)->Hwnd);
-			//((ChildWindow*)lp) = 0;
-			
 			break;
 		case 3:
 
 			((ChildWindow*)lp)->SetText(((ChildWindow*)lp)->text);
-			//((ChildWindow*)lp) = nullptr;
 			
 			break;
 		case 4:
-			//SendMessageW(((ChildWindow*)lp)->Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)(((ChildWindow*)lp)->img->BM));
+			
 			((ChildWindow*)lp)->addimage(*((ChildWindow*)lp)->img);
 
 			break;
@@ -132,6 +98,8 @@ LRESULT ExtraWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
 		break;
 
+		
+		//Makes chilwindow backgrounds transparent.
 	case WM_CTLCOLORSTATIC:
 
 		SetBkMode(HDC(wp), TRANSPARENT);

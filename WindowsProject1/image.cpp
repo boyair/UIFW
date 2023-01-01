@@ -26,7 +26,7 @@ bool image::LoadFromFile(wstring&& name)
 	this->name = std::move(name);
 	if(this->name[this->name.getlength()-4]!=L'.')
 		this->name += (wstring)L".bmp";
-	 BM = (HBITMAP)LoadImageW(NULL, this->name.c_str(), IMAGE_BITMAP, 0,0 , LR_LOADFROMFILE);
+	 BM = (HBITMAP)LoadImageW(NULL, this->name.c_str(), IMAGE_BITMAP, 200,200 , LR_CREATEDIBSECTION |LR_LOADFROMFILE);
 	 if (!BM)return false;
 	 BITMAP temp;
 	 GetObject(BM, sizeof(BITMAP),&temp);

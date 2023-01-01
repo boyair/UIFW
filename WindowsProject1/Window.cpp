@@ -20,6 +20,7 @@ void Window::SetText(wstring&& Text)
 	text = std::move(Text);
 	//if (!Hwnd) return;
 	SetWindowTextW(Hwnd, text.c_str());
+	
 }
 
 void Window::SetText(const wstring& Text)
@@ -27,4 +28,5 @@ void Window::SetText(const wstring& Text)
 	//if (!Hwnd) return;	//if the window handler or parent window does not exist return.
 	text = Text;
 	SetWindowTextW(Hwnd, text.c_str());
+	
 }

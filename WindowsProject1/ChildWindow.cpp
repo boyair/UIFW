@@ -34,42 +34,33 @@ void ChildWindow::placeExtra()
 #endif
 	
 	PostMessage(parent->Hwnd, WM_USER+1, 1, (LPARAM)this);
-	//while (((ExtraWindow*)(parent))->ToHandle|| ((ExtraWindow*)(parent))->ChildFunc);
-	//((ExtraWindow*)(parent))->ToHandle = this;
-	//((ExtraWindow*)(parent))->ChildFunc = 1;
 }
 
 void ChildWindow::destroyExtra()
 {
 	PostMessage(parent->Hwnd, WM_USER + 1, 2, (LPARAM)this);
-	//while (((ExtraWindow*)(parent))->ToHandle || ((ExtraWindow*)(parent))->ChildFunc);
-	//((ExtraWindow*)(parent))->ToHandle = this;
-	//((ExtraWindow*)(parent))->ChildFunc = 2;
 }
 
 void ChildWindow::SendImageExtra()
 {
 	PostMessage(parent->Hwnd, WM_USER + 1, 4, (LPARAM)this);
-	//while (((ExtraWindow*)(parent))->ToHandle || ((ExtraWindow*)(parent))->ChildFunc);
-	//((ExtraWindow*)(parent))->ToHandle = this;
-	//((ExtraWindow*)(parent))->ChildFunc = 4;
 }
 
 void ChildWindow::SetTextExtra()
 {
 	PostMessage(parent->Hwnd, WM_USER + 1, 3, (LPARAM)this);
-	//while (((ExtraWindow*)(parent))->ToHandle);
-	//((ExtraWindow*)(parent))->ToHandle = this;
-	//((ExtraWindow*)(parent))->ChildFunc = 3;
+	
 }
 
 
 void ChildWindow::SetText(const wstring& Text)
 {
-	
+
 	if (!Hwnd || !parent->Hwnd) return;	//if the window handler or parent window does not exist return.
 	text = Text;
-	SetWindowTextW(Hwnd,text.c_str());
+
+	SetWindowTextW(Hwnd, text.c_str());
+	
 }
 
 void ChildWindow::SetText(wstring&& Text)
@@ -80,7 +71,11 @@ void ChildWindow::SetText(wstring&& Text)
 		
 
 		text = std::move(Text);
+		//RECT rtc{ x,y,x + width,y + height };
+		//RedrawWindow(Hwnd, &rtc, 0, RDW_ERASE);
+		
 		SetWindowTextW(Hwnd, text.c_str());
+		
 }
 
 
@@ -251,11 +246,12 @@ void ChildWindow::set(wstring&& Text, int x, int y, int width, int height, MainW
 	this->height = height;
 
 	text = std::move(Text);
-
-
+	
+	RECT rct { width,height };
 
 
 	place();
+	InvalidateRect(Hwnd, &rct , TRUE);
 }
 
 void ChildWindow::E_addimage( image& img)

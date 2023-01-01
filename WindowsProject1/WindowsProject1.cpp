@@ -27,7 +27,7 @@ HWND Hwindow;
  Button move(5);
  Button Typer(1);
 
-HWND Hedit;
+
 
 
 image img;
@@ -37,8 +37,9 @@ void(*buttons[])() = {
 win.RemoveMenuBar(); },[]() {edit.SetText(edit.GetText() + L"2"); },[]() {edit.SetText(edit.GetText() + L"3"); },
 []() { 
 	if (img.LoadFromFile(L"tank.bmp"))
-	 extest.E_addimage(img);
-edit.SetText(edit.GetText() + L"4");
+	 nums2[7].E_addimage(img);
+edit.SetText(L"asdasd");
+//edit.SetText(edit.GetText() + L"4");
 }
 
 ,[]() {edit.SetText(edit.GetText() + L"5"); },[]() {edit.SetText(edit.GetText() + L"6"); },
@@ -77,16 +78,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	win.AddMenu(L"quit", 11, 0);
 	win.AddMenu(L"file", 1, true);
 	win.AddSubMenu(L"sub", 0, 1);
-	edit.set(0, 400, 400, 400, 100, &win);
+	edit.set(L"kok", 400, 400, 400, 100, &win);
 	win2.SetText(L"changed text");
-	  Typer.set(L"asdasda", 230, 190, 90, 90, &win);
+	  Typer.set(L"LOL", 230, 190, 90, 90, &win);
 	//  nums2->SetText(L"n");
 	
 	  win2.AddFunc(1, buttons[1]);
 	  win3.AddFunc(1, buttons[2]);
 	//  win2.AddMenu(L"Test", 5, false);
-	  win.AddFunc(11, []() {MessageBox(win.Hwnd, L"title", L"Text", MB_YESNO); });\
-		  win2.start(); win3.start();
+	  win.AddFunc(11, []() {int i = MessageBox(win.Hwnd, L"title", L"Text", MB_YESNO);
+
+	  if (i == 6)  win2.Destroy(); });
+		  
 	  win.start();
 	
 	return 0;

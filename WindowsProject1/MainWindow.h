@@ -29,6 +29,7 @@ protected:
 	 void RemoveMenuBar();
 
 	 virtual void start();
+	 void Destroy();
 	 bool AddFunc(int id, void(*func)());
 
 

@@ -8,12 +8,12 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	switch (msg)
 	{
 
-	case WM_CTLCOLORSTATIC:
-		
-			SetBkMode(HDC(wp), TRANSPARENT);
-			return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
-
-			break;
+	//case WM_CTLCOLORSTATIC:
+	//	
+	//		SetBkMode(HDC(wp), TRANSPARENT);
+	//		return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
+	//
+	//		break;
 
 	 
 
@@ -153,6 +153,11 @@ void MainWindow::start()
 		TranslateMessage(&msg);
 		DispatchMessageW(&msg);
 	}
+}
+
+void MainWindow::Destroy()
+{
+	PostMessage(Hwnd, WM_DESTROY, 0, 0);
 }
 
 bool MainWindow::AddFunc(int id, void(*func)())
