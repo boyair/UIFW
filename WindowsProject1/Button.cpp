@@ -1,9 +1,15 @@
 #include "Button.h"
 
+
+
+
+
+
 void Button::place() 
 {
 	if (!parent) return;
 	Hwnd = CreateWindowW(L"button", text.c_str(), style, x, y, width, height, parent->Hwnd, HMENU(id), NULL, NULL);
+	
 
 }
 

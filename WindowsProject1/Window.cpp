@@ -30,3 +30,8 @@ void Window::SetText(const wstring& Text)
 	SetWindowTextW(Hwnd, text.c_str());
 	
 }
+
+void Window::Destroy()
+{
+	DestroyWindow(Hwnd);
+}

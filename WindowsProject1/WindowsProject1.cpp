@@ -14,7 +14,7 @@ HWND Hwindow;
 //LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
 			//image img;
 //void addmenu(MainWindow&);
- ChildWindow edit;
+ChildWindow edit;
  ChildWindow extest;
  Button nums[10] = {(0),(1),(2),(3),(4),(5),(6),(7),(8),(9)};
  Button nums2[10] = { (0),(1),(2),(3),(4),(5),(6),(7),(8),(9) };
@@ -34,15 +34,30 @@ image img;
 void(*buttons[])() = { 
 	[]() {edit.SetText(edit.GetText() + L"0"); },
 	[]() {edit.SetText(edit.GetText() + L"1"); 
-win.RemoveMenuBar(); },[]() {edit.SetText(edit.GetText() + L"2"); },[]() {edit.SetText(edit.GetText() + L"3"); },
-[]() { 
-	if (img.LoadFromFile(L"tank.bmp"))
-	 nums2[7].E_addimage(img);
-edit.SetText(L"asdasd");
-//edit.SetText(edit.GetText() + L"4");
+win.RemoveMenuBar(); }, 
+
+[]() {edit.SetText(edit.GetText() + L"2"); },
+
+[]() {edit.SetText(edit.GetText() + L"3");
+win2.RemoveMenuBar(); 
+
+},
+[]() {
+
+	//edit.E_Destroy();
+	//win2.AddMenu(L"FILE", 4, false);
+	img.LoadFromFile(L"tank");
+nums2[7].E_Destroy();
+edit.SetText(edit.GetText() + L"4");
+//edit.AddBorder();
+//edit.Reposition(900, 900);
 }
 
-,[]() {edit.SetText(edit.GetText() + L"5"); },[]() {edit.SetText(edit.GetText() + L"6"); },
+,[]() {edit.SetText(edit.GetText() + L"5"); 
+
+
+
+},[]() {edit.SetText(edit.GetText() + L"6"); },
 []() {edit.SetText(edit.GetText() + L"7"); },[]() {edit.SetText(edit.GetText() + L"8"); },[]() {edit.SetText(edit.GetText() + L"9"); },
 
 
@@ -73,7 +88,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 		win2.AddFunc(i, buttons[i]);
 		wss.clear();
 	}
-	extest.E_AddBorder();
+	win2.SetColor_Child_BK(0, 255, 0);
+	win2.SetColor_Child_Text(255, 0, 0);
 	extest.E_set(L"LOL", 500, 500, 90, 90, &win2);
 	win.AddMenu(L"quit", 11, 0);
 	win.AddMenu(L"file", 1, true);
@@ -81,6 +97,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	edit.set(L"kok", 400, 400, 400, 100, &win);
 	win2.SetText(L"changed text");
 	  Typer.set(L"LOL", 230, 190, 90, 90, &win);
+	 
 	//  nums2->SetText(L"n");
 	
 	  win2.AddFunc(1, buttons[1]);
@@ -91,6 +108,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	  if (i == 6)  win2.Destroy(); });
 		  
 	  win.start();
-	
+	  
 	return 0;
 }

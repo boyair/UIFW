@@ -17,9 +17,10 @@ void HandleOnThread(ExtraWindow& window)
 		WS_CAPTION | 
 		WS_SYSMENU | 
 		WS_THICKFRAME | WS_VISIBLE, window.x, window.y, window.width, window.height, NULL, NULL, NULL, NULL);
-	//DWORD THISTHREAD = GetCurrentThreadId();
-	//AttachThreadInput(		window.MainID,THISTHREAD,	true	);
 	
+	SetWindowLongPtr(window.Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&window));
+	
+	//Send error message if window creation Failed.
 	if (!window.Hwnd)
 	{
 		MessageBox(NULL,(wstring( L"Failed to ctreate window \"") + window.text + wstring(L"\"please check your code")).c_str(), L"Failure!" , MB_ICONERROR | MB_OK);
@@ -27,14 +28,12 @@ void HandleOnThread(ExtraWindow& window)
 	}
 	
 	//set correct proc function for "NonStaticWindowProcThread".
-	SetWindowLongPtr(window.Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&window));
 
 
 	//message loop
 	MSG msg;
 	while (GetMessage(&msg, window.Hwnd, NULL, NULL)>0)
-	{
-		
+	{	
 		TranslateMessage(&msg);
 		DispatchMessageW(&msg);
 	}
@@ -50,15 +49,12 @@ LRESULT CALLBACK NonStaticWindowProcThread(HWND hwnd, UINT uMsg, WPARAM wParam, 
 	ExtraWindow* window = reinterpret_cast<ExtraWindow*>( GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	
 	
-	if (window)
-	{
-		
-		return window->Proc(window->Hwnd, uMsg, wParam, lParam);
-	}
-	else
+	if (!window)
 	{
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
+		return window->Proc(window->Hwnd, uMsg, wParam, lParam);
+	
 }
 
 
@@ -72,55 +68,47 @@ LRESULT ExtraWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
 
 
-	case WM_USER +1:
-
-		//handles manipulation of ChildWindows on thread
-		switch (wp)
-		{
-		case 1:
-			((ChildWindow*)lp)->place();
-			break;
-		case 2:
-			DestroyWindow(((ChildWindow*)lp)->Hwnd);
-			break;
-		case 3:
-
-			((ChildWindow*)lp)->SetText(((ChildWindow*)lp)->text);
-			
-			break;
-		case 4:
-			
-			((ChildWindow*)lp)->addimage(*((ChildWindow*)lp)->img);
-
-			break;
-		}
-
-
-		break;
-
-		
-		//Makes chilwindow backgrounds transparent.
-	case WM_CTLCOLORSTATIC:
-
-		SetBkMode(HDC(wp), TRANSPARENT);
-		return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
-
-		break;
-
-
 	
-	case WM_CTLCOLOREDIT:
+	
+		//Makes chilwindow backgrounds transparent.
+	//case WM_CTLCOLORSTATIC:
+	//
+	//	SetBkMode(HDC(wp), TRANSPARENT);
+	//	return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
+	//
+	//	break;
+	//
+	//
+	//
+	//case WM_CTLCOLOREDIT:
+	//
+	//	SetBkMode(HDC(wp), TRANSPARENT);
+	//	return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
+	//
+	//	break;
 
-		SetBkMode(HDC(wp), TRANSPARENT);
-		return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
+	//case WM_CTLCOLORBTN:
+	//	SetBkColor((HDC)wp, RGB(0, 255, 0));
+	//	SetBkMode((HDC)wp, TRANSPARENT);
+	//	return(LRESULT)CreateSolidBrush(RGB(0,255,0));
+	//
+	
 
-		break;
+	case WM_CTLCOLORSTATIC:
+	{
+
+		DWORD CtrlID = GetDlgCtrlID((HWND)lp);
+		HBRUSH BK = CreateSolidBrush(RGB(ChildColorBK[0], ChildColorBK[1], ChildColorBK[2]));
+		HDC hdcStatic = (HDC)wp;
+		SetTextColor(hdcStatic, RGB(ChildColorText[0], ChildColorText[1], ChildColorText[2]));
+		SetBkColor(hdcStatic, RGB(ChildColorBK[0], ChildColorBK[1], ChildColorBK[2]));
+		return (INT_PTR)BK;
+	}
+
+
+
 
 	case WM_COMMAND:
-
-
-
-
 		for (int i = 0; i < functionallitys.size(); i++)
 		{
 			if (functionallitys[i].first == wp)
@@ -128,14 +116,29 @@ LRESULT ExtraWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 				functionallitys[i].second();
 				break;
 			}
-
-
 		}
+		break;
 
 
+
+	case WM_USER + 1:
+
+		//handles manipulation of ChildWindows on thread
+		if (wp) {
+			((ChildWindow*)lp)->place();
+			break;
+		}
+		
+			DestroyWindow(((ChildWindow*)lp)->Hwnd);
+			break;
+		
 		break;
 	case WM_DESTROY:
+		DestroyWindow(hwnd);
+	case WM_CLOSE:
 		PostQuitMessage(0);
+
+
 		break;
 	}
 	return DefWindowProcW(hwnd, msg, wp, lp);
@@ -157,10 +160,7 @@ ExtraWindow::ExtraWindow(const wstring& Text, int x, int y, int width, int heigh
 	
 }
 
-void ExtraWindow::start()
-{
-	started = true;
-}
+
 
 ExtraWindow::~ExtraWindow()
 {

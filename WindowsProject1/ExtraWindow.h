@@ -9,13 +9,13 @@ class ExtraWindow:public MainWindow
 	friend void HandleOnThread(ExtraWindow& window);
 	friend class ChildWindow;
 	LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
-	char ChildFunc = 0;
 public:
 	DWORD MainID = GetCurrentThreadId();
 	std::thread procthread ;
 	bool started = false;
 	ExtraWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B,wstring classname);
-	void start() override;
+	
+	void start() override {};
 	~ExtraWindow();
 
 };

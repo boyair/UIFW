@@ -67,11 +67,9 @@ void EW::AddHorizontalScrolling()
 void EW::AddBorder()
 {
 	
-	style = style | Border;
-	if (!Hwnd) return;
+	
 	UpdateText();
-	DestroyWindow(Hwnd);
-	place();
+	ChildWindow::AddBorder();
 }
 
 

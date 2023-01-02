@@ -16,5 +16,6 @@ public:
 	Window();
 	void SetText(wstring&& Text);
 	void SetText(const wstring& Text);
+	void Destroy();
 };
 
