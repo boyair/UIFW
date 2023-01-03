@@ -20,17 +20,17 @@ ChildWindow edit;
  Button nums2[10] = { (0),(1),(2),(3),(4),(5),(6),(7),(8),(9) };
  ChildWindow tester;
  int i;
- MainWindow win(L"W working window", 500, 20, 1000, 1000, 100, 1000, 1000, L"wnd");
- ExtraWindow win2(L"W working window2", 1000, 20, 1000, 1000, 255, 0, 0, L"My Window 1cls");
- ExtraWindow win3(L"W working window3", 2000, 20, 1000, 1000, 0, 255, 0, L"wnd2");
-
+image img(L"tank");
+ MainWindow win(L"W working window1", 500, 20, 1000, 1000,img);
+ ExtraWindow win2(L"W working window2", 1000, 20, 1000, 1000, 255, 0, 0);
+ ExtraWindow win3(L"W working window3", 2000, 20, 1000, 1000, 0, 255, 0);
+ 
  Button move(5);
  Button Typer(1);
 
 
 
 
-image img;
 void(*buttons[])() = { 
 	[]() {edit.SetText(edit.GetText() + L"0"); },
 	[]() {edit.SetText(edit.GetText() + L"1"); 
@@ -87,7 +87,8 @@ int main()
 	}
 	win2.SetColor_EW_BK(0, 255, 0);
 	win2.SetColor_EW_Text(255, 0, 0);
-
+	
+	
 	extest.E_set(L"LOL", 500, 500, 90, 90, &win2);
 	win.AddMenu(L"quit", 11, 0);
 	win.AddMenu(L"file", 1, true);

@@ -16,6 +16,18 @@ image::image():BM(NULL), width(0), height(0)
 {
 }
 
+image::image(wstring&& name) :BM(NULL), width(0), height(0)
+{
+	LoadFromFile(std::move(name));
+
+}
+
+image::~image()
+{
+	if(BM) DeleteObject(BM);
+
+}
+
 bool image::ConatainsImage()
 {
 	return BM;

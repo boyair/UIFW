@@ -8,23 +8,30 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	switch (msg)
 	{
 
-		//case WM_CTLCOLORSTATIC:
-		//	
-		//		SetBkMode(HDC(wp), TRANSPARENT);
-		//		return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
-		//
-		//		break;
+	case WM_ERASEBKGND:
+	{
+		if (img.BM)
+		{
+			HDC hdc = (HDC)wp;
+			RECT rect;
+			GetClientRect(hwnd, &rect);
 
+			
+			img.BM = (HBITMAP)LoadImageW(NULL, img.name.c_str(), IMAGE_BITMAP, rect.right, rect.bottom, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+			// Create a memory device context for the image
+			HDC hdcMem = CreateCompatibleDC(hdc);
+			SelectObject(hdcMem, img.BM);
 
+			// Stretch the image to fit the window
+			StretchBlt(hdc, 0, 0, rect.right, rect.bottom, hdcMem, 0, 0, rect.right, rect.bottom, SRCCOPY);
 
+			// Clean up
+			DeleteDC(hdcMem);
+			DeleteObject(img.BM);
+		}
 
-		//case WM_CTLCOLOREDIT:
-		//
-		//	SetBkMode(HDC(wp), TRANSPARENT);
-		//	return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
-		//
-		//	break;
-		//	
+		return 1;
+	}
 
 
 
@@ -107,14 +114,13 @@ MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height)
 
 }
 
-
-
-MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B, wstring classname):MainWindow(Text, x, y, width, height)
+MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img)
 {
-	CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+	CLS.hbrBackground =(HBRUSH) COLOR_DESKTOP;
 	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 	CLS.hInstance = GetModuleHandle(NULL);
-	CLS.lpszClassName = classname.c_str();
+	this->img = img;
+	CLS.lpszClassName = Text.c_str();
 	//CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 	CLS.hInstance = GetModuleHandle(NULL);
 	CLS.lpfnWndProc = NonStaticWindowProc;
@@ -125,7 +131,29 @@ MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height,
 	//functionallitys.reserve(4);
 	RegisterClassW(&CLS);
 	//style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
-	Hwnd = CreateWindow(classname.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+	Hwnd = CreateWindow(Text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+}
+
+
+
+MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B):MainWindow(Text, x, y, width, height)
+{
+	CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
+	CLS.hInstance = GetModuleHandle(NULL);
+	CLS.lpszClassName = Text.c_str();
+	//CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
+	CLS.hInstance = GetModuleHandle(NULL);
+	CLS.lpfnWndProc = NonStaticWindowProc;
+	functionallitys.reserve(4);
+	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	//CLS.lpszClassName = classname.c_str();
+	//CLS.lpfnWndProc = NonStaticWindowProc;
+	//functionallitys.reserve(4);
+	RegisterClassW(&CLS);
+	//style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	Hwnd = CreateWindow(Text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	
 

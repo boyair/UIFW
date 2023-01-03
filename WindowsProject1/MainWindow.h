@@ -20,7 +20,9 @@ protected:
 	 virtual LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
 	 public:
 	 MainWindow(const wstring& Text, int x, int y, int width, int height);
-	 MainWindow(const wstring& Text, int x, int y, int width, int height,int R,int G,int B,wstring classname);
+	 MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img);
+	 MainWindow(const wstring& Text, int x, int y, int width, int height,int R,int G,int B);
+	 image img;
 	 HMENU menu = CreateMenu();
 	 std::vector<HMENU> ChildMenus;
 	  std::vector<std::pair<int, void(*)()>> functionallitys;

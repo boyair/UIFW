@@ -13,7 +13,7 @@ public:
 	DWORD MainID = GetCurrentThreadId();
 	std::thread procthread ;
 	bool started = false;
-	ExtraWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B,wstring classname);
+	ExtraWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B);
 	
 	void start() override {};
 	~ExtraWindow();

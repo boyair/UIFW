@@ -153,7 +153,7 @@ LRESULT ExtraWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	return DefWindowProcW(hwnd, msg, wp, lp);
 }
 
-ExtraWindow::ExtraWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B, wstring classname) :MainWindow(Text, x, y, width, height)
+ExtraWindow::ExtraWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B) :MainWindow(Text, x, y, width, height)
 {
 	CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
 	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
