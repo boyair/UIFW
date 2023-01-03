@@ -105,7 +105,16 @@ LRESULT ExtraWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 		return (INT_PTR)BK;
 	}
 
+	case WM_CTLCOLOREDIT:
+	{
 
+		DWORD CtrlID = GetDlgCtrlID((HWND)lp);
+		HBRUSH BK = CreateSolidBrush(RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
+		HDC hdcStatic = (HDC)wp;
+		SetTextColor(hdcStatic, RGB(EWColorText[0], EWColorText[1], EWColorText[2]));
+		SetBkColor(hdcStatic, RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
+		return (INT_PTR)BK;
+	}
 
 
 	case WM_COMMAND:

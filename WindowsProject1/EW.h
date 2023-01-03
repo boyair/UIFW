@@ -26,10 +26,9 @@ public:
 
 	void AddVerticalScrolling();
 	void AddHorizontalScrolling();
-	void AddBorder();
 	void RemoveVerticalScrolling();
 	void RemoveHorizontalScrolling();
-	void RemoveBorder();
+	
 
 
 	~EW();

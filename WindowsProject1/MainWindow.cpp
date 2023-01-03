@@ -39,7 +39,16 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 		return (INT_PTR)BK;
 	}
 	
+	case WM_CTLCOLOREDIT:
+	{
 
+		DWORD CtrlID = GetDlgCtrlID((HWND)lp);
+		HBRUSH BK = CreateSolidBrush(RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
+		HDC hdcStatic = (HDC)wp;
+		SetTextColor(hdcStatic, RGB(EWColorText[0], EWColorText[1], EWColorText[2]));
+		SetBkColor(hdcStatic, RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
+		return (INT_PTR)BK;
+	}
 
 
 	case WM_COMMAND:
@@ -137,6 +146,20 @@ void MainWindow::SetColor_Child_BK(char R, char G, char B)
 	ChildColorBK[0] = R;
 	ChildColorBK[1] = G;
 	ChildColorBK[2] = B;
+}
+
+void MainWindow::SetColor_EW_Text(char R, char G, char B)
+{
+	EWColorText[0] = R;
+	EWColorText[1] = G;
+	EWColorText[2] = B;
+}
+
+void MainWindow::SetColor_EW_BK(char R, char G, char B)
+{
+	EWColorBK[0] = R;
+	EWColorBK[1] = G;
+	EWColorBK[2] = B;
 }
 
 void MainWindow::AddMenu(const wstring& name, long id, bool parent)

@@ -27,6 +27,8 @@ protected:
 
 	  void SetColor_Child_Text(char R,char G,char B);
 	  void SetColor_Child_BK(char R, char G, char B);
+	  void SetColor_EW_Text(char R, char G, char B);
+	  void SetColor_EW_BK(char R, char G, char B);
 	 void AddMenu(const wstring& name, long id, bool parent);
 	 bool AddSubMenu(const wstring& name,int menuindex, long id);
 	 void RemoveMenuBar();
