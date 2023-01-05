@@ -1,12 +1,26 @@
 #include "MainWindow.h"
+#include "ChildWindow.h"
 //should change this to unordered_map
 
 
-HDC hdcStatic;
 LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	switch (msg)
 	{
+
+	case WM_USER + 1:
+
+		//handles manipulation of ChildWindows on thread
+		if (wp) {
+			((ChildWindow*)lp)->place();
+			break;
+		}
+
+		DestroyWindow(((ChildWindow*)lp)->Hwnd);
+		break;
+
+
+
 
 	case WM_ERASEBKGND:
 	{
@@ -75,6 +89,9 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
 
 		break;
+	
+
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

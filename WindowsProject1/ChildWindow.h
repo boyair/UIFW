@@ -8,6 +8,7 @@
 
 class ChildWindow:public Window
 {
+	friend class MainWindow;
 	friend class ExtraWindow;
 protected:
 	MainWindow* parent;
@@ -24,8 +25,6 @@ public:
 	
 	
 	ChildWindow(); 
-	//LRESULT CALLBACK  ColorProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
-	
 	ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
 	ChildWindow( wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
 

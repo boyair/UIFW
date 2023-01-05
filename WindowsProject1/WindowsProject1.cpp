@@ -1,26 +1,20 @@
 #include <sstream>
 #include<thread>
+#include "ExtraWindow.h"
 #include "Menu.h"
 #include "EW.h"
 #include "Button.h"
 #include "image.h"
 #include "MainWindow.h"
-#include "ExtraWindow.h"
-HWND Hwindow;
 
-//Hwnd = CreateWindow(classname.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
-//	Hwnd = CreateWindow(classname.c_str(), text.c_str(), window->style, window->x, window->y, window->width, window->height, NULL, NULL, NULL, NULL);
 
-//LRESULT CALLBACK  winproc(HWND, UINT, WPARAM, LPARAM);
-			//image img;
-//void addmenu(MainWindow&);
 ChildWindow edit;
- EW extest;
+ ChildWindow extest;
  Button nums[10] = {(0),(1),(2),(3),(4),(5),(6),(7),(8),(9)};
  Button nums2[10] = { (0),(1),(2),(3),(4),(5),(6),(7),(8),(9) };
  ChildWindow tester;
  int i;
-image img(L"tank");
+image img(L"B.bmp");
  MainWindow win(L"W working window1", 500, 20, 1000, 1000,img);
  ExtraWindow win2(L"W working window2", 1000, 20, 1000, 1000, 255, 0, 0);
  ExtraWindow win3(L"W working window3", 2000, 20, 1000, 1000, 0, 255, 0);
@@ -46,17 +40,16 @@ win2.RemoveMenuBar();
 
 	//edit.E_Destroy();
 	//win2.AddMenu(L"FILE", 4, false);
-	img.LoadFromFile(L"tank");
-nums2[7].E_Destroy();
+//	img.LoadFromFile(L"B");
+nums2[7].Remove();
 edit.SetText(edit.GetText() + L"4");
 //edit.AddBorder();
-//edit.Reposition(900, 900);
+extest.Reposition(900, 900);
 }
 
 ,[]() {edit.SetText(edit.GetText() + L"5"); 
 
-extest.AddHorizontalScrolling();
-extest.AddBorder();
+//extest.AddBorder();
 },[]() {edit.SetText(edit.GetText() + L"6"); },
 []() {edit.SetText(edit.GetText() + L"7"); },[]() {edit.SetText(edit.GetText() + L"8"); },[]() {edit.SetText(edit.GetText() + L"9"); },
 
@@ -80,23 +73,23 @@ int main()
 		std::wstringstream wss;
 		wss << i;
 
-		nums2[i].E_set(wss.str().c_str(), ((i % 3) + 1) * 60, i / 3 * 60 + 60, 30, 30, &win2);
+		nums2[i].set(wss.str().c_str(), ((i % 3) + 1) * 60, i / 3 * 60 + 60, 30, 30, &win2);
 
 		win2.AddFunc(i, buttons[i]);
 		wss.clear();
 	}
 	win2.SetColor_EW_BK(0, 255, 0);
 	win2.SetColor_EW_Text(255, 0, 0);
+	//extest.AddVerticalScrolling();
 	
+	extest.set(L"LOL", 500, 500, 90, 90, &win2);
 	
-	extest.E_set(L"LOL", 500, 500, 90, 90, &win2);
 	win.AddMenu(L"quit", 11, 0);
 	win.AddMenu(L"file", 1, true);
 	win.AddSubMenu(L"sub", 0, 1);
 	edit.set(L"kok", 400, 400, 400, 100, &win);
 	win2.SetText(L"changed text");
 	Typer.set(L"LOL", 230, 190, 90, 90, &win);
-
 	//  nums2->SetText(L"n");
 
 	win2.AddFunc(1, buttons[1]);

@@ -17,7 +17,7 @@ protected:
 	unsigned char EWColorText[3]{ 255,255,255 };
 	unsigned char EWColorBK[3]{ 0,0,0 };
 	 WNDCLASSW CLS = { 0 };
-	 virtual LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
+	 LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
 	 public:
 	 MainWindow(const wstring& Text, int x, int y, int width, int height);
 	 MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img);

@@ -8,7 +8,7 @@ class ExtraWindow:public MainWindow
 	friend LRESULT CALLBACK NonStaticWindowProcThread(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	friend void HandleOnThread(ExtraWindow& window);
 	friend class ChildWindow;
-	LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
+	
 public:
 	DWORD MainID = GetCurrentThreadId();
 	std::thread procthread ;

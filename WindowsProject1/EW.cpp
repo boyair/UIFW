@@ -40,18 +40,9 @@ wstring EW::GetText()
 	   return text;
 }
 
-void EW::Move(int DX, int DY)
-{
-	 UpdateText();
-	ChildWindow::Move(DX, DY);
-	
-}
 
-void EW::Reposition(int x, int y)
-{
-	 UpdateText();
-	ChildWindow::Reposition(x, y);
-}
+
+
 
 void EW::AddHorizontalScrolling()
 { 
@@ -59,8 +50,8 @@ void EW::AddHorizontalScrolling()
 	
 	style = style | ES_AUTOHSCROLL;
 	if (!Hwnd) return;
-	SetWindowLongPtr(Hwnd, GWL_STYLE, style);
-	SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+	Destroy();
+	place();
 }
 
 
@@ -72,8 +63,8 @@ void EW::AddVerticalScrolling()
 	
 	style = style| Vscroll;
 	if (!Hwnd) return;
-	SetWindowLongPtr(Hwnd, GWL_STYLE, style);
-	SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+	destroyExtra();
+	placeExtra();
 
 }
 
@@ -82,8 +73,8 @@ void EW::RemoveVerticalScrolling()
 	
 	style = style & ~Vscroll;
 	if (!Hwnd) return;
-	SetWindowLongPtr(Hwnd, GWL_STYLE, style);
-	SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+	destroyExtra();
+	placeExtra();
 }
 
 void EW::RemoveHorizontalScrolling()
@@ -91,8 +82,8 @@ void EW::RemoveHorizontalScrolling()
 	
 	style = style & ~Hscroll;
 	if (!Hwnd) return;
-	SetWindowLongPtr(Hwnd, GWL_STYLE, style);
-	SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+	destroyExtra();
+	placeExtra();
 }
 
 

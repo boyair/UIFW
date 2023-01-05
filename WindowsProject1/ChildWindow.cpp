@@ -35,12 +35,12 @@ void ChildWindow::placeExtra()
 
 #endif
 	
-	PostMessage(parent->Hwnd, WM_USER+1, 1, (LPARAM)this);
+	SendMessage(parent->Hwnd, WM_USER+1, 1, (LPARAM)this);
 }
 
 void ChildWindow::destroyExtra()
 {
-	PostMessage(parent->Hwnd, WM_USER + 1, 0, (LPARAM)this);
+	SendMessage(parent->Hwnd, WM_USER + 1, 0, (LPARAM)this);
 }
 
 
@@ -207,7 +207,7 @@ void ChildWindow::set(const wstring& Text, int x, int y, int width, int height, 
 
 
 
-	place();
+	placeExtra();
 }
 
 void ChildWindow::set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
@@ -221,7 +221,7 @@ void ChildWindow::set(wstring&& Text, int x, int y, int width, int height, MainW
 
 	text = std::move(Text);
 
-	place();
+	placeExtra();
 	
 }
 

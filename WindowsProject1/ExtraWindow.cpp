@@ -1,7 +1,8 @@
 #include "ExtraWindow.h"
 #include "button.h"
-//extern ExtraWindow win2;
-//ExtraWindow* Procede;
+
+
+
 LRESULT CALLBACK NonStaticWindowProcThread(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 
@@ -26,9 +27,6 @@ void HandleOnThread(ExtraWindow& window)
 		MessageBox(NULL,(wstring( L"Failed to ctreate window \"") + window.text + wstring(L"\"please check your code")).c_str(), L"Failure!" , MB_ICONERROR | MB_OK);
 		return;
 	}
-	
-	//set correct proc function for "NonStaticWindowProcThread".
-
 
 	//message loop
 	MSG msg;
@@ -62,96 +60,71 @@ LRESULT CALLBACK NonStaticWindowProcThread(HWND hwnd, UINT uMsg, WPARAM wParam, 
 
 
 
-LRESULT ExtraWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
-{
-	switch (msg)
-	{
-
-
-	
-	
-		//Makes chilwindow backgrounds transparent.
-	//case WM_CTLCOLORSTATIC:
-	//
-	//	SetBkMode(HDC(wp), TRANSPARENT);
-	//	return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
-	//
-	//	break;
-	//
-	//
-	//
-	//case WM_CTLCOLOREDIT:
-	//
-	//	SetBkMode(HDC(wp), TRANSPARENT);
-	//	return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
-	//
-	//	break;
-
-	//case WM_CTLCOLORBTN:
-	//	SetBkColor((HDC)wp, RGB(0, 255, 0));
-	//	SetBkMode((HDC)wp, TRANSPARENT);
-	//	return(LRESULT)CreateSolidBrush(RGB(0,255,0));
-	//
-	
-
-	case WM_CTLCOLORSTATIC:
-	{
-
-		DWORD CtrlID = GetDlgCtrlID((HWND)lp);
-		HBRUSH BK = CreateSolidBrush(RGB(ChildColorBK[0], ChildColorBK[1], ChildColorBK[2]));
-		HDC hdcStatic = (HDC)wp;
-		SetTextColor(hdcStatic, RGB(ChildColorText[0], ChildColorText[1], ChildColorText[2]));
-		SetBkColor(hdcStatic, RGB(ChildColorBK[0], ChildColorBK[1], ChildColorBK[2]));
-		return (INT_PTR)BK;
-	}
-
-	case WM_CTLCOLOREDIT:
-	{
-
-		DWORD CtrlID = GetDlgCtrlID((HWND)lp);
-		HBRUSH BK = CreateSolidBrush(RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
-		HDC hdcStatic = (HDC)wp;
-		SetTextColor(hdcStatic, RGB(EWColorText[0], EWColorText[1], EWColorText[2]));
-		SetBkColor(hdcStatic, RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
-		return (INT_PTR)BK;
-	}
-
-
-	case WM_COMMAND:
-		for (int i = 0; i < functionallitys.size(); i++)
-		{
-			if (functionallitys[i].first == wp)
-			{
-				functionallitys[i].second();
-				break;
-			}
-		}
-		break;
-
-
-
-	case WM_USER + 1:
-
-		//handles manipulation of ChildWindows on thread
-		if (wp) {
-			((ChildWindow*)lp)->place();
-			break;
-		}
-		
-			DestroyWindow(((ChildWindow*)lp)->Hwnd);
-			break;
-		
-		break;
-	case WM_DESTROY:
-		DestroyWindow(hwnd);
-	case WM_CLOSE:
-		PostQuitMessage(0);
-
-
-		break;
-	}
-	return DefWindowProcW(hwnd, msg, wp, lp);
-}
+//LRESULT ExtraWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+//{
+//	switch (msg)
+//	{
+//
+//
+//
+//	case WM_CTLCOLORSTATIC:
+//	{
+//
+//		DWORD CtrlID = GetDlgCtrlID((HWND)lp);
+//		HBRUSH BK = CreateSolidBrush(RGB(ChildColorBK[0], ChildColorBK[1], ChildColorBK[2]));
+//		HDC hdcStatic = (HDC)wp;
+//		SetTextColor(hdcStatic, RGB(ChildColorText[0], ChildColorText[1], ChildColorText[2]));
+//		SetBkColor(hdcStatic, RGB(ChildColorBK[0], ChildColorBK[1], ChildColorBK[2]));
+//		return (INT_PTR)BK;
+//	}
+//
+//	case WM_CTLCOLOREDIT:
+//	{
+//
+//		DWORD CtrlID = GetDlgCtrlID((HWND)lp);
+//		HBRUSH BK = CreateSolidBrush(RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
+//		HDC hdcStatic = (HDC)wp;
+//		SetTextColor(hdcStatic, RGB(EWColorText[0], EWColorText[1], EWColorText[2]));
+//		SetBkColor(hdcStatic, RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
+//		return (INT_PTR)BK;
+//	}
+//
+//
+//	case WM_COMMAND:
+//		for (int i = 0; i < functionallitys.size(); i++)
+//		{
+//			if (functionallitys[i].first == wp)
+//			{
+//				functionallitys[i].second();
+//				break;
+//			}
+//		}
+//		break;
+//
+//
+//
+//	case WM_USER + 1:
+//
+//		//handles manipulation of ChildWindows on thread
+//		if (wp) {
+//			((ChildWindow*)lp)->place();
+//			break;
+//		}
+//		
+//			DestroyWindow(((ChildWindow*)lp)->Hwnd);
+//			break;
+//		
+//		break;
+//	case WM_DESTROY:
+//		DestroyWindow(hwnd);
+//	case WM_CLOSE:
+//		PostQuitMessage(0);
+//
+//
+//		break;
+//	}
+//	return DefWindowProcW(hwnd, msg, wp, lp);
+//}
 
 ExtraWindow::ExtraWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B) :MainWindow(Text, x, y, width, height)
 {

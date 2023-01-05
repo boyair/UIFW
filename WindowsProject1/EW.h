@@ -20,8 +20,6 @@ public:
 
 	//basic functionallity
 	wstring GetText();
-	void Move(int DX, int DY);
-	void Reposition(int x, int y);
 	//style change
 
 	void AddVerticalScrolling();
