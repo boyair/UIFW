@@ -23,14 +23,15 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
 
 	case WM_ERASEBKGND:
-	{
-		if (img.BM)
+
+
+		if (&img && img.BM)
 		{
 			HDC hdc = (HDC)wp;
 			RECT rect;
 			GetClientRect(hwnd, &rect);
 
-			
+
 			img.BM = (HBITMAP)LoadImageW(NULL, img.name.c_str(), IMAGE_BITMAP, rect.right, rect.bottom, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 			// Create a memory device context for the image
 			HDC hdcMem = CreateCompatibleDC(hdc);
@@ -42,12 +43,12 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 			// Clean up
 			DeleteDC(hdcMem);
 			DeleteObject(img.BM);
+
+
+			return 1;
 		}
-
-		return 1;
-	}
-
-
+	
+		break;
 
 	case WM_CTLCOLORSTATIC:
 	{
@@ -115,39 +116,20 @@ LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height):Window(Text, x, y, width, height)
 {
-	
-	//// CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
-	// CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
-	// CLS.hInstance = GetModuleHandle(NULL);
-	// CLS.lpfnWndProc = NonStaticWindowProc;
-	// functionallitys.reserve(4);
-	//style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
-	// CLS.lpszClassName = L"WNDCLS";
-	 
-	//RegisterClassW(&CLS);
-	//Hwnd = CreateWindow(L"WNDCLS", Text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
-	//SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-
+	 CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
+	 CLS.hInstance = GetModuleHandle(NULL);
+	 CLS.lpfnWndProc = NonStaticWindowProc;
+	 functionallitys.reserve(4);
+	 CLS.lpszClassName = Text.c_str();
 }
 
-MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img)
+MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img):MainWindow(Text,x,y,width,height)
 {
-	CLS.hbrBackground =(HBRUSH) COLOR_DESKTOP;
-	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
-	CLS.hInstance = GetModuleHandle(NULL);
+	
 	this->img = img;
-	CLS.lpszClassName = Text.c_str();
-	//CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
-	CLS.hInstance = GetModuleHandle(NULL);
-	CLS.lpfnWndProc = NonStaticWindowProc;
-	functionallitys.reserve(4);
-	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
-	//CLS.lpszClassName = classname.c_str();
-	//CLS.lpfnWndProc = NonStaticWindowProc;
-	//functionallitys.reserve(4);
+	CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
+	style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE;
 	RegisterClassW(&CLS);
-	//style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
 	Hwnd = CreateWindow(Text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 }
@@ -157,19 +139,11 @@ MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height,
 MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B):MainWindow(Text, x, y, width, height)
 {
 	CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
-	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
-	CLS.hInstance = GetModuleHandle(NULL);
-	CLS.lpszClassName = Text.c_str();
 	//CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
-	CLS.hInstance = GetModuleHandle(NULL);
-	CLS.lpfnWndProc = NonStaticWindowProc;
-	functionallitys.reserve(4);
-	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
-	//CLS.lpszClassName = classname.c_str();
-	//CLS.lpfnWndProc = NonStaticWindowProc;
-	//functionallitys.reserve(4);
+
+
 	RegisterClassW(&CLS);
-	//style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
 	Hwnd = CreateWindow(Text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	
@@ -235,13 +209,6 @@ void MainWindow::RemoveMenuBar()
 
 void MainWindow::start()
 {
-
-	
-	
-
-	//SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-	//save = GetWindowLongPtr(Hwnd, GWLP_USERDATA);
-
 	MSG msg;
 	
 	while (GetMessage(&msg, Hwnd, NULL, NULL) > 0)

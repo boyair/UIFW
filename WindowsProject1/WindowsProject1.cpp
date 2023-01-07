@@ -8,10 +8,11 @@
 #include "MainWindow.h"
 
 
-ChildWindow edit;
- ChildWindow extest;
+ ChildWindow edit;
+ EW extest;
  Button nums[10] = {(0),(1),(2),(3),(4),(5),(6),(7),(8),(9)};
  Button nums2[10] = { (0),(1),(2),(3),(4),(5),(6),(7),(8),(9) };
+ ChildWindow colors[10];
  ChildWindow tester;
  int i;
 image img(L"B.bmp");
@@ -45,6 +46,7 @@ nums2[7].Remove();
 edit.SetText(edit.GetText() + L"4");
 //edit.AddBorder();
 extest.Reposition(900, 900);
+edit.Reposition(900, 900);
 }
 
 ,[]() {edit.SetText(edit.GetText() + L"5"); 
@@ -74,10 +76,12 @@ int main()
 		wss << i;
 
 		nums2[i].set(wss.str().c_str(), ((i % 3) + 1) * 60, i / 3 * 60 + 60, 30, 30, &win2);
-
+		
 		win2.AddFunc(i, buttons[i]);
 		wss.clear();
 	}
+
+	
 	win2.SetColor_EW_BK(0, 255, 0);
 	win2.SetColor_EW_Text(255, 0, 0);
 	//extest.AddVerticalScrolling();

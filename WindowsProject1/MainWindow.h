@@ -34,7 +34,6 @@ protected:
 	 void AddMenu(const wstring& name, long id, bool parent);
 	 bool AddSubMenu(const wstring& name,int menuindex, long id);
 	 void RemoveMenuBar();
-
 	 virtual void start();
 	 void Destroy();
 	 bool AddFunc(int id, void(*func)());
