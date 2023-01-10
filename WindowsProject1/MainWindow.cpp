@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include "ChildWindow.h"
-//should change this to unordered_map
 
 
 LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
@@ -23,28 +22,30 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
 
 	case WM_ERASEBKGND:
-
-
+	
+	
 		if (&img && img.BM)
 		{
+			
 			HDC hdc = (HDC)wp;
 			RECT rect;
 			GetClientRect(hwnd, &rect);
-
-
-			img.BM = (HBITMAP)LoadImageW(NULL, img.name.c_str(), IMAGE_BITMAP, rect.right, rect.bottom, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+	
+	
+			img.BM = (HBITMAP)LoadImageW(NULL, img.name.c_str(), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 			// Create a memory device context for the image
 			HDC hdcMem = CreateCompatibleDC(hdc);
 			SelectObject(hdcMem, img.BM);
-
+	
 			// Stretch the image to fit the window
-			StretchBlt(hdc, 0, 0, rect.right, rect.bottom, hdcMem, 0, 0, rect.right, rect.bottom, SRCCOPY);
-
+			SetStretchBltMode(hdc, HALFTONE);
+			StretchBlt(hdc, 0, 0, rect.right, rect.bottom, hdcMem, 0, 0, img.width, img.height, SRCCOPY);
+	
 			// Clean up
 			DeleteDC(hdcMem);
 			DeleteObject(img.BM);
-
-
+	
+	
 			return 1;
 		}
 	
@@ -94,6 +95,8 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
 
 	case WM_DESTROY:
+		if(onexit)
+			onexit();
 		PostQuitMessage(0);
 		break;
 	}
@@ -102,8 +105,8 @@ LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 }
 LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	LONG_PTR save = GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	MainWindow* window = reinterpret_cast<MainWindow*>(save);
+	
+	MainWindow* window = reinterpret_cast<MainWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	if (window)
 	
 		return window->Proc(hwnd, uMsg, wParam, lParam);
@@ -116,42 +119,80 @@ LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height):Window(Text, x, y, width, height)
 {
+	 //sets up WNDCLS except for background
 	 CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 	 CLS.hInstance = GetModuleHandle(NULL);
 	 CLS.lpfnWndProc = NonStaticWindowProc;
-	 functionallitys.reserve(4);
 	 CLS.lpszClassName = Text.c_str();
+
+	 functionallitys.reserve(4);
+}
+
+MainWindow::MainWindow(wstring&& Text, int x, int y, int width, int height) :Window(std::move(Text), x, y, width, height)
+{
+	//sets up WNDCLS except for background
+	CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
+	CLS.hInstance = GetModuleHandle(NULL);
+	CLS.lpfnWndProc = NonStaticWindowProc;
+	CLS.lpszClassName = text.c_str();
+
+	functionallitys.reserve(4);
 }
 
 MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img):MainWindow(Text,x,y,width,height)
 {
-	
+	//sets background image
 	this->img = img;
 	CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
+	//make window unresizeable
 	style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE;
 	RegisterClassW(&CLS);
+	//create window
 	Hwnd = CreateWindow(Text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 }
 
-
-
-MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B):MainWindow(Text, x, y, width, height)
+MainWindow::MainWindow(wstring&& Text, int x, int y, int width, int height, const image& img) :MainWindow(std::move(Text), x, y, width, height)
 {
-	CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
-	//CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
-
-
+	//sets background image
+	this->img = img;
+	CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
+	//make window unresizeable
+	style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE;
 	RegisterClassW(&CLS);
+	//create window
+	Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+}
+
+
+MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B):MainWindow(Text, x, y, width, height)
+{
+	//sets background image
+	CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+	//make window resizeable
 	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
-	Hwnd = CreateWindow(Text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+	RegisterClassW(&CLS);
+	//create window
+	Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	
+}
 
+MainWindow::MainWindow(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B) :MainWindow(std::move(Text), x, y, width, height)
+{
+	//sets background image
+	CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+	//make window resizeable
+	style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	RegisterClassW(&CLS);
+	//create window
+	Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+	SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
 }
 
-void MainWindow::SetColor_Child_Text(char R, char G, char B)
+void MainWindow::SetColor_Child_Text(unsigned char R, unsigned  char G, unsigned  char B)
 {
 	ChildColorText[0] = R;
 	ChildColorText[1] = G;
@@ -159,7 +200,7 @@ void MainWindow::SetColor_Child_Text(char R, char G, char B)
 
 }
 
-void MainWindow::SetColor_Child_BK(char R, char G, char B)
+void MainWindow::SetColor_Child_BK(unsigned char R, unsigned  char G, unsigned  char B)
 {
 	
 	ChildColorBK[0] = R;
@@ -167,14 +208,14 @@ void MainWindow::SetColor_Child_BK(char R, char G, char B)
 	ChildColorBK[2] = B;
 }
 
-void MainWindow::SetColor_EW_Text(char R, char G, char B)
+void MainWindow::SetColor_EW_Text(unsigned char R, unsigned  char G, unsigned  char B)
 {
 	EWColorText[0] = R;
 	EWColorText[1] = G;
 	EWColorText[2] = B;
 }
 
-void MainWindow::SetColor_EW_BK(char R, char G, char B)
+void MainWindow::SetColor_EW_BK(unsigned char R, unsigned  char G, unsigned  char B)
 {
 	EWColorBK[0] = R;
 	EWColorBK[1] = G;

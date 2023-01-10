@@ -5,7 +5,6 @@
 
 class ExtraWindow:public MainWindow
 {
-	friend LRESULT CALLBACK NonStaticWindowProcThread(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	friend void HandleOnThread(ExtraWindow& window);
 	friend class ChildWindow;
 	
@@ -13,8 +12,7 @@ public:
 	DWORD MainID = GetCurrentThreadId();
 	std::thread procthread ;
 	bool started = false;
-	ExtraWindow(const wstring& Text, int x, int y, int width, int height, int R, int G, int B);
-	
+	ExtraWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
 	void start() override {};
 	~ExtraWindow();
 

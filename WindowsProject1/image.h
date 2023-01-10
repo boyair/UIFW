@@ -14,9 +14,12 @@ class image
 
 public:
 	bool LoadFromFile(wstring&& name,int width,int height);
+	bool LoadFromFile(const wstring& name, int width, int height);
 	bool LoadFromFile(wstring&& name);
-	image();
+	bool LoadFromFile(const wstring& name);
 	image(wstring&& name);
+	image(const wstring& name);
+	image();
 	~image();
 	bool ConatainsImage();
 	

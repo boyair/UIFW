@@ -12,14 +12,14 @@ ChildWindow::ChildWindow() :Window(), parent(NULL),img(NULL)
 ChildWindow::ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent) :Window(Text,x,y,width,height) ,parent(parent)
 {
 	style = (WS_VISIBLE | WS_CHILD);
-	place();
+	placeExtra();
 }
 
 ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent) :  Window(std::move(Text), x, y, width, height), parent(parent)
 {
 	style = (WS_VISIBLE | WS_CHILD);
 
-	place();
+	placeExtra();
 }
 
 

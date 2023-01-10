@@ -18,15 +18,41 @@ Button::Button(long long id):ChildWindow(),id(id)
 
 }
 
-Button::Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow* parent)  :ChildWindow(Text, x, y, width, height, parent),id(id)  {	}
+Button::Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow* parent)  
+	:id(id)
+{	
 
-Button::Button(wstring&& Text, int x, int y, int width, int height, long long id, MainWindow* parent) :ChildWindow((wstring&&) Text, x, y, width, height, parent), id(id)
+
+	//sets the variables
+	text = Text;
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->parent = parent;
+	//place the button
+	placeExtra();
+
+}
+
+Button::Button(wstring&& Text, int x, int y, int width, int height, long long id, MainWindow* parent) 
+	: id(id)
 {
+	//sets the variables
+	text = std::move(Text);
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->parent = parent;
+	//place the button
+	placeExtra();
 }
 
 void Button::addimage( image& img)
 {
-	if (!parent || style == (style | BS_BITMAP)) return;
+	//returns if window dosent exist.
+	if (!parent || !Hwnd) return;
 
 	style = style | BS_BITMAP;
 	DestroyWindow(Hwnd);

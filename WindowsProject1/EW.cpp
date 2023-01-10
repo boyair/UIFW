@@ -20,15 +20,29 @@ void EW::UpdateText()
 
 EW::EW():ChildWindow()
 {
-	
 }
 
 EW::EW(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
-		:ChildWindow( Text,  x,  y,  width,  height,  parent){	}
+{
+	text = Text;
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->parent = parent;
+	placeExtra();
+
+}
 
 EW::EW(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
-	:ChildWindow((wstring&&) Text, x, y, width, height, parent)
 {
+	text = std::move(Text);
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->parent = parent;
+	placeExtra();
 }
 
 

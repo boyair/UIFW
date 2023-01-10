@@ -1,10 +1,11 @@
 #pragma once
 #include "ChildWindow.h"
+
 class Button: public ChildWindow
 {
 	long long id;
 	void place() override;
-	static long BTBKCLR, BTTXCLR;
+
 
 
 public:

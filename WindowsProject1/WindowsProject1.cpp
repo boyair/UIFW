@@ -16,9 +16,9 @@
  ChildWindow tester;
  int i;
 image img(L"B.bmp");
- MainWindow win(L"W working window1", 500, 20, 1000, 1000,img);
- ExtraWindow win2(L"W working window2", 1000, 20, 1000, 1000, 255, 0, 0);
- ExtraWindow win3(L"W working window3", 2000, 20, 1000, 1000, 0, 255, 0);
+ MainWindow win(L"W working window1", 500, 20, 1000, 1000, 90, 245, 78);
+ ExtraWindow win2(L"W working window2", 1000, 20, 1000, 1000,90,245,78);
+ ExtraWindow win3(L"W working window3", 2000, 20, 1000, 1000,200,45,23);
  
  Button move(5);
  Button Typer(1);
@@ -35,30 +35,24 @@ win.RemoveMenuBar(); },
 
 []() {edit.SetText(edit.GetText() + L"3");
 win2.RemoveMenuBar(); 
+UpdateWindow(win3.Hwnd);
 
 },
 []() {
 
-	//edit.E_Destroy();
-	//win2.AddMenu(L"FILE", 4, false);
-//	img.LoadFromFile(L"B");
 nums2[7].Remove();
 edit.SetText(edit.GetText() + L"4");
 //edit.AddBorder();
 extest.Reposition(900, 900);
 edit.Reposition(900, 900);
 }
-
 ,[]() {edit.SetText(edit.GetText() + L"5"); 
-
-//extest.AddBorder();
 },[]() {edit.SetText(edit.GetText() + L"6"); },
-[]() {edit.SetText(edit.GetText() + L"7"); },[]() {edit.SetText(edit.GetText() + L"8"); },[]() {edit.SetText(edit.GetText() + L"9"); },
+[]() {edit.SetText(edit.GetText() + L"7"); nums2[7].Destroy(); },[]() {edit.SetText(edit.GetText() + L"8"); },[]() {edit.SetText(edit.GetText() + L"9"); },
 
 
 };
 int main()
-
 {
 
 	for (int i = 0; i < 10; i++)
@@ -85,9 +79,11 @@ int main()
 	win2.SetColor_EW_BK(0, 255, 0);
 	win2.SetColor_EW_Text(255, 0, 0);
 	//extest.AddVerticalScrolling();
+	Button on3(L"bk", 80, 80, 80, 80,7, &win3);
 	
 	extest.set(L"LOL", 500, 500, 90, 90, &win2);
-	
+	win.onexit = []() 
+	{nums2[7].E_Destroy(); };
 	win.AddMenu(L"quit", 11, 0);
 	win.AddMenu(L"file", 1, true);
 	win.AddSubMenu(L"sub", 0, 1);
