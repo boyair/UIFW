@@ -2,19 +2,17 @@
 #include"MainWindow.h"
 #include <thread>
 
+namespace UIFW {
+	class ExtraWindow :public MainWindow
+	{
+		friend void HandleOnThread(ExtraWindow& window);
+		friend class ChildWindow;
 
-class ExtraWindow:public MainWindow
-{
-	friend void HandleOnThread(ExtraWindow& window);
-	friend class ChildWindow;
-	
-public:
-	DWORD MainID = GetCurrentThreadId();
-	std::thread procthread ;
-	bool started = false;
-	ExtraWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
-	void start() override {};
-	~ExtraWindow();
+	public:
+		HANDLE winmade; //handle to event which is et when window was made
+		std::thread procthread; //the thread on which the message loop run
+		ExtraWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
+		~ExtraWindow();
 
-};
-
+	};
+}

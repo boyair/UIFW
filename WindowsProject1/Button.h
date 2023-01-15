@@ -1,22 +1,22 @@
 #pragma once
 #include "ChildWindow.h"
-
-class Button: public ChildWindow
-{
-	long long id;
-	void place() override;
-
-
-
-public:
-	
-	Button(long long id);
-	Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow* parent) ;
-	Button( wstring&& Text, int x, int y, int width, int height, long long id, MainWindow* parent) ;
-	
-	void addimage( image& img) override;
-	~Button();
+namespace UIFW {
+	class Button : public ChildWindow
+	{
+		long long id;
+		void place() override;
+		void SendImage() override;
 
 
-};
+	public:
 
+		Button(long long id);
+		Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow* parent);
+		Button(wstring&& Text, int x, int y, int width, int height, long long id, MainWindow* parent);
+		void Addimage(image& img) override;
+		~Button();
+
+
+	};
+
+}

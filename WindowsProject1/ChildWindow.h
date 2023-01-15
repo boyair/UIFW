@@ -5,58 +5,57 @@
 #include "ExtraWindow.h"
 
 #define Border 0x00800000L
-
-class ChildWindow:public Window
-{
-	friend class MainWindow;
-	friend class ExtraWindow;
-protected:
-	MainWindow* parent;
-	image* img;
-	
-	
-	virtual void place();
-	virtual void placeExtra();
-	virtual void destroyExtra();
-	
+namespace UIFW {
+	class ChildWindow :public Window
+	{
+		friend class MainWindow;
+		friend class ExtraWindow;
+	protected:
+		MainWindow* parent;
+		image* img;
 
 
-public:
-	
-	
-	ChildWindow(); 
-	ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
-	ChildWindow( wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		virtual void place();
+		inline void placeExtra();
+		inline void destroyExtra();
+		virtual void AddImageExtra();
+		virtual void SendImage();
 
-	void SetText(const wstring& Text);
-	void SetText(wstring&& Text);
+		HANDLE winmade = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-	
+	public:
 
-	virtual void addimage(image& name) ;
-	virtual void AddBorder();
-	virtual void RemoveBorder();
-	virtual void resize(int width, int height);
-	virtual void Move(int DX, int DY);
-	virtual void Reposition(int x,int y);
-	        void set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
-			void set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
-			const wstring& GetText() const;
-			void E_set(const wstring& Text, int x, int y, int width, int height, ExtraWindow* parent);
-			void E_set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent);
-			void E_Destroy();
+
+		//constructors
+		ChildWindow();
+		ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+		ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+
+		//manipulation
+		virtual void Addimage(image& name);
+		void AddBorder();
+		void RemoveBorder();
+		void resize(int width, int height);
+		void Move(int DX, int DY);
+		void Reposition(int x, int y);
+		//setup (not fron constructor)
+		void set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+		void set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		const wstring& GetText() const;
+		void E_Destroy();
 
 
 
-	
 
 
-	
-
-	//void set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent);
-	 
-	void Remove();
 
 
-};
 
+		//void set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent);
+
+		void Remove();
+
+
+	};
+
+}

@@ -137,10 +137,10 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="Menu.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="EW.h" />
+    <ClInclude Include="UIFW.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsProject1.h" />
     <ClInclude Include="wstring.h" />
@@ -151,7 +151,6 @@
     <ClCompile Include="ExtraWindow.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="MainWindow.cpp" />
-    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="EW.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowsProject1.cpp" />

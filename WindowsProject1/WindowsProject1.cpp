@@ -1,105 +1,86 @@
 #include <sstream>
-#include<thread>
-#include "ExtraWindow.h"
-#include "Menu.h"
-#include "EW.h"
-#include "Button.h"
-#include "image.h"
-#include "MainWindow.h"
-
-
- ChildWindow edit;
- EW extest;
- Button nums[10] = {(0),(1),(2),(3),(4),(5),(6),(7),(8),(9)};
- Button nums2[10] = { (0),(1),(2),(3),(4),(5),(6),(7),(8),(9) };
- ChildWindow colors[10];
- ChildWindow tester;
- int i;
+#include "UIFW.h"
+using namespace UIFW;
+image img2(L"tank",90,90);
 image img(L"B.bmp");
- MainWindow win(L"W working window1", 500, 20, 1000, 1000, 90, 245, 78);
- ExtraWindow win2(L"W working window2", 1000, 20, 1000, 1000,90,245,78);
- ExtraWindow win3(L"W working window3", 2000, 20, 1000, 1000,200,45,23);
+MainWindow win(L"W working window1", 500, 20, 1000, 1000, img);
+ExtraWindow win2(L"W working window2", 1000, 20, 1000, 1000,90,245,78);
+ExtraWindow win3(L"W working window3", 2000, 20, 1000, 1000,200,45,23);
+Button nums2[10] = { (0),(1),(2),(3),(4),(5),(6),(7),(8),(9) };
+Button nums[10] = {(0),(1),(2),(3),(4),(5),(6),(7),(8),(9)};
+ChildWindow edit;
+EW editest(L"test", 500, 500, 100, 100, &win);
  
- Button move(5);
- Button Typer(1);
 
 
 
 
 void(*buttons[])() = { 
-	[]() {edit.SetText(edit.GetText() + L"0"); },
-	[]() {edit.SetText(edit.GetText() + L"1"); 
-win.RemoveMenuBar(); }, 
+	[]() {edit.SetText(edit.GetText() + L"0");
+POINT p = win2.GetMousePos();
 
-[]() {edit.SetText(edit.GetText() + L"2"); },
+std::wstringstream ss;
+ss << p.x << L"  " << p.y;
+nums[0].SetText(ss.str().c_str());
+
+},
+	[]() {edit.SetText(edit.GetText() + L"1"); 
+win.RemoveMenuBar(); },
+
+[]() {edit.SetText(edit.GetText() + L"2"); 
+edit.SetText(L"LOLOLO");
+nums[6].Addimage(img2);
+editest.AddVerticalScrolling();
+},
 
 []() {edit.SetText(edit.GetText() + L"3");
 win2.RemoveMenuBar(); 
 UpdateWindow(win3.Hwnd);
-
+editest.RemoveVerticalScrolling();
 },
 []() {
 
-nums2[7].Remove();
 edit.SetText(edit.GetText() + L"4");
 //edit.AddBorder();
-extest.Reposition(900, 900);
+edit.set(0, 500, 700, 500, 100, &win);
 edit.Reposition(900, 900);
 }
 ,[]() {edit.SetText(edit.GetText() + L"5"); 
 },[]() {edit.SetText(edit.GetText() + L"6"); },
-[]() {edit.SetText(edit.GetText() + L"7"); nums2[7].Destroy(); },[]() {edit.SetText(edit.GetText() + L"8"); },[]() {edit.SetText(edit.GetText() + L"9"); },
+[]() {edit.SetText(edit.GetText() + L"7");  },[]() {edit.SetText(edit.GetText() + L"8"); },[]() {edit.SetText(edit.GetText() + L"9"); },
 
 
 };
 int main()
 {
-
+	//win2.AddMenu(L"long menu name what will happen??", 6, false);
 	for (int i = 0; i < 10; i++)
 	{
 		std::wstringstream wss;
 		wss << i;
 
-		nums[i].set(wss.str().c_str(), ((i % 3) + 1) * 60, i / 3 * 60 + 60, 30, 30, &win);
-		win.AddFunc(i, buttons[i]);
-		wss.clear();
-	}
-	for (int i = 0; i < 10; i++)
-	{
-		std::wstringstream wss;
-		wss << i;
-
-		nums2[i].set(wss.str().c_str(), ((i % 3) + 1) * 60, i / 3 * 60 + 60, 30, 30, &win2);
+		nums2[i].set(wss.str().c_str(), ((i % 3) + 1) * 90, i / 3 * 90 + 90, 30, 30, &win2);
 		
 		win2.AddFunc(i, buttons[i]);
 		wss.clear();
 	}
+	//nums2[6].Addimage(img2);
 
-	
-	win2.SetColor_EW_BK(0, 255, 0);
-	win2.SetColor_EW_Text(255, 0, 0);
-	//extest.AddVerticalScrolling();
-	Button on3(L"bk", 80, 80, 80, 80,7, &win3);
-	
-	extest.set(L"LOL", 500, 500, 90, 90, &win2);
-	win.onexit = []() 
-	{nums2[7].E_Destroy(); };
-	win.AddMenu(L"quit", 11, 0);
-	win.AddMenu(L"file", 1, true);
-	win.AddSubMenu(L"sub", 0, 1);
-	edit.set(L"kok", 400, 400, 400, 100, &win);
-	win2.SetText(L"changed text");
-	Typer.set(L"LOL", 230, 190, 90, 90, &win);
-	//  nums2->SetText(L"n");
+for (int i = 0; i < 10; i++)
+	{
+		std::wstringstream wss;
+		wss << i;
 
-	win2.AddFunc(1, buttons[1]);
-	win3.AddFunc(1, buttons[2]);
-	win2.AddMenu(L"Test", 5, false);
-	win.AddFunc(11, []() {int i = MessageBox(win.Hwnd, L"title", L"Text", MB_YESNO|MB_ICONERROR|MB_SYSTEMMODAL);
+		nums[i].set(wss.str().c_str(), ((i % 3) + 1) * 90, i / 3 * 90 + 90, 90, 90, &win);
+		win.AddFunc(i, buttons[i]);
+		wss.clear();
+	}
 
-	if (i == 6)  win2.Destroy(); });
+//edit.set(0, 500, 500, 500, 100, &win);
 
 	win.start();
+	
+
 
 	
 
