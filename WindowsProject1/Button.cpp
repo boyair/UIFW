@@ -63,10 +63,10 @@ namespace UIFW {
 		if (!parent) return;
 
 		style = style | BS_BITMAP;
-		destroyExtra();
-		placeExtra();
-		AddImageExtra();
-
+		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
+		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+	//	AddImageExtra();
+		SendMessageW(Hwnd, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
 	}
 
 

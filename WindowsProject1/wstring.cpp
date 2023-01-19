@@ -246,7 +246,6 @@ namespace UIFW {
 		size_t newsize = getlength() + other.getlength() + 1;
 		resize(newsize);
 		wchar_t* cont = str + getlength();
-		int i = wcslen(other.c_str()) * sizeof(wchar_t);
 
 		memcpy(cont, other.c_str(), (wcslen(other.c_str()) + 1) * sizeof(wchar_t));
 		// str[newsize - 1] = 0;
