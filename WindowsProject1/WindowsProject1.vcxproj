@@ -148,7 +148,6 @@
     <ClInclude Include="EW.h" />
     <ClInclude Include="UIFW.h" />
     <ClInclude Include="Window.h" />
-    <ClInclude Include="WindowsProject1.h" />
     <ClInclude Include="wstring.h" />
   </ItemGroup>
   <ItemGroup>
@@ -159,7 +158,6 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="EW.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WindowsProject1.cpp" />
     <ClCompile Include="wstring.cpp" />
   </ItemGroup>
   <ItemGroup>
