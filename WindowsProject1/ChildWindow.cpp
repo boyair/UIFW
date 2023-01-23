@@ -88,7 +88,6 @@ namespace UIFW {
 		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
 		SendImage();
-		//AddImageExtra();
 	}
 
 

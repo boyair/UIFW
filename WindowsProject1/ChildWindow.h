@@ -25,11 +25,11 @@ namespace UIFW {
 
 	public:
 
-
 		//constructors
 		ChildWindow();
 		ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
 		ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		ChildWindow(ChildWindow&) = delete;
 
 		//manipulation
 		virtual void Addimage(image& name);

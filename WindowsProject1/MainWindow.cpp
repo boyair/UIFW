@@ -292,7 +292,7 @@ namespace UIFW {
 		PostMessage(Hwnd, WM_DESTROY, 0, 0);
 	}
 
-	bool MainWindow::AddFunc(int id, void(*func)())
+	bool MainWindow::AddFunc(int id, std::function<void()> func)
 	{
 		//test if id exists already
 		for (auto p : functionallitys)

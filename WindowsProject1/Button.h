@@ -7,8 +7,8 @@ namespace UIFW {
 		void place() override;
 		void SendImage() override;
 
-
 	public:
+		Button(Button&) = delete;
 
 		Button(long long id);
 		Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow* parent);

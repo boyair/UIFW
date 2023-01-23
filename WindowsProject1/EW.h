@@ -17,7 +17,7 @@ namespace UIFW {
 		EW();
 		EW(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
 		EW(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
-
+		EW(EW&) = delete;
 
 		//basic functionallity
 		wstring GetText();

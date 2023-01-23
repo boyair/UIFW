@@ -1,9 +1,7 @@
 #pragma once
 #include <functional>
 #include <vector>
-#include <utility>
 #include "Window.h"
-//#include <thread>
 namespace UIFW {
 	class MainWindow : public Window
 	{
@@ -14,7 +12,7 @@ namespace UIFW {
 	protected:
 		std::vector<HMENU> ChildMenus;
 		HMENU menu = CreateMenu();
-		std::vector<std::pair<int, void(*)()>> functionallitys;
+		std::vector<std::pair<int, std::function<void()>>> functionallitys;
 		unsigned char ChildColorText[3]{ 0,0,0 };
 		unsigned char ChildColorBK[3]{ 255,255,255 };
 		unsigned char EWColorText[3]{ 255,255,255 };
@@ -46,7 +44,7 @@ namespace UIFW {
 
 		void start();
 		void Destroy();
-		bool AddFunc(int id, void(*func)());
+		bool AddFunc(int id, std::function<void()>);
 
 
 	};
