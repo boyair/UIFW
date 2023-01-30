@@ -19,6 +19,8 @@ namespace UIFW {
 		RECT GetRECT();
 		void SetText(const wstring& Text);
 		void Destroy();
+		void hide();
+		void show();
 	};
 
 }

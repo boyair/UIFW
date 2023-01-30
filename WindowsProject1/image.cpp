@@ -29,7 +29,7 @@ namespace UIFW {
 
 		//set the name
 		this->name = std::move(name);
-		if (this->name[this->name.getlength() - 4] != L'.')
+		if (this->name.getlength() < 4 || this->name[this->name.getlength() - 4] != L'.')
 			this->name += (wstring)L".bmp";
 
 		//loads the image and sets parameters
@@ -46,7 +46,7 @@ namespace UIFW {
 
 		//set the name
 		this->name = name;
-		if (this->name[this->name.getlength() - 4] != L'.')
+		if (this->name.getlength() < 4 || this->name[this->name.getlength() - 4] != L'.')
 			this->name += (wstring)L".bmp";
 
 		//loads the image and sets parameters
@@ -74,7 +74,7 @@ namespace UIFW {
 
 		//set the name
 		this->name = std::move(name);
-		if (this->name[this->name.getlength() - 4] != L'.')
+		if (this->name.getlength() < 4||this->name[this->name.getlength() - 4] != L'.')
 			this->name += (wstring)L".bmp";
 
 		//loads the image and sets parameters
@@ -93,7 +93,7 @@ namespace UIFW {
 
 		//set the name
 		this->name = name;
-		if (this->name[this->name.getlength() - 4] != L'.')
+		if (this->name.getlength() < 4 || this->name[this->name.getlength() - 4] != L'.')
 			this->name += (wstring)L".bmp";
 
 		//loads the image and sets parameters

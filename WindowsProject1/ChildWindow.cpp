@@ -7,18 +7,16 @@ namespace UIFW {
 		style = (WS_VISIBLE | WS_CHILD);
 	}
 
-
-
 	ChildWindow::ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent) :Window(Text, x, y, width, height), parent(parent)
 	{
 		style = (WS_VISIBLE | WS_CHILD);
-		placeExtra();
+		PlaceExtra();
 	}
 
 	ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent) : Window(std::move(Text), x, y, width, height), parent(parent)
 	{
 		style = (WS_VISIBLE | WS_CHILD);
-		placeExtra();
+		PlaceExtra();
 	}
 
 
@@ -29,7 +27,7 @@ namespace UIFW {
 
 	}
 
-	void ChildWindow::placeExtra()
+	void ChildWindow::PlaceExtra()
 	{
 		//send to parent window to make the window if its on a different thread.
 		if (GetCurrentThreadId() != GetWindowThreadProcessId(parent->Hwnd, 0))
@@ -42,7 +40,7 @@ namespace UIFW {
 		place();
 	}
 
-	void ChildWindow::destroyExtra()
+	void ChildWindow::DestroyExtra()
 	{
 		//send to parent window to destroy the window if its on a different thread.
 		if (GetCurrentThreadId() != GetWindowThreadProcessId(parent->Hwnd, 0))
@@ -52,7 +50,7 @@ namespace UIFW {
 			ResetEvent(winmade);
 			return;
 		}
-		Destroy();
+		DestroyWindow(Hwnd);
 
 	}
 
@@ -71,14 +69,6 @@ namespace UIFW {
 		SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img->BM);
 	}
 
-
-
-
-
-
-
-
-
 	void ChildWindow::Addimage(image& img)
 	{
 		if (!parent->Hwnd || style == (style | SS_BITMAP)) return;
@@ -90,10 +80,6 @@ namespace UIFW {
 		SendImage();
 	}
 
-
-
-
-
 	void ChildWindow::Move(int DX, int DY)
 	{
 
@@ -104,29 +90,11 @@ namespace UIFW {
 	}
 
 
-
-
-
-
-
-	void ChildWindow::E_Destroy()
-	{
-		destroyExtra();
-
-	}
-
 	void ChildWindow::resize(int width, int height)
 	{
 		this->width = width;
 		this->height = height;
 		SetWindowPos(Hwnd, 0, x, y, width, height, 0);
-	}
-
-	void ChildWindow::Remove()
-	{
-		DestroyWindow(Hwnd);
-
-
 	}
 
 	void ChildWindow::AddBorder()
@@ -138,9 +106,6 @@ namespace UIFW {
 
 	}
 
-
-
-
 	void ChildWindow::RemoveBorder()
 	{
 		style = style & ~ES_AUTOHSCROLL;
@@ -151,15 +116,9 @@ namespace UIFW {
 
 	void ChildWindow::Reposition(int x, int y)
 	{
-
-
 		this->x = x;
 		this->y = y;
-
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
-
-
-
 	}
 
 	const wstring& ChildWindow::GetText() const
@@ -167,8 +126,7 @@ namespace UIFW {
 		return text;
 	}
 
-
-	void ChildWindow::set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
+	void ChildWindow::Set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
 		if (!parent) return;
 		this->parent = parent;
@@ -176,16 +134,11 @@ namespace UIFW {
 		this->y = y;
 		this->width = width;
 		this->height = height;
-
 		text = Text;
-
-
-
-
-		placeExtra();
+		PlaceExtra();
 	}
 
-	void ChildWindow::set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
+	void ChildWindow::Set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
 		if (!parent) return;
 		this->parent = parent;
@@ -196,8 +149,12 @@ namespace UIFW {
 
 		text = std::move(Text);
 
-		placeExtra();
+		PlaceExtra();
 
+	}
+	void ChildWindow::Destroy()
+	{
+		DestroyExtra();
 	}
 }
 

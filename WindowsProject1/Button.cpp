@@ -38,7 +38,7 @@ namespace UIFW {
 		this->height = height;
 		this->parent = parent;
 		//place the button
-		placeExtra();
+		PlaceExtra();
 
 	}
 
@@ -53,7 +53,7 @@ namespace UIFW {
 		this->height = height;
 		this->parent = parent;
 		//place the button
-		placeExtra();
+		PlaceExtra();
 	}
 
 	void Button::Addimage(image& img)

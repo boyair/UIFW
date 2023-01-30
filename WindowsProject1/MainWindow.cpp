@@ -19,7 +19,7 @@ namespace UIFW {
 				break;
 
 			case 2:
-				((ChildWindow*)lp)->Destroy();
+				DestroyWindow(((ChildWindow*)lp)->Hwnd);
 				SetEvent(((ChildWindow*)lp)->winmade);
 				break;
 
@@ -79,10 +79,10 @@ namespace UIFW {
 		{
 
 			DWORD CtrlID = GetDlgCtrlID((HWND)lp);
-			HBRUSH BK = CreateSolidBrush(RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
+			HBRUSH BK = CreateSolidBrush(RGB(EditWindowColorBK[0], EditWindowColorBK[1], EditWindowColorBK[2]));
 			HDC hdcStatic = (HDC)wp;
-			SetTextColor(hdcStatic, RGB(EWColorText[0], EWColorText[1], EWColorText[2]));
-			SetBkColor(hdcStatic, RGB(EWColorBK[0], EWColorBK[1], EWColorBK[2]));
+			SetTextColor(hdcStatic, RGB(EditWindowColorText[0], EditWindowColorText[1], EditWindowColorText[2]));
+			SetBkColor(hdcStatic, RGB(EditWindowColorBK[0], EditWindowColorBK[1], EditWindowColorBK[2]));
 			return (INT_PTR)BK;
 		}
 
@@ -116,7 +116,7 @@ namespace UIFW {
 		return DefWindowProcW(hwnd, msg, wp, lp);
 
 	}
-	LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	static LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 
 		MainWindow* window = reinterpret_cast<MainWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
@@ -231,18 +231,18 @@ namespace UIFW {
 		ChildColorBK[2] = B;
 	}
 
-	void MainWindow::SetColor_EW_Text(unsigned char R, unsigned  char G, unsigned  char B)
+	void MainWindow::SetColor_EditWindow_Text(unsigned char R, unsigned  char G, unsigned  char B)
 	{
-		EWColorText[0] = R;
-		EWColorText[1] = G;
-		EWColorText[2] = B;
+		EditWindowColorText[0] = R;
+		EditWindowColorText[1] = G;
+		EditWindowColorText[2] = B;
 	}
 
-	void MainWindow::SetColor_EW_BK(unsigned char R, unsigned  char G, unsigned  char B)
+	void MainWindow::SetColor_EditWindow_BK(unsigned char R, unsigned  char G, unsigned  char B)
 	{
-		EWColorBK[0] = R;
-		EWColorBK[1] = G;
-		EWColorBK[2] = B;
+		EditWindowColorBK[0] = R;
+		EditWindowColorBK[1] = G;
+		EditWindowColorBK[2] = B;
 	}
 
 	void MainWindow::AddMenu(const wstring& name, long id, bool parent)
@@ -305,4 +305,6 @@ namespace UIFW {
 		return true;
 	}
 
+
+	
 }

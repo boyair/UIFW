@@ -196,9 +196,9 @@ namespace UIFW {
 
 	wchar_t& wstring::operator[](size_t index)
 	{
+
+
 #ifdef _DEBUG 
-
-
 		if (index > getsize() - 2)
 		{
 			return *((wchar_t*)(nullptr));

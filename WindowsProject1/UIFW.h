@@ -2,6 +2,6 @@
 
 
 #include "image.h"
-#include "EW.h"
+#include "EditWindow.h"
 #include "Button.h"
 #include"ExtraWindow.h"

@@ -1,5 +1,5 @@
 #include "Window.h"
-namespace UIFW 
+namespace UIFW
 {
 	Window::Window(const wstring& Text, int x, int y, int width, int height) : x(x), y(y), width(width), height(height), Hwnd(NULL), text(Text), style(WS_VISIBLE)
 	{
@@ -44,5 +44,14 @@ namespace UIFW
 		DestroyWindow(Hwnd);
 		//Hwnd = nullptr;
 
+	}
+
+	void Window::hide()
+	{
+		ShowWindow(Hwnd, 0);
+	}
+	void Window::show()
+	{
+		ShowWindow(Hwnd, 1);
 	}
 }

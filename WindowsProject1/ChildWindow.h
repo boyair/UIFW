@@ -15,10 +15,10 @@ namespace UIFW {
 		image* img;
 
 
-		virtual void place();
-		inline void placeExtra();
-		inline void destroyExtra();
-		virtual void AddImageExtra();
+		virtual void place(); // runs the command needed to create a window
+		void PlaceExtra();	//sends a message to parent window to run place() on its thread.
+		void DestroyExtra(); //sends a message to parent window to run Destroy() on its thread.
+		virtual void AddImageExtra();//sends a message to parent window to run Destroy() on its thread.
 		virtual void SendImage();
 
 		HANDLE winmade = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -38,22 +38,13 @@ namespace UIFW {
 		void resize(int width, int height);
 		void Move(int DX, int DY);
 		void Reposition(int x, int y);
-		//setup (not fron constructor)
-		void set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
-		void set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		//setup (not from constructor)
+		void Set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+		void Set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		void Destroy();
+		
 		const wstring& GetText() const;
-		void E_Destroy();
-
-
-
-
-
-
-
-
-		//void set(wstring&& Text, int x, int y, int width, int height, ExtraWindow* parent);
-
-		void Remove();
+	
 
 
 	};

@@ -1,15 +1,15 @@
-#include "EW.h"
+#include "EditWindow.h"
 namespace UIFW {
-	void EW::place()
+	void EditWindow::place()
 	{
 		if (parent)
 			Hwnd = CreateWindowW(L"edit", text.c_str(), style, x, y, width, height, parent->Hwnd, NULL, NULL, NULL);
 	}
 
-	void EW::UpdateText()
+	void EditWindow::UpdateText()
 	{
 
-		text.resize(GetWindowTextLengthW(Hwnd) + 1);
+		text.resize((size_t)(GetWindowTextLengthW(Hwnd) + 1));
 
 
 		GetWindowTextW(Hwnd, text.c_str(), (int)text.getsize());
@@ -18,11 +18,11 @@ namespace UIFW {
 
 	}
 
-	EW::EW() :ChildWindow()
+	EditWindow::EditWindow() :ChildWindow()
 	{
 	}
 
-	EW::EW(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
+	EditWindow::EditWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
 		text = Text;
 		this->x = x;
@@ -30,11 +30,11 @@ namespace UIFW {
 		this->width = width;
 		this->height = height;
 		this->parent = parent;
-		placeExtra();
+		PlaceExtra();
 
 	}
 
-	EW::EW(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
+	EditWindow::EditWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
 		text = std::move(Text);
 		this->x = x;
@@ -42,12 +42,12 @@ namespace UIFW {
 		this->width = width;
 		this->height = height;
 		this->parent = parent;
-		placeExtra();
+		PlaceExtra();
 	}
 
 
 
-	wstring EW::GetText()
+	wstring EditWindow::GetText()
 	{
 
 		UpdateText();
@@ -58,56 +58,56 @@ namespace UIFW {
 
 
 
-	void EW::AddHorizontalScrolling()
+	void EditWindow::AddHorizontalScrolling()
 	{
 
 
 		style = style | ES_AUTOHSCROLL;
 		if (!Hwnd) return;
 		UpdateText();
-		destroyExtra();
-		placeExtra();
+		DestroyExtra();
+		PlaceExtra();
 	}
 
 
 
 
-	void EW::AddVerticalScrolling()
+	void EditWindow::AddVerticalScrolling()
 	{
 
 
 		style = style | Vscroll;
 		if (!Hwnd) return;
 		UpdateText();
-		destroyExtra();
-		placeExtra();
+		DestroyExtra();
+		PlaceExtra();
 
 	}
 
-	void EW::RemoveVerticalScrolling()
+	void EditWindow::RemoveVerticalScrolling()
 	{
 
 		style = style & ~Vscroll;
 		if (!Hwnd) return;
 		UpdateText();
-		destroyExtra();
-		placeExtra();
+		DestroyExtra();
+		PlaceExtra();
 	}
 
-	void EW::RemoveHorizontalScrolling()
+	void EditWindow::RemoveHorizontalScrolling()
 	{
 
 		style = style & ~Hscroll;
 		if (!Hwnd) return;
 		UpdateText();
-		destroyExtra();
-		placeExtra();
+		DestroyExtra();
+		PlaceExtra();
 	}
 
 
 
 
-	EW::~EW()
+	EditWindow::~EditWindow()
 	{
 		DestroyWindow(Hwnd);
 

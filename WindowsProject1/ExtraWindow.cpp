@@ -11,14 +11,14 @@ namespace UIFW {
 		SetEvent(window.winmade);	//allows main thread to continue
 
 		SetWindowLongPtr(window.Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&window));
-
+#if _DEBUG
 		//Send error message if window creation Failed.
 		if (!window.Hwnd)
 		{
 			MessageBox(NULL, (wstring(L"Failed to ctreate window \"") + window.text + wstring(L"\"please check your code")).c_str(), L"Failure!", MB_ICONERROR | MB_OK);
 			return;
 		}
-
+#endif
 		//message loop
 		MSG msg;
 		while (GetMessage(&msg, window.Hwnd, NULL, NULL) > 0)
@@ -32,14 +32,13 @@ namespace UIFW {
 
 	ExtraWindow::ExtraWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B) :MainWindow(Text, x, y, width, height), winmade(CreateEvent(NULL, FALSE, FALSE, NULL))
 	{
-#if _DEBUG
 		if (winmade == NULL)
 		{
 			DWORD error = GetLastError();
 			MessageBox(NULL, L"event creation failed!!", L"error", MB_OK | MB_ICONERROR);
 			return;
 		}
-#endif
+
 		CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
 
 		style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
@@ -53,7 +52,10 @@ namespace UIFW {
 	}
 	ExtraWindow::~ExtraWindow()
 	{
+		SendMessage(Hwnd, WM_CLOSE, 0, 0);
+
 		procthread.join();
+		
 	}
 
 

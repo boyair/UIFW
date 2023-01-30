@@ -4,20 +4,20 @@
 #define Hscroll 0x0080L
 #define Vscroll 0x0044L
 namespace UIFW {
-	class EW :public ChildWindow
+	class EditWindow :public ChildWindow
 	{
 		// basic functions used in a lot of style change functions.
 		void place() override;
 		void UpdateText();
-		static long EWBKCLR, EWTXCLR;
+		static long EditWindowBKCLR, EditWindowTXCLR;
 
 	public:
 
 		//creators
-		EW();
-		EW(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
-		EW(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
-		EW(EW&) = delete;
+		EditWindow();
+		EditWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+		EditWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		EditWindow(EditWindow&) = delete;
 
 		//basic functionallity
 		wstring GetText();
@@ -30,6 +30,6 @@ namespace UIFW {
 
 
 
-		~EW();
+		~EditWindow();
 	};
 }

@@ -145,7 +145,7 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="EW.h" />
+    <ClInclude Include="EditWindow.h" />
     <ClInclude Include="UIFW.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="wstring.h" />
@@ -157,7 +157,7 @@
     <ClCompile Include="image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
-    <ClCompile Include="EW.cpp" />
+    <ClCompile Include="EditWindow.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="wstring.cpp" />
   </ItemGroup>
