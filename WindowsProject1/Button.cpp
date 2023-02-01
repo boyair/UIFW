@@ -9,7 +9,7 @@ namespace UIFW {
 	{
 		if (&parent)
 			Hwnd = CreateWindowW(L"button", text.c_str(), style, x, y, width, height, parent->Hwnd, HMENU(id), NULL, NULL);
-
+		
 
 	}
 
@@ -56,6 +56,13 @@ namespace UIFW {
 		PlaceExtra();
 	}
 
+	void Button::SetID(long long id)
+	{
+		this->id = id;
+		SetWindowLong(Hwnd, GWL_ID, (long long)id);
+
+	}
+
 	void Button::Addimage(image& img)
 	{
 		//returns if window dosent exist.
@@ -65,7 +72,6 @@ namespace UIFW {
 		style = style | BS_BITMAP;
 		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
-	//	AddImageExtra();
 		SendMessageW(Hwnd, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
 	}
 

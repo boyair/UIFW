@@ -11,24 +11,17 @@ namespace UIFW {
 		{
 			//handles manipulation of ChildWindows on thread
 			ChildWindow* pl = (ChildWindow*)lp;
-			switch (wp)
+			
+			if (wp)
 			{
-			case 1:
 				((ChildWindow*)lp)->place();
 				SetEvent(((ChildWindow*)lp)->winmade);
-				break;
-
-			case 2:
+			}
+			else
+			{
 				DestroyWindow(((ChildWindow*)lp)->Hwnd);
 				SetEvent(((ChildWindow*)lp)->winmade);
-				break;
-
-			case 3:
-				((ChildWindow*)lp)->SendImage();
-				break;
-
 			}
-			//SetEvent(((ChildWindow*)lp)->winmade);
 			break;
 		}
 
@@ -152,6 +145,14 @@ namespace UIFW {
 		functionallitys.reserve(4);
 	}
 
+	MainWindow::MainWindow() :Window()
+	{
+		CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
+		CLS.hInstance = GetModuleHandle(NULL);
+		CLS.lpfnWndProc = NonStaticWindowProc;
+		functionallitys.reserve(4);
+	}
+
 	MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img) :MainWindow(Text, x, y, width, height)
 	{
 		//sets background image
@@ -205,6 +206,87 @@ namespace UIFW {
 		Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 		SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	}
+
+	void MainWindow::Init(const wstring& Text, int x, int y, int width, int height, const image& img)
+	{
+		
+		this->text = Text;
+		this->x = x;
+		this->y = y;
+		this->width = width;
+		this->height = height;
+		CLS.lpszClassName = text.c_str();
+
+		//sets background image
+		this->img = img;
+		CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
+		//make window unresizeable
+		style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE;
+		RegisterClassW(&CLS);
+		//create window
+		Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+		SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+	}
+
+	void MainWindow::Init(wstring&& Text, int x, int y, int width, int height, const image& img)
+	{
+		
+		this->text = std::move(Text);
+		this->x = x;
+		this->y = y;
+		this->width = width;
+		this->height = height;
+		CLS.lpszClassName = text.c_str();
+		//sets background image
+		this->img = img;
+		CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
+		//make window unresizeable
+		style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE;
+		RegisterClassW(&CLS);
+		//create window
+		Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+		SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+	}
+
+	void MainWindow::Init(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B) 
+	{
+		
+		this->text = Text;
+		this->x = x;
+		this->y = y;
+		this->width = width;
+		this->height = height;
+		CLS.lpszClassName = text.c_str();
+		//sets background image
+		CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+		//make window resizeable
+		style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+		RegisterClassW(&CLS);
+		//create window
+		Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+		SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
+	}
+
+	void MainWindow::Init(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B)
+	{
+		
+		this->text = std::move(Text);
+		this->x = x;
+		this->y = y;
+		this->width = width;
+		this->height = height;
+		CLS.lpszClassName = text.c_str();
+		//sets background image
+		CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+		//make window resizeable
+		style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+		RegisterClassW(&CLS);
+		//create window
+		Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
+		SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+	}
+
 
 	POINT MainWindow::GetMousePos()
 	{

@@ -45,7 +45,7 @@ namespace UIFW {
 		//send to parent window to destroy the window if its on a different thread.
 		if (GetCurrentThreadId() != GetWindowThreadProcessId(parent->Hwnd, 0))
 		{
-			PostMessage(parent->Hwnd, WM_USER + 1, 2, (LPARAM)this);
+			PostMessage(parent->Hwnd, WM_USER + 1, 0, (LPARAM)this);
 			WaitForSingleObject(winmade, INFINITE);
 			ResetEvent(winmade);
 			return;
@@ -77,7 +77,7 @@ namespace UIFW {
 		this->img = &img;
 		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
-		SendImage();
+		SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)this->img->BM);
 	}
 
 	void ChildWindow::Move(int DX, int DY)
@@ -126,7 +126,7 @@ namespace UIFW {
 		return text;
 	}
 
-	void ChildWindow::Set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
+	void ChildWindow::Init(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
 		if (!parent) return;
 		this->parent = parent;
@@ -138,7 +138,7 @@ namespace UIFW {
 		PlaceExtra();
 	}
 
-	void ChildWindow::Set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
+	void ChildWindow::Init(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
 		if (!parent) return;
 		this->parent = parent;

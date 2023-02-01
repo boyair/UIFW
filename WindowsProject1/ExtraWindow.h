@@ -11,7 +11,11 @@ namespace UIFW {
 	public:
 		HANDLE winmade; //handle to event which is et when window was made
 		std::thread procthread; //the thread on which the message loop run
+		ExtraWindow();
 		ExtraWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
+		ExtraWindow(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
+		void Init(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
+		void Init(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
 		~ExtraWindow();
 
 	};

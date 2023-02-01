@@ -21,14 +21,20 @@ namespace UIFW {
 		LRESULT CALLBACK  Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
 		image img;
 		//constructors
-
 		MainWindow(const wstring& Text, int x, int y, int width, int height);
 		MainWindow(wstring&& Text, int x, int y, int width, int height);
 	public:
+		MainWindow();
 		MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img);
 		MainWindow(wstring&& Text, int x, int y, int width, int height, const image& img);
 		MainWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
 		MainWindow(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned char G, unsigned char B);
+
+		void Init(const wstring& Text, int x, int y, int width, int height, const image& img);
+		void Init(wstring&& Text, int x, int y, int width, int height, const image& img);
+		void Init(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
+		void Init(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned char G, unsigned char B);
+
 		POINT GetMousePos();
 		void(*onexit)() = nullptr;
 		//change colors of childwindows

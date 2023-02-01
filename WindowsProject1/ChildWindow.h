@@ -39,8 +39,8 @@ namespace UIFW {
 		void Move(int DX, int DY);
 		void Reposition(int x, int y);
 		//setup (not from constructor)
-		void Set(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
-		void Set(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		void Init(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+		void Init(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
 		void Destroy();
 		
 		const wstring& GetText() const;

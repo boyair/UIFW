@@ -30,6 +30,10 @@ namespace UIFW {
 
 	}
 
+	ExtraWindow::ExtraWindow():MainWindow(), winmade(CreateEvent(NULL, FALSE, FALSE, NULL))
+	{
+	}
+
 	ExtraWindow::ExtraWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B) :MainWindow(Text, x, y, width, height), winmade(CreateEvent(NULL, FALSE, FALSE, NULL))
 	{
 		if (winmade == NULL)
@@ -49,6 +53,75 @@ namespace UIFW {
 		WaitForSingleObject(winmade, INFINITE);
 
 
+	}
+	void ExtraWindow::Init(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned char G, unsigned char B)
+	{
+		this->text = Text;
+		this->x = x;
+		this->y = y;
+		this->width = width;
+		this->height = height;
+		CLS.lpszClassName = text.c_str();
+
+		if (winmade == NULL)
+		{
+			DWORD error = GetLastError();
+			MessageBox(NULL, L"event creation failed!!", L"error", MB_OK | MB_ICONERROR);
+			return;
+		}
+
+		CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+
+		style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+
+		procthread = std::thread(HandleOnThread, std::ref(*this));
+		//waits until the window was created so that menus and childwindow can be created on it later. 
+
+		WaitForSingleObject(winmade, INFINITE);
+	}ExtraWindow::ExtraWindow(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B) :MainWindow(std::move(Text), x, y, width, height), winmade(CreateEvent(NULL, FALSE, FALSE, NULL))
+	{
+		if (winmade == NULL)
+		{
+			DWORD error = GetLastError();
+			MessageBox(NULL, L"event creation failed!!", L"error", MB_OK | MB_ICONERROR);
+			return;
+		}
+
+		CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+
+		style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+
+		procthread = std::thread(HandleOnThread, std::ref(*this));
+		//waits until the window was created so that menus and childwindow can be created on it later. 
+
+		WaitForSingleObject(winmade, INFINITE);
+
+
+	}
+	void ExtraWindow::Init(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned char G, unsigned char B)
+	{
+		this->text = std::move(Text);
+		this->x = x;
+		this->y = y;
+		this->width = width;
+		this->height = height;
+		CLS.lpszClassName = text.c_str();
+
+		if (winmade == NULL)
+		{
+			DWORD error = GetLastError();
+			MessageBox(NULL, L"event creation failed!!", L"error", MB_OK | MB_ICONERROR);
+			return;
+		}
+
+		CLS.hbrBackground = CreateSolidBrush(RGB(R, G, B));
+
+		style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+
+		procthread = std::thread(HandleOnThread, std::ref(*this));
+		//waits until the window was created so that menus and childwindow can be created on it later. 
+
+		WaitForSingleObject(winmade, INFINITE);
 	}
 	ExtraWindow::~ExtraWindow()
 	{

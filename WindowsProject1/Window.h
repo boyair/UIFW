@@ -11,13 +11,13 @@ namespace UIFW {
 		int x, y, width, height;
 		unsigned long style;
 
-	public:
 		Window(const wstring& Text, int x, int y, int width, int height);
 		Window(wstring&& Text, int x, int y, int width, int height);
 		Window();
+	public:
 		void SetText(wstring&& Text);
-		RECT GetRECT();
 		void SetText(const wstring& Text);
+		RECT GetRECT();
 		void Destroy();
 		void hide();
 		void show();
