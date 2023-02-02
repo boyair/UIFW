@@ -127,7 +127,7 @@ namespace UIFW {
 	{
 		if (Hwnd)
 		{
-			SendMessage(Hwnd, WM_CLOSE, 0, 0);
+			PostMessage(Hwnd, WM_CLOSE, 0, 0);
 
 			procthread.join();
 		}
