@@ -51,10 +51,10 @@ namespace UIFW {
 		PlaceExtra();
 	}
 
-	void Button::SetID(long long id)
+	void Button::SetID(long id)
 	{
 		this->id = id;
-		SetWindowLong(Hwnd, GWL_ID, (long long)id);
+		SetWindowLong(Hwnd, GWL_ID, id);
 
 	}
 

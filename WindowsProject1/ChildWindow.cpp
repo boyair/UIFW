@@ -33,11 +33,8 @@ namespace UIFW {
 		if (!parent || !parent->Hwnd)
 		{
 			MessageBox(0, L"Tried to make a ChildWindow in non existing window", L"Debug Error", MB_OK|MB_ICONERROR);
-
 			return;
 		}
-
-
 #endif
 		//send to parent window to make the window if its on a different thread.
 		if (GetCurrentThreadId() != GetWindowThreadProcessId(parent->Hwnd, 0))
