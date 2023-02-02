@@ -13,11 +13,6 @@ namespace UIFW {
 
 	}
 
-	void Button::SendImage()
-	{
-		SendMessageW(Hwnd, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img->BM);
-	}
-
 
 
 	Button::Button(long long id) :ChildWindow(), id(id)
@@ -66,7 +61,6 @@ namespace UIFW {
 	void Button::Addimage(image& img)
 	{
 		//returns if window dosent exist.
-		this->img = &img;
 		if (!parent) return;
 
 		style = style | BS_BITMAP;

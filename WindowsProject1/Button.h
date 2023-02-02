@@ -5,7 +5,6 @@ namespace UIFW {
 	{
 		long long id;
 		void place() override;
-		void SendImage() override;
 
 	public:
 		Button(Button&) = delete;

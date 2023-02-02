@@ -12,14 +12,9 @@ namespace UIFW {
 		friend class ExtraWindow;
 	protected:
 		MainWindow* parent;
-		image* img;
-
-
 		virtual void place(); // runs the command needed to create a window
 		void PlaceExtra();	//sends a message to parent window to run place() on its thread.
 		void DestroyExtra(); //sends a message to parent window to run Destroy() on its thread.
-		virtual void AddImageExtra();//sends a message to parent window to run Destroy() on its thread.
-		virtual void SendImage();
 
 		HANDLE winmade = CreateEvent(NULL, FALSE, FALSE, NULL);
 
@@ -27,9 +22,10 @@ namespace UIFW {
 
 		//constructors
 		ChildWindow();
+		ChildWindow(ChildWindow&) = delete;
 		ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
 		ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
-		ChildWindow(ChildWindow&) = delete;
+	
 
 		//manipulation
 		virtual void Addimage(image& name);

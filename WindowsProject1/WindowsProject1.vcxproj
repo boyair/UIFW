@@ -155,7 +155,6 @@
     <ClCompile Include="ChildWindow.cpp" />
     <ClCompile Include="ExtraWindow.cpp" />
     <ClCompile Include="image.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="EditWindow.cpp" />
     <ClCompile Include="Window.cpp" />

@@ -125,10 +125,12 @@ namespace UIFW {
 	}
 	ExtraWindow::~ExtraWindow()
 	{
-		SendMessage(Hwnd, WM_CLOSE, 0, 0);
+		if (Hwnd)
+		{
+			SendMessage(Hwnd, WM_CLOSE, 0, 0);
 
-		procthread.join();
-		
+			procthread.join();
+		}
 	}
 
 

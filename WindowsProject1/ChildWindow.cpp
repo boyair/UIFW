@@ -2,7 +2,7 @@
 
 namespace UIFW {
 
-	ChildWindow::ChildWindow() :Window(), parent(NULL), img(NULL), winmade(CreateEvent(NULL, FALSE, FALSE, NULL))
+	ChildWindow::ChildWindow() :Window(), parent(NULL),  winmade(CreateEvent(NULL, FALSE, FALSE, NULL))
 	{
 		style = (WS_VISIBLE | WS_CHILD);
 	}
@@ -29,6 +29,16 @@ namespace UIFW {
 
 	void ChildWindow::PlaceExtra()
 	{
+#if _DEBUG
+		if (!parent || !parent->Hwnd)
+		{
+			MessageBox(0, L"Tried to make a ChildWindow in non existing window", L"Debug Error", MB_OK|MB_ICONERROR);
+
+			return;
+		}
+
+
+#endif
 		//send to parent window to make the window if its on a different thread.
 		if (GetCurrentThreadId() != GetWindowThreadProcessId(parent->Hwnd, 0))
 		{
@@ -54,30 +64,15 @@ namespace UIFW {
 
 	}
 
-	void ChildWindow::AddImageExtra()
-	{
-		if (GetCurrentThreadId() != GetWindowThreadProcessId(parent->Hwnd, 0))
-		{
-			PostMessage(parent->Hwnd, WM_USER + 1, 3, (LPARAM)this);
-			return;
-		}
-		SendImage();
-	}
-
-	void ChildWindow::SendImage()
-	{
-		SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img->BM);
-	}
 
 	void ChildWindow::Addimage(image& img)
 	{
 		if (!parent->Hwnd || style == (style | SS_BITMAP)) return;
 
 		style = style | SS_BITMAP;
-		this->img = &img;
 		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
-		SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)this->img->BM);
+		SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
 	}
 
 	void ChildWindow::Move(int DX, int DY)
@@ -128,7 +123,6 @@ namespace UIFW {
 
 	void ChildWindow::Init(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
-		if (!parent) return;
 		this->parent = parent;
 		this->x = x;
 		this->y = y;
@@ -140,7 +134,8 @@ namespace UIFW {
 
 	void ChildWindow::Init(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
-		if (!parent) return;
+
+		
 		this->parent = parent;
 		this->x = x;
 		this->y = y;
