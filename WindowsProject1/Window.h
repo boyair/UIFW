@@ -18,6 +18,7 @@ namespace UIFW {
 		void SetText(wstring&& Text);
 		void SetText(const wstring& Text);
 		RECT GetRECT();
+		const wstring& GetText() const;
 		void Destroy();
 		void hide();
 		void show();

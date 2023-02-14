@@ -371,7 +371,7 @@ namespace UIFW {
 
 	void MainWindow::Destroy()
 	{
-		PostMessage(Hwnd, WM_DESTROY, 0, 0);
+		PostMessage(Hwnd, WM_CLOSE, 0, 0);
 	}
 
 	bool MainWindow::AddFunc(int id, std::function<void()> func)

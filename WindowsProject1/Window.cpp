@@ -46,6 +46,11 @@ namespace UIFW
 
 	}
 
+	const wstring& Window::GetText() const
+	{
+		return text;
+	}
+
 	void Window::hide()
 	{
 		ShowWindow(Hwnd, 0);

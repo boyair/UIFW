@@ -39,7 +39,7 @@ namespace UIFW {
 		void Init(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
 		void Destroy();
 		
-		const wstring& GetText() const;
+		
 	
 
 

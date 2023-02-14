@@ -113,11 +113,6 @@ namespace UIFW {
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
 	}
 
-	const wstring& ChildWindow::GetText() const
-	{
-		return text;
-	}
-
 	void ChildWindow::Init(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
 		this->parent = parent;
