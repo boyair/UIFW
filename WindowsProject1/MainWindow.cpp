@@ -4,9 +4,9 @@
 namespace UIFW {
 	LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
+		if (OnUpdate)OnUpdate();
 		switch (msg)
 		{
-
 		case WM_USER + 1:
 		{
 			//handles manipulation of ChildWindows on thread
@@ -32,26 +32,18 @@ namespace UIFW {
 
 			if (&img && img.BM)
 			{
-
 				HDC hdc = (HDC)wp;
 				RECT rect;
 				GetClientRect(hwnd, &rect);
-
-
-				img.BM = (HBITMAP)LoadImageW(NULL, img.name.c_str(), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 				// Create a memory device context for the image
 				HDC hdcMem = CreateCompatibleDC(hdc);
-				SelectObject(hdcMem, img.BM);
-
+				HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, img.BM);
 				// Stretch the image to fit the window
 				SetStretchBltMode(hdc, HALFTONE);
 				StretchBlt(hdc, 0, 0, rect.right, rect.bottom, hdcMem, 0, 0, img.width, img.height, SRCCOPY);
-
 				// Clean up
+				SelectObject(hdcMem, hOldBitmap); // Deselect the bitmap handle from the memory device context
 				DeleteDC(hdcMem);
-				DeleteObject(img.BM);
-
-
 				return 1;
 			}
 
@@ -78,45 +70,50 @@ namespace UIFW {
 			SetBkColor(hdcStatic, RGB(EditWindowColorBK[0], EditWindowColorBK[1], EditWindowColorBK[2]));
 			return (INT_PTR)BK;
 		}
-
-
 		case WM_COMMAND:
+			if (functionallitys.find((int)wp) != functionallitys.end())
+				functionallitys[(int)wp]();
+			break;
 
-
-
-			for (int i = 0; i < functionallitys.size(); i++)
+		case WM_CLOSE:
+			if (XButton&&!wp)
 			{
-				if (functionallitys[i].first == wp)
-				{
-					functionallitys[i].second();
-					break;
-				}
-
-
+				XButton();
+				return 0;
 			}
-
+			DestroyWindow(Hwnd);
+			Hwnd = nullptr;
 
 			break;
 
 
 
 		case WM_DESTROY:
-			if (onexit)
-				onexit();
 			PostQuitMessage(0);
 			break;
 		}
+		
 		return DefWindowProcW(hwnd, msg, wp, lp);
 
+	}
+	void MainWindow::UpdateRECT()
+	{
+		RECT newrect;
+		GetWindowRect(Hwnd,  & newrect);
+		x = newrect.left;
+		y = newrect.top;
+		width = newrect.right - x;
+		height = newrect.bottom - y;
+		
 	}
 	static LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 
 		MainWindow* window = reinterpret_cast<MainWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 		if (window)
-
+		
 			return window->Proc(hwnd, uMsg, wParam, lParam);
-
+		
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 
@@ -159,11 +156,13 @@ namespace UIFW {
 		this->img = img;
 		CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
 		//make window unresizeable
-		style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE;
+		style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE | WS_CLIPCHILDREN;
 		RegisterClassW(&CLS);
 		//create window
 		Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 		SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+		SendMessage(Hwnd, WM_ERASEBKGND, (WPARAM)GetDC(Hwnd), 0);
+
 	}
 
 	MainWindow::MainWindow(wstring&& Text, int x, int y, int width, int height, const image& img) :MainWindow(std::move(Text), x, y, width, height)
@@ -172,13 +171,12 @@ namespace UIFW {
 		this->img = img;
 		CLS.hbrBackground = HBRUSH(COLOR_DESKTOP);
 		//make window unresizeable
-		style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE;
+		style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE | WS_CLIPCHILDREN;
 		RegisterClassW(&CLS);
 		//create window
 		Hwnd = CreateWindow(text.c_str(), text.c_str(), style, x, y, width, height, NULL, NULL, NULL, NULL);
 		SetWindowLongPtr(Hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-
+		SendMessage(Hwnd, WM_ERASEBKGND, (WPARAM)GetDC(Hwnd), 0);
 	}
 
 
@@ -344,7 +342,7 @@ namespace UIFW {
 	bool MainWindow::AddSubMenu(const wstring& name, int menuindex, long id)
 	{
 		//check if addition is not possible
-		if (ChildMenus.size() < menuindex) return false;
+		if ((int)ChildMenus.size() < menuindex) return false;
 
 		//add sub menu
 		AppendMenu(ChildMenus[menuindex], MF_STRING, id, name.c_str());
@@ -358,8 +356,9 @@ namespace UIFW {
 	}
 
 
-	void MainWindow::start()
+	void MainWindow::Start()
 	{
+
 		MSG msg;
 
 		while (GetMessage(&msg, Hwnd, NULL, NULL) > 0)
@@ -371,22 +370,38 @@ namespace UIFW {
 
 	void MainWindow::Destroy()
 	{
-		PostMessage(Hwnd, WM_CLOSE, 0, 0);
+		if (Hwnd)
+		PostMessage(Hwnd, WM_CLOSE, 1, 0);
+
 	}
 
-	bool MainWindow::AddFunc(int id, std::function<void()> func)
+	RECT MainWindow::GetRECT()
 	{
-		//test if id exists already
-		for (auto p : functionallitys)
-		{
-			if (p.first == id) return false;
-
-		}
-		//adds functionallity
-		functionallitys.push_back({ id,func });
-		return true;
+		UpdateRECT();
+		return Window::GetRECT();
 	}
 
+	void MainWindow::Move(int DX, int DY)
+	{
+		UpdateRECT();
+		Window::Move(DX, DY);
+		
 
-	
+	}
+
+	void MainWindow::Resize(int width, int height)
+	{
+		UpdateRECT();
+		Window::Resize(width, height);
+		if(&img && img.BM)
+			SendMessage(Hwnd, WM_ERASEBKGND, (WPARAM)GetDC(Hwnd), 0);
+
+	}
+
+	void MainWindow::Reposition(int x, int y)
+	{
+		UpdateRECT();
+		Window::Reposition(x, y);
+	}
+
 }

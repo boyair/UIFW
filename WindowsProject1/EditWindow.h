@@ -27,6 +27,7 @@ namespace UIFW {
 		void AddHorizontalScrolling();
 		void RemoveVerticalScrolling();
 		void RemoveHorizontalScrolling();
+		void SetStyle(unsigned long NewStyle) override;
 
 
 

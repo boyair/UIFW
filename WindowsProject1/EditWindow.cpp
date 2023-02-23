@@ -104,6 +104,21 @@ namespace UIFW {
 		PlaceExtra();
 	}
 
+	void EditWindow::SetStyle(unsigned long NewStyle)
+	{
+		style = NewStyle | WS_CHILD | WS_VISIBLE;
+		if (!Hwnd) return;
+		if ((NewStyle & (ES_READONLY | ES_PASSWORD | ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL)) != 0)
+		{
+			UpdateText();
+			DestroyExtra();
+			PlaceExtra();
+			return;
+		}
+		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
+		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+	}
+
 
 
 

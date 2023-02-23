@@ -42,7 +42,7 @@ namespace UIFW
 	void Window::Destroy()
 	{
 		DestroyWindow(Hwnd);
-		//Hwnd = nullptr;
+		Hwnd = nullptr;
 
 	}
 
@@ -51,12 +51,39 @@ namespace UIFW
 		return text;
 	}
 
-	void Window::hide()
+	void Window::Hide()
 	{
 		ShowWindow(Hwnd, 0);
 	}
-	void Window::show()
+	void Window::Show()
 	{
 		ShowWindow(Hwnd, 1);
 	}
+	void Window::Move(int DX, int DY)
+	{
+		x += DX; y += DY;
+		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+	}
+
+	void Window::Resize(int width, int height)
+	{
+		this->width = width;
+		this->height = height;
+		SetWindowPos(Hwnd, 0, x, y, width, height, 0);
+	}
+
+
+	void Window::Reposition(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+	}
+
+	bool Window::Exists()
+	{
+		return Hwnd;
+	}
+
 }
+

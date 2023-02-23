@@ -44,7 +44,7 @@ namespace UIFW {
 			ResetEvent(winmade);
 			return;
 		}
-		place();
+		this->place();
 	}
 
 	void ChildWindow::DestroyExtra()
@@ -54,10 +54,12 @@ namespace UIFW {
 		{
 			PostMessage(parent->Hwnd, WM_USER + 1, 0, (LPARAM)this);
 			WaitForSingleObject(winmade, INFINITE);
+			Hwnd = nullptr;
 			ResetEvent(winmade);
 			return;
 		}
 		DestroyWindow(Hwnd);
+		Hwnd = nullptr;
 
 	}
 
@@ -72,23 +74,6 @@ namespace UIFW {
 		SendMessageW(Hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)img.BM);
 	}
 
-	void ChildWindow::Move(int DX, int DY)
-	{
-
-		x += DX; y += DY;
-		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
-
-
-	}
-
-
-	void ChildWindow::resize(int width, int height)
-	{
-		this->width = width;
-		this->height = height;
-		SetWindowPos(Hwnd, 0, x, y, width, height, 0);
-	}
-
 	void ChildWindow::AddBorder()
 	{
 		style = style | WS_BORDER;
@@ -100,18 +85,13 @@ namespace UIFW {
 
 	void ChildWindow::RemoveBorder()
 	{
-		style = style & ~ES_AUTOHSCROLL;
+		style = style & ~WS_BORDER;
 		if (!Hwnd) return;
 		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
 	}
 
-	void ChildWindow::Reposition(int x, int y)
-	{
-		this->x = x;
-		this->y = y;
-		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
-	}
+	
 
 	void ChildWindow::Init(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
 	{
@@ -122,6 +102,16 @@ namespace UIFW {
 		this->height = height;
 		text = Text;
 		PlaceExtra();
+	}
+
+	void ChildWindow::SetStyle(unsigned long NewStyle)
+	{
+		
+		style = NewStyle|WS_CHILD|WS_VISIBLE;
+		if (!Hwnd) return;
+
+		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
+		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
 	}
 
 	void ChildWindow::Init(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)

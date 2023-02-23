@@ -14,8 +14,11 @@ namespace UIFW {
 		ExtraWindow();
 		ExtraWindow(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
 		ExtraWindow(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
+		ExtraWindow(wstring&& Text, int x, int y, int width, int height, const image& img);
+		ExtraWindow(const wstring& Text, int x, int y, int width, int height, const image& img);
 		void Init(const wstring& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
 		void Init(wstring&& Text, int x, int y, int width, int height, unsigned char R, unsigned  char G, unsigned  char B);
+		void Destroy() override;
 		~ExtraWindow();
 
 	};

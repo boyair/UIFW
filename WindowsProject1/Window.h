@@ -17,11 +17,15 @@ namespace UIFW {
 	public:
 		void SetText(wstring&& Text);
 		void SetText(const wstring& Text);
-		RECT GetRECT();
+		virtual void Resize(int width, int height);
+		virtual void Reposition(int x, int y);
+		virtual void Move(int DX, int DY);
+		virtual RECT GetRECT();
 		const wstring& GetText() const;
-		void Destroy();
-		void hide();
-		void show();
+		bool Exists();
+		virtual void Destroy();
+		void Hide();
+		void Show();
 	};
 
 }
