@@ -4,4 +4,4 @@ this framework allows you to make functional windows with buttons,menus and text
 please note that customizability is very limited because its a small project and is meant for simplicity of use.
 
 # hierarchy tree of inheritence of UIFW:
-![Book logo](/least-github-pages/assets/tree.png)
+![tree](/assets/tree.png)
