@@ -20,7 +20,7 @@ namespace UIFW {
 
 	}
 
-	Button::Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow* parent)
+	Button::Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow& parent)
 		:id(id)
 	{
 
@@ -31,13 +31,13 @@ namespace UIFW {
 		this->y = y;
 		this->width = width;
 		this->height = height;
-		this->parent = parent;
+		this->parent = &parent;
 		//place the button
 		PlaceExtra();
 
 	}
 
-	Button::Button(wstring&& Text, int x, int y, int width, int height, long long id, MainWindow* parent)
+	Button::Button(wstring&& Text, int x, int y, int width, int height, long long id, MainWindow& parent)
 		: id(id)
 	{
 		//sets the variables
@@ -46,7 +46,7 @@ namespace UIFW {
 		this->y = y;
 		this->width = width;
 		this->height = height;
-		this->parent = parent;
+		this->parent = &parent;
 		//place the button
 		PlaceExtra();
 	}

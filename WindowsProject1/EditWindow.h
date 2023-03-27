@@ -10,26 +10,28 @@ namespace UIFW {
 		void place() override;
 		void UpdateText();
 		static long EditWindowBKCLR, EditWindowTXCLR;
+		int UpdateTextID = 0;
 
 	public:
 
 		//creators
 		EditWindow();
-		EditWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
-		EditWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		EditWindow(const wstring& Text, int x, int y, int width, int height, MainWindow& parent);
+		EditWindow(wstring&& Text, int x, int y, int width, int height, MainWindow& parent);
 		EditWindow(EditWindow&) = delete;
 
 		//basic functionallity
 		wstring GetText();
 		//style change
 
+
+
 		void AddVerticalScrolling();
 		void AddHorizontalScrolling();
 		void RemoveVerticalScrolling();
 		void RemoveHorizontalScrolling();
 		void SetStyle(unsigned long NewStyle) override;
-
-
+		 void SetUpdateTextID(int id);
 
 		~EditWindow();
 	};

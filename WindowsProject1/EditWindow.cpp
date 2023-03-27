@@ -22,26 +22,26 @@ namespace UIFW {
 	{
 	}
 
-	EditWindow::EditWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
+	EditWindow::EditWindow(const wstring& Text, int x, int y, int width, int height, MainWindow& parent)
 	{
 		text = Text;
 		this->x = x;
 		this->y = y;
 		this->width = width;
 		this->height = height;
-		this->parent = parent;
+		this->parent = &parent;
 		PlaceExtra();
 
 	}
 
-	EditWindow::EditWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
+	EditWindow::EditWindow(wstring&& Text, int x, int y, int width, int height, MainWindow& parent)
 	{
 		text = std::move(Text);
 		this->x = x;
 		this->y = y;
 		this->width = width;
 		this->height = height;
-		this->parent = parent;
+		this->parent = &parent;
 		PlaceExtra();
 	}
 
@@ -118,6 +118,20 @@ namespace UIFW {
 		SetWindowLongPtr(Hwnd, GWL_STYLE, style);
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
 	}
+
+	void EditWindow::SetUpdateTextID(int id)
+	{
+		if (!parent) return;
+
+		SetWindowLong(Hwnd, GWL_ID, id);
+	}
+
+	//void EditWindow::RemoveUpdateTextFunc()
+	//{
+	//	if (!parent) return;
+	//
+	//	parent->EditWindowUpdates.erase(Hwnd);
+	//}
 
 
 

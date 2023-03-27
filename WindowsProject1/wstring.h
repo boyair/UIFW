@@ -1,6 +1,6 @@
 #pragma once
 #include<string>
-
+#include <cassert>
 #define BufferSize 16
 namespace UIFW {
 	class wstring
@@ -43,6 +43,8 @@ namespace UIFW {
 		void resize(size_t newsize);
 		void operator +=(const wstring& other);
 
+
+		wstring substr(size_t pos , size_t len) const;
 
 		~wstring();
 

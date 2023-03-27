@@ -23,16 +23,16 @@ namespace UIFW {
 		//constructors
 		ChildWindow();
 		ChildWindow(ChildWindow&) = delete;
-		ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
-		ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow& parent);
+		ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow& parent);
 		//manipulation
 		virtual void Addimage(image& name);
 		void AddBorder();
 		void RemoveBorder();
 		//setup (not from constructor)
-		void Init(const wstring& Text, int x, int y, int width, int height, MainWindow* parent);
+		void Init(const wstring& Text, int x, int y, int width, int height, MainWindow& parent);
 		virtual void SetStyle(unsigned long NewStyle);
-		void Init(wstring&& Text, int x, int y, int width, int height, MainWindow* parent);
+		void Init(wstring&& Text, int x, int y, int width, int height, MainWindow& parent);
 		void Destroy();
 		
 	

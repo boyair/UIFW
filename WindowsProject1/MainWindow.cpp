@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include "ChildWindow.h"
-
 namespace UIFW {
 	LRESULT MainWindow::Proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
@@ -71,8 +70,16 @@ namespace UIFW {
 			return (INT_PTR)BK;
 		}
 		case WM_COMMAND:
-			if (functionallitys.find((int)wp) != functionallitys.end())
-				functionallitys[(int)wp]();
+			if (functionalities.find((int)wp) != functionalities.end())		functionalities[(int)wp]();
+			
+			 else if (HIWORD(wp) == EN_CHANGE) {
+				if ( functionalities.find(GetDlgCtrlID(HWND(lp))) != functionalities.end()) {
+					functionalities[GetDlgCtrlID(HWND(lp))]();
+				}
+			}
+
+			
+			
 			break;
 
 		case WM_CLOSE:
@@ -128,7 +135,7 @@ namespace UIFW {
 		CLS.lpfnWndProc = NonStaticWindowProc;
 		CLS.lpszClassName = Text.c_str();
 
-		functionallitys.reserve(4);
+		functionalities.reserve(4);
 	}
 
 	MainWindow::MainWindow(wstring&& Text, int x, int y, int width, int height) :Window(std::move(Text), x, y, width, height)
@@ -139,7 +146,7 @@ namespace UIFW {
 		CLS.lpfnWndProc = NonStaticWindowProc;
 		CLS.lpszClassName = text.c_str();
 
-		functionallitys.reserve(4);
+		functionalities.reserve(4);
 	}
 
 	MainWindow::MainWindow() :Window()
@@ -147,7 +154,7 @@ namespace UIFW {
 		CLS.hCursor = LoadCursor(NULL, IDC_ARROW);
 		CLS.hInstance = GetModuleHandle(NULL);
 		CLS.lpfnWndProc = NonStaticWindowProc;
-		functionallitys.reserve(4);
+		functionalities.reserve(4);
 	}
 
 	MainWindow::MainWindow(const wstring& Text, int x, int y, int width, int height, const image& img) :MainWindow(Text, x, y, width, height)

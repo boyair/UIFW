@@ -11,9 +11,13 @@ namespace UIFW {
 		friend class EditWindow;
 		friend class Button;
 		friend LRESULT CALLBACK NonStaticWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		
+
 	protected:
 		bool made = false;
 		std::vector<HMENU> ChildMenus;
+		std::unordered_map <HWND, std::function<void()>> EditWindowUpdates;
 		HMENU menu = CreateMenu();
 		unsigned char ChildColorText[3]{ 0,0,0 };
 		unsigned char ChildColorBK[3]{ 255,255,255 };
@@ -44,7 +48,7 @@ namespace UIFW {
 
 		std::function<void()> XButton = nullptr;
 		std::function<void()> OnUpdate = nullptr;
-		std::unordered_map <int, std::function<void()>> functionallitys;
+		std::unordered_map <int, std::function<void()>> functionalities;
 
 		//change colors of childwindows
 		void SetColor_Child_Text(unsigned char R, unsigned  char G, unsigned  char B);

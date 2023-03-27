@@ -51,6 +51,9 @@
     <ClInclude Include="UIFW.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ExternalWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EditWindow.cpp">
@@ -75,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExtraWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

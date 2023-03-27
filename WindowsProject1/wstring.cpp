@@ -266,6 +266,23 @@ namespace UIFW {
 
 	}
 
+	wstring wstring::substr(size_t pos=0 , size_t len=0) const
+	{
+#if _DEBUG
+
+		if (pos > getlength()) return wstring();
+
+
+#endif
+
+		if(pos+len>getlength()||!len)
+		return &str[pos];
+
+		wstring result = &str[pos];
+		result[len] = 0;
+		return result;
+	}
+
 	wstring::~wstring()
 	{
 		if (str != SmallBuffer)

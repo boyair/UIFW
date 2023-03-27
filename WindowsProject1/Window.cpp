@@ -62,14 +62,14 @@ namespace UIFW
 	void Window::Move(int DX, int DY)
 	{
 		x += DX; y += DY;
-		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED | SWP_NOSIZE);
 	}
 
 	void Window::Resize(int width, int height)
 	{
 		this->width = width;
 		this->height = height;
-		SetWindowPos(Hwnd, 0, x, y, width, height, 0);
+		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_NOMOVE);
 	}
 
 
@@ -77,7 +77,7 @@ namespace UIFW
 	{
 		this->x = x;
 		this->y = y;
-		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
+		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED|SWP_NOSIZE);
 	}
 
 	bool Window::Exists()

@@ -10,8 +10,8 @@ namespace UIFW {
 		Button(Button&) = delete;
 
 		Button(long long id);
-		Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow* parent);
-		Button(wstring&& Text, int x, int y, int width, int height, long long id, MainWindow* parent);
+		Button(const wstring& Text, int x, int y, int width, int height, long long id, MainWindow& parent);
+		Button(wstring&& Text, int x, int y, int width, int height, long long id, MainWindow& parent);
 		void SetID(long id);
 		void Addimage(image& img) override;
 		~Button();

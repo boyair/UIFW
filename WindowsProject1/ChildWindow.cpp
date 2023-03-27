@@ -7,13 +7,13 @@ namespace UIFW {
 		style = (WS_VISIBLE | WS_CHILD);
 	}
 
-	ChildWindow::ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow* parent) :Window(Text, x, y, width, height), parent(parent)
+	ChildWindow::ChildWindow(const wstring& Text, int x, int y, int width, int height, MainWindow& parent) :Window(Text, x, y, width, height), parent(&parent)
 	{
 		style = (WS_VISIBLE | WS_CHILD);
 		PlaceExtra();
 	}
 
-	ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow* parent) : Window(std::move(Text), x, y, width, height), parent(parent)
+	ChildWindow::ChildWindow(wstring&& Text, int x, int y, int width, int height, MainWindow& parent) : Window(std::move(Text), x, y, width, height), parent(&parent)
 	{
 		style = (WS_VISIBLE | WS_CHILD);
 		PlaceExtra();
@@ -93,9 +93,9 @@ namespace UIFW {
 
 	
 
-	void ChildWindow::Init(const wstring& Text, int x, int y, int width, int height, MainWindow* parent)
+	void ChildWindow::Init(const wstring& Text, int x, int y, int width, int height, MainWindow& parent)
 	{
-		this->parent = parent;
+		this->parent = &parent;
 		this->x = x;
 		this->y = y;
 		this->width = width;
@@ -114,11 +114,11 @@ namespace UIFW {
 		SetWindowPos(Hwnd, 0, x, y, width, height, SWP_FRAMECHANGED);
 	}
 
-	void ChildWindow::Init(wstring&& Text, int x, int y, int width, int height, MainWindow* parent)
+	void ChildWindow::Init(wstring&& Text, int x, int y, int width, int height, MainWindow& parent)
 	{
 
 		
-		this->parent = parent;
+		this->parent = &parent;
 		this->x = x;
 		this->y = y;
 		this->width = width;
